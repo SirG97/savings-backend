@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Services\Auth;
+
+use App\Models\User;
+use App\Http\Requests\Auth\ResetPasswordRequest;
+use Illuminate\Support\Facades\Hash;
+use Ikechukwukalu\Sanctumauthstarter\Traits\Helpers;
+
+class ResetPasswordService
+{
+    use Helpers;
+
+    /**
+     * Handle the request.
+     *
+     * @param  \App\Http\Requests\ResetPasswordRequest  $request
+     * @return ?array
+     */
+    public function handleResetPassword(ResetPasswordRequest $request): ?array
+    {
+        $validated = $request->validated();
+
+        $user = User::where('email', $validated['email'])->first();
+        $user->password = Hash::make($validated['password']);
+        if (!$user->save()) {
+            return null;
+        }
+
+        return [
+            'status' => 'success',
+            'status_code' => 200,
+            'message' => trans('sanctumauthstarter::passwords.reset')
+        ];
+    }
+
+    public function handleResetPasswordForm(ResetPasswordRequest $request): array
+    {
+        $response = json_decode(json_encode($this->handleResetPassword($request)),true);
+        return $response;
+    }
+}

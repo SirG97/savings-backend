@@ -1,0 +1,153 @@
+<?php
+
+namespace App\Services\Auth;
+
+use App\Models\User;
+use Ikechukwukalu\Sanctumauthstarter\Events\SocialiteLogin as SocialiteLoginEvent;
+use Ikechukwukalu\Sanctumauthstarter\Models\SocialiteLogin;
+use Ikechukwukalu\Sanctumauthstarter\Models\UserPasswordHolder;
+use Ikechukwukalu\Sanctumauthstarter\Traits\Helpers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Laragear\TwoFactor\Facades\Auth2FA;
+use Laravel\Socialite\Facades\Socialite;
+
+class SocialiteService
+{
+    use Helpers;
+
+    public function handleAuthRedirect(Request $request): void
+    {
+        SocialiteLogin::firstOrCreate(
+            [
+                'user_uuid' => $request->uuid,
+                'used' => false,
+            ],
+            [
+                'user_uuid' => $request->uuid,
+                'ip_address' => $this->getUserIp($request),
+                'user_agent' => $request->userAgent(),
+            ]
+        );
+
+        session(['user_uuid' => $request->uuid]);
+    }
+
+    public function handleAuthCallback(Request $request): ?User
+    {
+        $userUUID = session('user_uuid');
+        if (!$userUUID) {
+            abort(440, trans('sanctumauthstarter::cookie.error_440'));
+        }
+
+        $user = $this->getUserDetails();
+        $userPasswordHolder = $this->holdUserPassword($user);
+        $tempPassword = $this->replaceUserPassword($user);
+
+        if (!Auth2FA::attempt([
+                'email' => $user->email,
+                'password' => $tempPassword
+            ], true))
+        {
+                $this->forgetSessions();
+                return null;
+        }
+
+        $this->throttleRequestsService->clearAttempts($request);
+        $this->normaliseUserPassword($user, $userPasswordHolder);
+        $this->forgetSessions();
+        $token = $user->createToken($user->email);
+        $this->userLoginNotification($user);
+
+        SocialiteLoginEvent::dispatch($user, $token, $userUUID);
+        SocialiteLogin::where('user_uuid', $userUUID)->update([
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'used' => true
+        ]);
+
+        return $user;
+    }
+
+    public function loginRequestAttempts(Request $request): ?array
+    {
+        return $this->requestAttempts($request, 'sanctumauthstarter::auth.throttle');
+    }
+
+    private function getUserDetails(): User
+    {
+        if (!session('user')) {
+            $google = Socialite::driver('google')->user();
+            $user = User::firstOrCreate(
+                [
+                    'email' => $google->email,
+                ],
+                [
+                    'name' => $google->name,
+                    'email' => $google->email,
+                    'socialite_signup' => true
+                ]);
+
+            session(['user' => $user]);
+
+            return $user;
+        }
+
+        return session('user');
+    }
+
+    private function holdUserPassword(User $user): UserPasswordHolder
+    {
+        $userPasswordHolder = UserPasswordHolder::whereBelongsTo($user)
+                                ->first();
+
+        if (!isset($userPasswordHolder->user_id)) {
+            session(['holds_user_password' => true]);
+
+            return UserPasswordHolder::create([
+                    'user_id' => $user->id,
+                    'password' => $user->password
+                ]);
+        }
+
+        if (!session('holds_user_password')) {
+            $userPasswordHolder->update([
+                'password' => $user->password
+            ]);
+
+            session(['holds_user_password' => true]);
+        }
+
+        return $userPasswordHolder;
+    }
+
+    private function replaceUserPassword(User $user): string
+    {
+        $tempPassword = $this->generateSalt();
+
+        $user->update([
+            'password' => Hash::make($tempPassword)
+        ]);
+
+        return $tempPassword;
+    }
+
+    private function normaliseUserPassword(User $user, UserPasswordHolder $userPasswordHolder): void
+    {
+        $user->update([
+            'password' => $userPasswordHolder->password
+        ]);
+
+        $userPasswordHolder->update([
+            'password' => null
+        ]);
+
+        session()->forget('holds_user_password');
+    }
+
+    private function forgetSessions(): void
+    {
+        session()->forget('user_uuid');
+        session()->forget('user');
+    }
+}

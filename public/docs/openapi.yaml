@@ -1,0 +1,518 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  /api/auth/logout:
+    post:
+      summary: 'User logout.'
+      operationId: userLogout
+      description: 'This API logs a user out of a single session'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/auth/logout-from-all-sessions:
+    post:
+      summary: 'User logout from all sessions.'
+      operationId: userLogoutFromAllSessions
+      description: 'This API logs a user out of every session and clears all user tokens'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/auth/resend/verify/email:
+    post:
+      summary: 'User resend email verification.'
+      operationId: userResendEmailVerification
+      description: 'This endpoint is used to generate and send via email a URL for User email verification to a registered User.'
+      parameters:
+        -
+          in: query
+          name: id
+          description: '<small class="badge badge-blue">id</small> Field must belong to a registered User.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: '<small class="badge badge-blue">id</small> Field must belong to a registered User.'
+            example: '1'
+            nullable: false
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/change/password:
+    post:
+      summary: 'User change password.'
+      operationId: userChangePassword
+      description: "Within the config file, you are required to determine the number\nof previously used passwords a User is not allowed to use anymore\nby setting <b>password.check_all</b> to <b>TRUE/FALSE</b> or to an <b>int</b>\nvalue and <b>password.number</b> to a corresponding <b>int</b>\nvalue as well.\n\nYou can choose to notify a User whenever a password is changed by setting\n<b>password.notify.change</b> to <b>TRUE</b>"
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_password:
+                  type: string
+                  description: "The user's password."
+                  example: Ex@m122p$%l6E
+                  nullable: false
+                password:
+                  type: string
+                  description: 'The password for user authentication must contain uppercase, lowercase, symbols, numbers.'
+                  example: '@wE3456qas@$'
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: 'Must match <small class="badge badge-blue">password</small> Field.'
+                  example: '@wE3456qas@$'
+                  nullable: false
+              required:
+                - current_password
+                - password
+                - password_confirmation
+  /api/edit/profile:
+    post:
+      summary: 'User edit profile.'
+      operationId: userEditProfile
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The user fullname.'
+                  example: 'John Doe'
+                  nullable: false
+                email:
+                  type: string
+                  description: 'The user email.'
+                  example: johndoe@example.com
+                  nullable: false
+              required:
+                - name
+                - email
+  /api/create-two-factor:
+    post:
+      summary: 'Create 2FA.'
+      operationId: create2FA
+      description: "To enable Two-Factor Authentication for the User,\nhe/she must sync the Shared Secret between its Authenticator\napp and the application."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"qr_code\": string,\n     \"uri\": string,\n     \"string\": string,\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/confirm-two-factor:
+    post:
+      summary: 'Confirm 2FA.'
+      operationId: confirm2FA
+      description: 'Recovery codes will be generated if code is invalid.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: numeric
+                  description: 'The authenticator code.'
+                  example: '123 456'
+                  nullable: false
+              required:
+                - code
+  /api/disable-two-factor:
+    post:
+      summary: 'Disable 2FA.'
+      operationId: disable2FA
+      description: 'To disable Two-Factor Authentication for the User.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/current-recovery-codes:
+    post:
+      summary: 'Get 2FA recovery codes.'
+      operationId: get2FARecoveryCodes
+      description: 'The User can retrieve current recovery codes.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/new-recovery-codes:
+    post:
+      summary: 'New 2FA recovery codes.'
+      operationId: new2FARecoveryCodes
+      description: "The User can generate a fresh batch of codes which replaces\nthe previous batch."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/change/pin:
+    post:
+      summary: 'Change Pin.'
+      operationId: changePin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_pin:
+                  type: string
+                  description: ''
+                  example: maxime
+                  nullable: false
+                pin:
+                  type: string
+                  description: 'Must not be greater than 4 characters.'
+                  example: aw
+                  nullable: false
+              required:
+                - current_pin
+                - pin
+      security: []
+  '/api/pin/required/{uuid}':
+    post:
+      summary: 'Pin Authentication.'
+      operationId: pinAuthentication
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: uuid
+        description: ''
+        example: b204cc6e-30e3-38a9-a9cb-1b42737b3ca2
+        required: true
+        schema:
+          type: string
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/register:
+    post:
+      summary: 'User form registration.'
+      operationId: userFormRegistration
+      description: "Within the config file, you are required to determine whether a\nuser should recieve welcome and verification emails after\nregistration by setting <b>registration.notify.welcome</b> to <b>TRUE</b> and\n<b>registration.notify.verify</b> to <b>TRUE</b> respectively.\nYou can also set <b>registration.autologin</b> to <b>TRUE</b>."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "//if autologin is set to FALSE\n\n{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}\n\n//if autologin is set to TRUE\n\n{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}"
+      tags:
+        - 'No Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: xuieurkhxnpddvovmvtuz
+                  nullable: false
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: johndoe@xyz.com
+                  nullable: false
+                password:
+                  type: string
+                  description: 'The password for user authentication must contain uppercase, lowercase, symbols, numbers.'
+                  example: Ex@m122p$%l6E
+                  nullable: false
+                first_name:
+                  type: string
+                  description: 'The first name of the user.'
+                  example: 'John Doe'
+                  nullable: false
+                last_name:
+                  type: string
+                  description: 'The full name of the user.'
+                  example: 'John Doe'
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: 'Must match <small class="badge badge-blue">password</small> Field.'
+                  example: Ex@m122p$%l6E
+                  nullable: false
+              required:
+                - name
+                - email
+                - password
+                - first_name
+                - last_name
+                - password_confirmation
+      security: []
+  /api/auth/login:
+    post:
+      summary: 'User form login.'
+      operationId: userFormLogin
+      description: "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change</b> to <b>TRUE</b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token</small> after login for User authentication"
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}"
+      tags:
+        - 'No Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: johndoe@xyz.com
+                  nullable: false
+                password:
+                  type: string
+                  description: 'The password for user authentication must contain uppercase, lowercase, symbols, numbers.'
+                  example: Ex@m122p$%l6E
+                  nullable: false
+                remember_me:
+                  type: integer
+                  description: 'Could be set to 0 or 1.'
+                  example: 1
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  '/api/auth/verify/email/{id}':
+    get:
+      summary: 'User email verification.'
+      operationId: userEmailVerification
+      description: "This endpoint must have a valid laravel generated URL signature to work.\nIt is automatically sent after a successful registration and\n<b>registration.notify.verify</b> is set to <b>TRUE</b> within\nthe config file."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'No Auth APIs'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: "<small class=\"badge badge-blue\">id</small>\nField must belong to a registered User."
+        example: '1'
+        required: true
+        schema:
+          type: string
+  /api/auth/forgot/password:
+    post:
+      summary: 'User forgot password.'
+      operationId: userForgotPassword
+      description: 'The user must enter a registered email.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'No Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: johndoe@xyz.com
+                  nullable: false
+              required:
+                - email
+      security: []
+  /api/auth/reset/password:
+    post:
+      summary: 'User password reset.'
+      operationId: userPasswordReset
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'No Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: johndoe@xyz.com
+                  nullable: false
+                password:
+                  type: string
+                  description: 'The password for user authentication must contain uppercase, lowercase, symbols, numbers.'
+                  example: Ex@m122p$%l6E
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+tags:
+  -
+    name: 'Auth APIs'
+    description: ''
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: 'No Auth APIs'
+    description: ''

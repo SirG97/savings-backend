@@ -1,0 +1,730 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "597216b1-2f58-4ac7-a847-b8127b04fff9",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth APIs",
+            "description": "",
+            "item": [
+                {
+                    "name": "User logout.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This API logs a user out of a single session"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User logout from all sessions.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/logout-from-all-sessions",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/logout-from-all-sessions"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This API logs a user out of every session and clears all user tokens"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User resend email verification.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/resend\/verify\/email",
+                            "query": [
+                                {
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "id Field must belong to a registered User.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/auth\/resend\/verify\/email?id=1"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint is used to generate and send via email a URL for User email verification to a registered User."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User change password.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/change\/password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/change\/password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"current_password\":\"Ex@m122p$%l6E\",\"password\":\"@wE3456qas@$\",\"password_confirmation\":\"@wE3456qas@$\"}"
+                        },
+                        "description": "Within the config file, you are required to determine the number\nof previously used passwords a User is not allowed to use anymore\nby setting <b>password.check_all<\/b> to <b>TRUE\/FALSE<\/b> or to an <b>int<\/b>\nvalue and <b>password.number<\/b> to a corresponding <b>int<\/b>\nvalue as well.\n\nYou can choose to notify a User whenever a password is changed by setting\n<b>password.notify.change<\/b> to <b>TRUE<\/b>"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User edit profile.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/edit\/profile",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/edit\/profile"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"John Doe\",\"email\":\"johndoe@example.com\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create 2FA.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/create-two-factor",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/create-two-factor"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "To enable Two-Factor Authentication for the User,\nhe\/she must sync the Shared Secret between its Authenticator\napp and the application."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"qr_code\": string,\n     \"uri\": string,\n     \"string\": string,\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Confirm 2FA.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/confirm-two-factor",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/confirm-two-factor"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"123 456\"}"
+                        },
+                        "description": "Recovery codes will be generated if code is invalid."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Disable 2FA.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/disable-two-factor",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/disable-two-factor"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "To disable Two-Factor Authentication for the User."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get 2FA recovery codes.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/current-recovery-codes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/current-recovery-codes"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "The User can retrieve current recovery codes."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "New 2FA recovery codes.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/new-recovery-codes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/new-recovery-codes"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "The User can generate a fresh batch of codes which replaces\nthe previous batch."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "Change Pin.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/change\/pin",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/change\/pin"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"current_pin\":\"maxime\",\"pin\":\"aw\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Pin Authentication.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/pin\/required\/:uuid",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/pin\/required\/:uuid",
+                            "variable": [
+                                {
+                                    "id": "uuid",
+                                    "key": "uuid",
+                                    "value": "b204cc6e-30e3-38a9-a9cb-1b42737b3ca2",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "No Auth APIs",
+            "description": "",
+            "item": [
+                {
+                    "name": "User form registration.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"xuieurkhxnpddvovmvtuz\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
+                        },
+                        "description": "Within the config file, you are required to determine whether a\nuser should recieve welcome and verification emails after\nregistration by setting <b>registration.notify.welcome<\/b> to <b>TRUE<\/b> and\n<b>registration.notify.verify<\/b> to <b>TRUE<\/b> respectively.\nYou can also set <b>registration.autologin<\/b> to <b>TRUE<\/b>.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "\/\/if autologin is set to FALSE\n\n{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}\n\n\/\/if autologin is set to TRUE\n\n{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User form login.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"remember_me\":1}"
+                        },
+                        "description": "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change<\/b> to <b>TRUE<\/b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token<\/small> after login for User authentication",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User email verification.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/verify\/email\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/verify\/email\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "<small class=\"badge badge-blue\">id<\/small>\nField must belong to a registered User."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint must have a valid laravel generated URL signature to work.\nIt is automatically sent after a successful registration and\n<b>registration.notify.verify<\/b> is set to <b>TRUE<\/b> within\nthe config file.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User forgot password.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/forgot\/password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/forgot\/password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"johndoe@xyz.com\"}"
+                        },
+                        "description": "The user must enter a registered email.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User password reset.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/reset\/password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/reset\/password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}
