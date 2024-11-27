@@ -6,7 +6,8 @@ enum UserModelType: string
 {
     case SUPER_ADMIN = 'super_admin';
     case ADMIN = 'admin';
-    case MARKETER = 'updater';
+    case AUDITOR = 'auditor';
+    case MARKETER = 'marketer';
 
 
     public static function toArray(): array
@@ -14,6 +15,7 @@ enum UserModelType: string
         return [
             static::SUPER_ADMIN->value,
             static::ADMIN->value,
+            static::AUDITOR->value,
             static::MARKETER->value,
         ];
 

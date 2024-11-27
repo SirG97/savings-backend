@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Models\Scopes\AdminScope;
-use App\Models\Scopes\MarketerScope;
 use App\Traits\DefaultOrderTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Marketer extends User
+class Auditor extends User
 {
     use HasFactory;
     use DefaultOrderTrait;
@@ -18,13 +17,13 @@ class Marketer extends User
 
     protected static function booted(): void
     {
-        static::addGlobalScope(new MarketerScope);
+        static::addGlobalScope(new AdminScope);
     }
 
     protected function model(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => Marketer::class,
+            set: fn (string $value) => Auditor::class,
         );
     }
 

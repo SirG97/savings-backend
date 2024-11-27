@@ -31,24 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  * @subgroup Require Pin APIs
  */
 
-Route::prefix('auth')->group(function () {
-    Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class,
-        'register'])->name('register');
-    Route::post('login', [\App\Http\Controllers\Auth\LoginController::class,
-        'login'])->name('login');
-    Route::middleware('auth:sanctum')->post('logout', [\App\Http\Controllers\Auth\LogoutController::class,
-        'logout'])->name('logout');
-    Route::middleware('auth:sanctum')->post('logout-from-all-sessions', [\App\Http\Controllers\Auth\LogoutController::class,
-        'logoutFromAllSessions'])->name('logoutFromAllSessions');
-    Route::get('verify/email/{id}', [\App\Http\Controllers\Auth\VerificationController::class,
-        'verifyUserEmail'])->name('verification.verify');
-    Route::middleware('auth:sanctum')->post('resend/verify/email', [\App\Http\Controllers\Auth\VerificationController::class,
-        'resendUserEmailVerification'])->name('verification.resend');
-    Route::post('forgot/password', [\App\Http\Controllers\Auth\ForgotPasswordController::class,
-        'forgotPassword'])->name('forgotPassword');
-    Route::post('reset/password', [\App\Http\Controllers\Auth\ResetPasswordController::class,
-        'resetPassword'])->name('resetPassword');
-});
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('change/password', [\App\Http\Controllers\Auth\ChangePasswordController::class,
@@ -65,4 +48,12 @@ Route::middleware('auth:sanctum')->group(function () {
         [App\Http\Controllers\Auth\TwoFactorController::class, 'currentRecoveryCodes'])->name('currentRecoveryCodes');
     Route::post('new-recovery-codes',
         [App\Http\Controllers\Auth\TwoFactorController::class, 'newRecoveryCodes'])->name('newRecoveryCodes');
+});
+
+Route::middleware('cors')->group(function() {
+    Route::middleware('auth:sanctum')->group(function () {
+        require __DIR__.'/app/user.php';
+    });
+
+    require __DIR__.'/app/public.php';
 });

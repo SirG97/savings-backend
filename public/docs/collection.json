@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "597216b1-2f58-4ac7-a847-b8127b04fff9",
+        "_postman_id": "723fa6bb-1d3e-453b-ad3b-5eb8dfa51bbe",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -19,121 +19,6 @@
             "name": "Auth APIs",
             "description": "",
             "item": [
-                {
-                    "name": "User logout.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/auth\/logout",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/auth\/logout"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Authorization",
-                                "value": "Bearer {Your key}"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "This API logs a user out of a single session"
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "User logout from all sessions.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/auth\/logout-from-all-sessions",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/auth\/logout-from-all-sessions"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Authorization",
-                                "value": "Bearer {Your key}"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "This API logs a user out of every session and clears all user tokens"
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "User resend email verification.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/auth\/resend\/verify\/email",
-                            "query": [
-                                {
-                                    "key": "id",
-                                    "value": "1",
-                                    "description": "id Field must belong to a registered User.",
-                                    "disabled": false
-                                }
-                            ],
-                            "raw": "{{baseUrl}}\/api\/auth\/resend\/verify\/email?id=1"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Authorization",
-                                "value": "Bearer {Your key}"
-                            },
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "This endpoint is used to generate and send via email a URL for User email verification to a registered User."
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
-                            "name": ""
-                        }
-                    ]
-                },
                 {
                     "name": "User change password.",
                     "request": {
@@ -394,6 +279,387 @@
                             "name": ""
                         }
                     ]
+                },
+                {
+                    "name": "Manage User APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Create user.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/create",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/create"
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"johndoe@xyz.com\",\"phone\":\"08012345678\",\"model\":\"admin\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read user.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the user table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_kyc.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read user by user model.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/model_read\/:model\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/model_read\/:model\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "model",
+                                            "key": "model",
+                                            "value": "super_admin",
+                                            "description": ""
+                                        },
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the user table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Update user.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/update",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/update"
+                                },
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\",\"first_name\":\"azu\",\"middle_name\":\"vivpofvuyjvsyztujzpcmt\",\"last_name\":\"c\",\"email\":\"marvin.efren@example.org\",\"phone\":\"ckz\",\"performed_action\":\"approved\",\"reason\":\"The image is not clear\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Suspend user.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/suspend",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/suspend"
+                                },
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\",\"active\":0}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "User APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Delete user.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/delete",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/delete"
+                                },
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "X-Shipment-Mode",
+                                        "value": "SFN"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "User logout.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This API logs a user out of a single session"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User logout from all sessions.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/logout-from-all-sessions",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/logout-from-all-sessions"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This API logs a user out of every session and clears all user tokens"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "User resend email verification.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/resend\/verify\/email",
+                            "query": [
+                                {
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "id Field must belong to a registered User.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/auth\/resend\/verify\/email?id=1"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint is used to generate and send via email a URL for User email verification to a registered User."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
                 }
             ]
         },
@@ -423,7 +689,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_pin\":\"maxime\",\"pin\":\"aw\"}"
+                            "raw": "{\"current_pin\":\"deserunt\",\"pin\":\"nf\"}"
                         },
                         "description": "",
                         "auth": {
@@ -444,7 +710,7 @@
                                 {
                                     "id": "uuid",
                                     "key": "uuid",
-                                    "value": "b204cc6e-30e3-38a9-a9cb-1b42737b3ca2",
+                                    "value": "16ee8b01-7871-3034-9e88-2d45a7bfe155",
                                     "description": ""
                                 }
                             ]
@@ -515,6 +781,54 @@
                             "name": ""
                         }
                     ]
+                },
+                {
+                    "name": "GET api\/user\/user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
                 }
             ]
         },
@@ -544,7 +858,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"xuieurkhxnpddvovmvtuz\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
+                            "raw": "{\"name\":\"owkjxptgfkpellosmhesoyo\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
                         },
                         "description": "Within the config file, you are required to determine whether a\nuser should recieve welcome and verification emails after\nregistration by setting <b>registration.notify.welcome<\/b> to <b>TRUE<\/b> and\n<b>registration.notify.verify<\/b> to <b>TRUE<\/b> respectively.\nYou can also set <b>registration.autologin<\/b> to <b>TRUE<\/b>.",
                         "auth": {
@@ -586,7 +900,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"remember_me\":1}"
+                            "raw": "{\"email\":\"admin@divineglobalgrowth.com\",\"password\":\"password\",\"remember_me\":1}"
                         },
                         "description": "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change<\/b> to <b>TRUE<\/b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token<\/small> after login for User authentication",
                         "auth": {

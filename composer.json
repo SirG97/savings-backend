@@ -12,6 +12,7 @@
         "ikechukwukalu/sanctumauthstarter": "^2.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "laravel/scout": "^10.11",
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
