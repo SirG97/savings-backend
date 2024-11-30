@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserModelType;
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserDeleteRequest;
-use App\Http\Requests\UserReadRequest;
-use App\Http\Requests\UserSuspendRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\User\UserAssignBranchRequest;
+use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserDeleteRequest;
+use App\Http\Requests\User\UserReadRequest;
+use App\Http\Requests\User\UserSuspendRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
@@ -198,6 +199,32 @@ class UserController extends Controller
     public function delete(UserDeleteRequest $request): JsonResponse
     {
         return $this->_delete($request, $this->userService);
+    }
+
+    /**
+     * Assign branch to user.
+     * Every staff need to be assigned a branch to work from.
+     *
+     * @header Authorization Bearer {Your key}
+     *
+     * @bodyParam id string required The id of the user. Example: 1
+     * @bodyParam branch_id string required The branch_id of the branch to assign user to. Example: 1
+     * @response 200
+     *
+     * {
+     * "success": true,
+     * "status_code": 200,
+     * "message": string
+     * "data": {}
+     * }
+     *
+     * @authenticated
+     * @subgroup Manage User APIs
+     * @group Auth APIs
+     */
+    public function assign(UserAssignBranchRequest $request): JsonResponse
+    {
+        return $this->_update($request, $this->userService);
     }
 
 }

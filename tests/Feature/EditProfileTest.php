@@ -29,7 +29,7 @@ class EditProfileTest extends TestCase
             'email' => 'testuser2gmail.com', //Wrong email format
         ];
 
-        $response = $this->post('/api/edit/profile', $postData, ['Accept' => 'application/json']);
+        $response = $this->post(route('editProfile'), $postData, ['Accept' => 'application/json']);
         $responseArray = json_decode($response->getContent(), true);
 
         $this->assertTrue(isset($responseArray['errors']));
@@ -49,7 +49,7 @@ class EditProfileTest extends TestCase
             'email' => $this->faker->unique()->safeEmail()
         ];
 
-        $response = $this->post('/api/edit/profile', $postData);
+        $response = $this->post(route('editProfile'), $postData);
         $responseArray = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $responseArray['status_code']);

@@ -66,5 +66,6 @@ return [
     'consolidation_settlement' => 'Payment for consolidation reference :ref has been successfully settled into your :app_name balance. You can login and request for a payout. ',
     'settlement_text' => 'View',
     'otp' => 'Please enter OTP',
+    'super_admin_not_allowed' => 'Super admin not allowed',
 
 ];

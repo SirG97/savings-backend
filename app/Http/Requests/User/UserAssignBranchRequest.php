@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
+use App\Http\Requests\BaseFormRequest;
+use App\Rules\NonSuperAdmin;
 
-class UserReadRequest extends BaseFormRequest
+class UserAssignBranchRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +23,8 @@ class UserReadRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => ['required','exists:users,id', new NonSuperAdmin],
+            'branch_id' => ['required','exists:branches,id'],
         ];
     }
 }

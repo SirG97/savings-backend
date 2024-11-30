@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laragear\TwoFactor\TwoFactorAuthentication;
+use Laragear\TwoFactor\Contracts\TwoFactorAuthenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements TwoFactorAuthenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthentication;
     protected $table = 'users';
     protected $guard_name = 'sanctum';
 
@@ -42,7 +44,7 @@ class User extends Authenticatable
         'email_verified_at',
         'kyc_verified_at',
         'phone_verified_at',
-
+        'two_factor',
     ];
 
     /**
@@ -53,6 +55,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor',
     ];
 
     /**

@@ -32,24 +32,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  */
 
 
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('change/password', [\App\Http\Controllers\Auth\ChangePasswordController::class,
-        'changePassword'])->name('changePassword');
-    Route::post('edit/profile', [\App\Http\Controllers\Auth\ProfileController::class,
-        'editProfile'])->name('editProfile');
-    Route::post('create-two-factor',
-        [App\Http\Controllers\Auth\TwoFactorController::class, 'createTwoFactor'])->name('createTwoFactor');
-    Route::post('confirm-two-factor',
-        [App\Http\Controllers\Auth\TwoFactorController::class, 'confirmTwoFactor'])->name('confirmTwoFactor');
-    Route::post('disable-two-factor',
-        [App\Http\Controllers\Auth\TwoFactorController::class, 'disableTwoFactor'])->name('disableTwoFactor');
-    Route::post('current-recovery-codes',
-        [App\Http\Controllers\Auth\TwoFactorController::class, 'currentRecoveryCodes'])->name('currentRecoveryCodes');
-    Route::post('new-recovery-codes',
-        [App\Http\Controllers\Auth\TwoFactorController::class, 'newRecoveryCodes'])->name('newRecoveryCodes');
-});
-
 Route::middleware('cors')->group(function() {
     Route::middleware('auth:sanctum')->group(function () {
         require __DIR__.'/app/user.php';

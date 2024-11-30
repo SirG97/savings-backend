@@ -8,18 +8,18 @@ use App\Contracts\UserRepositoryInterface;
 use App\Enums\UserModel;
 use App\Enums\UserModelType;
 use App\Events\EmailVerification;
-//use App\Facades\ActivityLog;
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserDeleteRequest;
-use App\Http\Requests\UserSuspendRequest;
-use App\Http\Requests\UserUpdateRequest;
-use App\Models\User;
+use App\Http\Requests\User\UserAssignBranchRequest;
+use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserDeleteRequest;
+use App\Http\Requests\User\UserSuspendRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Notifications\EmailNotification;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
+//use App\Facades\ActivityLog;
 
 class UserService extends BasicCrudService
 {
@@ -86,7 +86,7 @@ class UserService extends BasicCrudService
      * @param UserUpdateRequest|UserSuspendRequest $request
      * @return ResponseData
      */
-    public function handleUpdate(UserUpdateRequest|UserSuspendRequest $request): ResponseData
+    public function handleUpdate(UserUpdateRequest|UserSuspendRequest|UserAssignBranchRequest $request): ResponseData
     {
         $validated = $request->validated();
         $user = $this->userRepository->getById($validated['id']);

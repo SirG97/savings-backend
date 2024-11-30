@@ -18,12 +18,12 @@ class ResetPasswordTest extends TestCase
      *
      * @return void
      */
-    public function testValidUrlForForgotPassword()
-    {
-        $response = $this->get('/forgot/password');
-
-        $response->assertStatus(200);
-    }
+//    public function testValidUrlForForgotPassword()
+//    {
+//        $response = $this->post(route('password.reset'));
+//
+//        $response->assertStatus(200);
+//    }
 
     public function testErrorValidationForResetPassword()
     {

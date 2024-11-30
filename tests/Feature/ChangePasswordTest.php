@@ -30,7 +30,7 @@ class ChangePasswordTest extends TestCase
             'password_confirmation' => '1234567' //None matching passwords
         ];
 
-        $response = $this->post('/api/change/password', $postData, ['Accept' => 'application/json']);
+        $response = $this->post(route('changePassword'), $postData, ['Accept' => 'application/json']);
         $responseArray = json_decode($response->getContent(), true);
 
         $this->assertTrue(isset($responseArray['errors']));
@@ -51,7 +51,7 @@ class ChangePasswordTest extends TestCase
             'password_confirmation' => '$Ty12345678'
         ];
 
-        $response = $this->post('/api/change/password', $postData);
+        $response = $this->post(route('changePassword'), $postData);
         $responseArray = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $responseArray['status_code']);

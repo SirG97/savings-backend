@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use App\Enums\UserModelType;
 use App\Enums\UserType;
+use App\Http\Requests\BaseFormRequest;
 
 class UserCreateRequest extends BaseFormRequest
 {

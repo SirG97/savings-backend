@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Branch;
 
+use App\Http\Requests\BaseFormRequest;
 
-use App\Enums\Active;
-
-class UserSuspendRequest extends BaseFormRequest
+class BranchCreateRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +22,8 @@ class UserSuspendRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:users,id',
-            'active' => 'required|numeric|in:' . implode(',', Active::toArray())
+            'name' => 'required|unique:branches|string|max:150',
+            'address' => 'required|string|max:150'
         ];
     }
 }

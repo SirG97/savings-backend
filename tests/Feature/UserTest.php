@@ -4,11 +4,13 @@ namespace Tests\Feature;
 
 
 
+use App\Models\Branch;
 use App\Models\SuperAdmin;
 use App\Models\Admin;
 use App\Models\Auditor;
 use App\Models\Marketer;
 use App\Models\User;
+use App\Models\Wallet;
 use App\Notifications\EmailNotification;
 
 use Illuminate\Foundation\Testing\WithFaker;
@@ -320,9 +322,6 @@ class UserTest extends TestCase
 //        $this->assertSame(trans('auth.failed'), $responseArray['message']);
 //        $this->assertFalse($responseArray['success']);
     }
-
-
-
     public function testSuspendUserIsBlocked(){
         $user = User::factory()->create([
             'suspended_at' => now(),
@@ -335,5 +334,52 @@ class UserTest extends TestCase
         $this->assertEquals($responseArray['status_code'], 423);
     }
 
+    public function testAssignBranchToUser()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+        $userToUpdate = User::factory()->create([
+            'first_name' => 'Nasboi',
+            'last_name' => 'Sabinus',
+        ]);
+        $branch = Branch::factory()->create();
+        $wallet = Wallet::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+        $postData = [
+            'id' => $userToUpdate->id,
+            'branch_id' => $branch->id,
+        ];
+
+        $response = $this->putJson(route('assignBranch'), $postData);
+        $responseArray = $response->json();
+        $this->assertTrue($responseArray['success']);
+    }
+
+    public function testErrorAssignBranchToSuperAdmin()
+    {
+        $user = User::factory()->create([
+            'model' => SuperAdmin::class
+        ]);
+
+        $this->actingAs($user);
+        $userToUpdate = User::factory()->create([
+            'first_name' => 'Nasboi',
+            'last_name' => 'Sabinus',
+            'model' => SuperAdmin::class
+        ]);
+        $branch = Branch::factory()->create();
+
+        $postData = [
+            'id' => $userToUpdate->id,
+            'branch_id' => $branch->id,
+        ];
+
+        $response = $this->putJson(route('assignBranch'), $postData);
+        $responseArray = $response->json();
+
+        $this->assertFalse($responseArray['success']);
+    }
 
 }

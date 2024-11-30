@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
-
-use App\Enums\UserModelType;
-use App\Enums\UserType;
+namespace App\Http\Requests\User;
+use App\Http\Requests\BaseFormRequest;
 
 class UserUpdateRequest extends BaseFormRequest
 {
@@ -24,7 +22,6 @@ class UserUpdateRequest extends BaseFormRequest
     {
         return [
             'id' => 'required|exists:users,id',
-
             'first_name' => 'sometimes|string|max:50',
             'middle_name' => 'nullable|string|max:50',
             'last_name' => 'sometimes|string|max:50',

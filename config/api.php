@@ -8,29 +8,21 @@ return [
         'branch' => [
             'pageSize' => 10,
         ],
+        'wallet' => [
+            'pageSize' => 10,
+        ],
         'notification' => [
             'pageSize' => 10
         ],
-
         'activity_log' => [
             'pageSize' => 15
         ],
         'contact_us' => [
             'pageSize' => 15
         ],
-
-
         'transaction' => [
             'pageSize' => 15
         ],
-        'warehouse_location_zone' => [
-            'pageSize' => 15
-        ],
-        'warehouse_location_row' => [
-            'pageSize' => 15
-        ],
-
-
     ],
 
     'redirect' => [

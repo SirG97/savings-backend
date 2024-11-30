@@ -1,22 +1,18 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 
-use App\Models\SuperAdmin;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\BaseFormRequest;
 
-class UserDeleteRequest extends BaseFormRequest
+class UserReadRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
-        $user =  Auth::user();
-
-        return $user->email == 'admin@divineglobalgrowth.com';
+        return true;
     }
 
     /**
@@ -27,7 +23,7 @@ class UserDeleteRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:users,id,deleted_at,NULL'],
+            //
         ];
     }
 }
