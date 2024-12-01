@@ -13,4 +13,5 @@ return [
     'exists' => 'Already exists',
     'failed_partner_cost_create' => 'Could not calculate delivery cost',
     'branch_wallet_failed_create' => 'Branch Wallet could not be created, please try again',
+    'customer_wallet_failed_create' => 'Customer Wallet could not be created, please try again',
 ];

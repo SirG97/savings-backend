@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,6 +47,7 @@ class User extends Authenticatable implements TwoFactorAuthenticatable
         'kyc_verified_at',
         'phone_verified_at',
         'two_factor',
+        'branch_id'
     ];
 
     /**
@@ -67,4 +70,12 @@ class User extends Authenticatable implements TwoFactorAuthenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function customer():hasMany{
+        return $this->hasMany(Customer::class);
+    }
+
+    public function branch():belongsTo{
+        return $this->belongsTo(Branch::class);
+    }
 }

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Customer;
 
-class WalletReadRequest extends BaseFormRequest
+use App\Http\Requests\BaseFormRequest;
+
+class CustomerDeleteRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,7 +22,7 @@ class WalletReadRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => ['required', 'exists:customers,id,deleted_at,NULL'],
         ];
     }
 }

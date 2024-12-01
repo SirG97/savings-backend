@@ -7,24 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Wallet extends Model
+class CustomerWallet extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'branch_id',
-        'bank',
-        'cash',
+        'customer_id',
+        'count',
         'balance'
     ];
 
     protected $casts = [
-        'active' => 'boolean',
+        'balance' => 'float',
     ];
 
-    public function branch(): BelongsTo
-    {
-        return $this->belongsTo(Branch::class);
+    public function customer(): BelongsTo{
+        return $this->belongsTo(Customer::class);
     }
 
 }

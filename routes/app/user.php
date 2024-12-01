@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerWalletController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
@@ -12,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->middleware(['check.suspended'])->group(function () {
     Route::middleware(['check.email.verification', 'check.default.password', 'check.suspended'])->group(function () {
-
         Route::post('change/password', [ChangePasswordController::class, 'changePassword'])->name('changePassword');
         Route::post('edit/profile', [ProfileController::class, 'editProfile'])->name('editProfile');
         Route::post('create-two-factor', [TwoFactorController::class, 'createTwoFactor'])->name('createTwoFactor');
@@ -44,6 +45,17 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
 
         Route::prefix('wallet')->group(function () {
             Route::get('read/{id?}', [WalletController::class, 'read'])->name('readWallet');
+        });
+
+        Route::prefix('customer_wallet')->group(function () {
+            Route::get('read/{id?}', [CustomerWalletController::class, 'read'])->name('readCustomerWallet');
+        });
+
+        Route::prefix('customer')->group(function () {
+            Route::post('create', [CustomerController::class, 'create'])->name('createCustomer');
+            Route::delete('delete', [CustomerController::class, 'delete'])->name('deleteCustomer');
+            Route::get('read/{id?}', [CustomerController::class, 'read'])->name('readCustomer');
+            Route::put('update', [CustomerController::class, 'update'])->name('updateCustomer');
         });
 
     });
