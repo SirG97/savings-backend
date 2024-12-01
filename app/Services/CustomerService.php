@@ -27,7 +27,7 @@ class CustomerService extends BasicCrudService
         $validated = $request->validated();
         $validated['account_id'] = $this->generateAccountId();
         $validated['user_id'] = Auth::user()->id;
-        $validated['branch_id'] = Auth::user()->branch_id;
+        $validated['branch_id'] = $validated['branch_id'] ?? Auth::user()->branch_id;
 
         $response =  $this->create($validated, $this->customerRepository);
 

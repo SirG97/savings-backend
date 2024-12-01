@@ -4,6 +4,8 @@ namespace App\Http\Requests\Customer;
 
 use App\Enums\Gender;
 use App\Http\Requests\BaseFormRequest;
+use App\Models\SuperAdmin;
+use Illuminate\Validation\Rule;
 
 class CustomerCreateRequest extends BaseFormRequest
 {
@@ -22,7 +24,13 @@ class CustomerCreateRequest extends BaseFormRequest
      */
     public function rules(): array
     {
+//        dd(auth()->user(), SuperAdmin::class);
         return [
+            'branch_id' => [
+                Rule::requiredIf(auth()->user()->model === SuperAdmin::class),
+                'integer', // Assuming branch_id should be an integer
+                'exists:branches,id', // Ensures branch_id exists in the branches table
+            ],
             'first_name' => 'required|string|max:200',
             'surname' => 'required|string|max:200',
             'middle_name' => 'nullable|string',
@@ -41,7 +49,6 @@ class CustomerCreateRequest extends BaseFormRequest
             'relationship' => 'nullable|string',
             'nok_phone' => 'nullable|string',
             'acc_no'  => 'nullable|string',
-            'branch' => 'nullable|string',
             'group' => 'nullable|string',
             'sb_card_no_from' => 'nullable|string',
             'sb_card_no_to' => 'nullable|string',
