@@ -24,7 +24,7 @@ class TwoFactorTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post('/api/create-two-factor');
+        $response = $this->post(route('createTwoFactor'));
         $responseArray = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $responseArray['status_code']);
@@ -45,7 +45,7 @@ class TwoFactorTest extends TestCase
             'code' => 'abcdef', //Wrong format
         ];
 
-        $response = $this->post('/api/confirm-two-factor', $postData, ['Accept' => 'application/json']);
+        $response = $this->post(route('confirmTwoFactor'), $postData, ['Accept' => 'application/json']);
         $responseArray = json_decode($response->getContent(), true);
 
         $this->assertTrue(isset($responseArray['errors']));
@@ -58,7 +58,7 @@ class TwoFactorTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post('/api/disable-two-factor');
+        $response = $this->post(route('disableTwoFactor'));
         $responseArray = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $responseArray['status_code']);

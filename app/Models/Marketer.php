@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\AdminScope;
+use App\Models\Scopes\MarketerScope;
 use App\Traits\DefaultOrderTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ class Marketer extends User
 
     protected static function booted(): void
     {
-        static::addGlobalScope(new AdminScope);
+        static::addGlobalScope(new MarketerScope);
     }
 
     protected function model(): Attribute

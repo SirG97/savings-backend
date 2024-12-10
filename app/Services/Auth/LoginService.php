@@ -19,7 +19,7 @@ class LoginService {
 
     use Helpers;
 
-    public function handleLogin(LoginRequest $request): null | ResponseData
+    public function handleLogin(LoginRequest $request): ?array
     {
         $validated = $request->validated();
         $remember = isset($validated['remember_me']) ? true : false;
@@ -43,7 +43,7 @@ class LoginService {
         return $this->finaliseLoginProcess($user, $validated);
     }
 
-    public function handleTwoFactorLogin(Request $request): null | ResponseData
+    public function handleTwoFactorLogin(Request $request): null|ResponseData
     {
         $tfa_pass = $this->getTwoFactorLoginPassword($request->uuid);
 
@@ -79,21 +79,16 @@ class LoginService {
         return $this->finaliseLoginProcess($user, $validated, true);
     }
 
-    public function loginRequestAttempts(Request $request): null | ResponseData
+    public function loginRequestAttempts(Request $request): ?array
     {
-        if ($data = $this->requestAttempts($request, 'auth.throttle')) {
-            return responseData(false, Response::HTTP_BAD_REQUEST,
-                $data['message']);
-        }
-
-        return null;
+        return $this->requestAttempts($request, 'sanctumauthstarter::auth.throttle');
     }
 
-    public function twoFactorLoginUrlHasValidUUID(string $uuid): null | ResponseData
+    public function twoFactorLoginUrlHasValidUUID(string $uuid): ?array
     {
-        if (!$this->getTwoFactorLoginPassword($uuid)) {
-            return responseData(false, Response::HTTP_BAD_REQUEST,
-                trans('auth.invalid_url'));
+        if(!$this->getTwoFactorLoginPassword($uuid)) {
+            return ['message' =>
+                trans('sanctumauthstarter::auth.invalid_url')];
         }
 
         return null;
@@ -127,15 +122,16 @@ class LoginService {
 
         Auth::logout();
 
+        $data = [
+            'twofactor_url' => $twofactor_url,
+            'user_uuid' => $uuid,
+            'access_token' => null,
+        ];
         return responseData(true, Response::HTTP_OK,
-            trans('auth.enter_2fa'), [
-                'twofactor_url' => $twofactor_url,
-                'user_uuid' => $uuid,
-                'message' => trans('auth.enter_2fa'),
-            ]);
+            trans('sanctumauthstarter::auth.enter_2fa'), $data);
     }
 
-    private function finaliseLoginProcess(User $user, array $validated, bool $twoFactor = false): null | ResponseData
+    private function finaliseLoginProcess(User $user, array $validated, bool $twoFactor = false): ?array
     {
         $token = $user->createToken($validated['email']);
         $this->userLoginNotification($user, request()->ip());
@@ -156,8 +152,7 @@ class LoginService {
             'access_token' => $token->plainTextToken,
             'user' => $user,
         ];
-        return responseData(true, Response::HTTP_OK,
-            trans('sanctumauthstarter::auth.success'), $data);
+        return $data;
     }
 
     private function getTwoFactorLoginPassword(

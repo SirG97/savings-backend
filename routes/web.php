@@ -23,8 +23,7 @@ Route::get('/', function () {
  * APIs that do not require User autherntication and is performed over a web browser
  */
 
-Route::view('forgot/password', 'sanctumauthstarter::passwords.reset')
-    ->name('password.reset');
+Route::view('forgot/password', 'password.reset')->name('password.reset');
 Route::post('reset/password', [\App\Http\Controllers\Auth\ResetPasswordController::class,
     'resetPasswordForm'])->name('password.update');
 

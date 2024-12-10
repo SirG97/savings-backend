@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('cascade');
             $table->string('name');
             $table->string('first_name');
             $table->string('last_name');
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('model');
+            $table->string('phone');
             $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('kyc_verified_at')->nullable();
             $table->timestamp('suspended_at')->nullable();
@@ -27,6 +29,7 @@ return new class extends Migration
             $table->enum('active', [0, 1])->default(1);
             $table->enum('default_password', [0, 1])->default(0);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

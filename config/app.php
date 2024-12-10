@@ -159,7 +159,9 @@ return [
         /*
          * Package Service Providers...
          */
-
+        App\Providers\FacadeServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
+        App\Providers\MacroServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -168,6 +170,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
     ])->toArray(),
 
     /*

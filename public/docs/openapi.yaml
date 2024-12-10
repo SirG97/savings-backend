@@ -7,65 +7,6 @@ servers:
   -
     url: 'http://localhost:8000'
 paths:
-  /api/auth/logout:
-    post:
-      summary: 'User logout.'
-      operationId: userLogout
-      description: 'This API logs a user out of a single session'
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
-      tags:
-        - 'Auth APIs'
-  /api/auth/logout-from-all-sessions:
-    post:
-      summary: 'User logout from all sessions.'
-      operationId: userLogoutFromAllSessions
-      description: 'This API logs a user out of every session and clears all user tokens'
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
-      tags:
-        - 'Auth APIs'
-  /api/auth/resend/verify/email:
-    post:
-      summary: 'User resend email verification.'
-      operationId: userResendEmailVerification
-      description: 'This endpoint is used to generate and send via email a URL for User email verification to a registered User.'
-      parameters:
-        -
-          in: query
-          name: id
-          description: '<small class="badge badge-blue">id</small> Field must belong to a registered User.'
-          example: '1'
-          required: true
-          schema:
-            type: string
-            description: '<small class="badge badge-blue">id</small> Field must belong to a registered User.'
-            example: '1'
-            nullable: false
-      responses:
-        200:
-          description: ''
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
-      tags:
-        - 'Auth APIs'
   /api/change/password:
     post:
       summary: 'User change password.'
@@ -238,6 +179,328 @@ paths:
                 example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}"
       tags:
         - 'Auth APIs'
+  /api/user/users/create:
+    post:
+      summary: 'Create user.'
+      operationId: createUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: 'The first name of the user.'
+                  example: John
+                  nullable: false
+                last_name:
+                  type: string
+                  description: 'The last name of the user.'
+                  example: Doe
+                  nullable: false
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: johndoe@xyz.com
+                  nullable: false
+                phone:
+                  type: string
+                  description: 'The phone of the user.'
+                  example: '08012345678'
+                  nullable: false
+                model:
+                  type: string
+                  description: 'The model of user must either be super_admin, admin, auditor or marketer.'
+                  example: admin
+                  nullable: false
+              required:
+                - first_name
+                - last_name
+                - email
+                - phone
+                - model
+  /api/user/users/delete:
+    delete:
+      summary: 'Delete user.'
+      operationId: deleteUser
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Shipment-Mode
+          description: ''
+          example: SFN
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 'The id of the user.'
+                  example: '1'
+                  nullable: false
+              required:
+                - id
+  '/api/user/users/read/{id}':
+    get:
+      summary: 'Read user.'
+      operationId: readUser
+      description: "Fetch a record or records from the user table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_kyc.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
+  '/api/user/users/model_read/{model}/{id}':
+    get:
+      summary: 'Read user by user model.'
+      operationId: readUserByUserModel
+      description: "Fetch a record or records from the user table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: model
+        description: ''
+        example: super_admin
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
+  /api/user/users/update:
+    put:
+      summary: 'Update user.'
+      operationId: updateUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 'The id of the user.'
+                  example: '1'
+                  nullable: false
+                first_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: azu
+                  nullable: false
+                middle_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: vivpofvuyjvsyztujzpcmt
+                  nullable: true
+                last_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: c
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: marvin.efren@example.org
+                  nullable: false
+                phone:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: ckz
+                  nullable: false
+                performed_action:
+                  type: string
+                  description: 'The action performed on the user. approved or rejected.'
+                  example: approved
+                  nullable: false
+                reason:
+                  type: string
+                  description: 'The is field is required if you are rejecting the kyc.'
+                  example: 'The image is not clear'
+                  nullable: false
+              required:
+                - id
+                - performed_action
+  /api/user/users/suspend:
+    put:
+      summary: 'Suspend user.'
+      operationId: suspendUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 'The id of the user.'
+                  example: '1'
+                  nullable: false
+                active:
+                  type: integer
+                  description: 'The status of the user. 1 or 0.'
+                  example: 0
+                  nullable: false
+              required:
+                - id
+                - active
+  /api/auth/logout:
+    post:
+      summary: 'User logout.'
+      operationId: userLogout
+      description: 'This API logs a user out of a single session'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/auth/logout-from-all-sessions:
+    post:
+      summary: 'User logout from all sessions.'
+      operationId: userLogoutFromAllSessions
+      description: 'This API logs a user out of every session and clears all user tokens'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
+  /api/auth/resend/verify/email:
+    post:
+      summary: 'User resend email verification.'
+      operationId: userResendEmailVerification
+      description: 'This endpoint is used to generate and send via email a URL for User email verification to a registered User.'
+      parameters:
+        -
+          in: query
+          name: id
+          description: '<small class="badge badge-blue">id</small> Field must belong to a registered User.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: '<small class="badge badge-blue">id</small> Field must belong to a registered User.'
+            example: '1'
+            nullable: false
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n }\n}"
+      tags:
+        - 'Auth APIs'
   /api/change/pin:
     post:
       summary: 'Change Pin.'
@@ -257,12 +520,12 @@ paths:
                 current_pin:
                   type: string
                   description: ''
-                  example: maxime
+                  example: deserunt
                   nullable: false
                 pin:
                   type: string
                   description: 'Must not be greater than 4 characters.'
-                  example: aw
+                  example: nf
                   nullable: false
               required:
                 - current_pin
@@ -283,7 +546,7 @@ paths:
         in: path
         name: uuid
         description: ''
-        example: b204cc6e-30e3-38a9-a9cb-1b42737b3ca2
+        example: 16ee8b01-7871-3034-9e88-2d45a7bfe155
         required: true
         schema:
           type: string
@@ -291,6 +554,28 @@ paths:
     get:
       summary: ''
       operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/user/user:
+    get:
+      summary: ''
+      operationId: getApiUserUser
       description: ''
       parameters: []
       responses:
@@ -335,7 +620,7 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: xuieurkhxnpddvovmvtuz
+                  example: owkjxptgfkpellosmhesoyo
                   nullable: false
                 email:
                   type: string
@@ -396,12 +681,12 @@ paths:
                 email:
                   type: string
                   description: 'The email of the user.'
-                  example: johndoe@xyz.com
+                  example: admin@divineglobalgrowth.com
                   nullable: false
                 password:
                   type: string
                   description: 'The password for user authentication must contain uppercase, lowercase, symbols, numbers.'
-                  example: Ex@m122p$%l6E
+                  example: password
                   nullable: false
                 remember_me:
                   type: integer

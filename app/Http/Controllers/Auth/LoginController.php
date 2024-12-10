@@ -31,8 +31,8 @@ class LoginController extends Controller
      *
      * @header Authorization Bearer {Your key}
      *
-     * @bodyParam email string required The email of the user. Example: johndoe@xyz.com
-     * @bodyParam password string required The password for user authentication must contain uppercase, lowercase, symbols, numbers. Example: Ex@m122p$%l6E
+     * @bodyParam email string required The email of the user. Example: admin@divineglobalgrowth.com
+     * @bodyParam password string required The password for user authentication must contain uppercase, lowercase, symbols, numbers. Example: password
      * @bodyParam remember_me int Could be set to 0 or 1. Example: 1
      *
      * @response 200 {

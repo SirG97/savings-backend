@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
              'last_name' => 'Admin',
              'name' => 'Super Admin',
              'email' => 'admin@divineglobalgrowth.com',
+             'phone' => '09099887768',
              'model' => SuperAdmin::class,
              'email_verified_at' => now(),
              'password' => Hash::make('password'),
