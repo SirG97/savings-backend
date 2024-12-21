@@ -12,12 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Test SSH Connection
+      - name: Check SSH Connection
         run: |
-          echo "Testing SSH connection on port 21098..."
-          ssh -p 21098 -o StrictHostKeyChecking=no divimmud@$divineglobalgrowth.com "echo 'SSH connection successful'"
+          echo "Testing SSH connection..."
+          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} "echo 'SSH connection successful'"
 
-      - name: Deploy Application
+      - name: Deploy
         run: |
           echo "Starting deployment..."
-          ssh -p 21098 -o StrictHostKeyChecking=no divimmud@$divineglobalgrowth.com 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
+          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
