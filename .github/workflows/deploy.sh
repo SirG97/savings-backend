@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Change to the project directory.
-cd ~/path/to/project
+cd ~/staging-api.divineglobalgrowth.com/savings-backend
 
 # Pull the latest changes from the git repository
 git pull origin main
