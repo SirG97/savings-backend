@@ -96,6 +96,6 @@ class CustomerRepository implements CustomerRepositoryInterface
      */
     public function getPaginated(int $pageSize): LengthAwarePaginator
     {
-        return Customer::paginate($pageSize);
+        return Customer::paginate(pageSize($pageSize));
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Requests\User;
 use App\Enums\UserModelType;
 use App\Enums\UserType;
 use App\Http\Requests\BaseFormRequest;
+use App\Models\SuperAdmin;
+use Illuminate\Validation\Rule;
 
 class UserCreateRequest extends BaseFormRequest
 {
@@ -24,7 +26,11 @@ class UserCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-
+            'branch_id' => [
+                Rule::requiredIf(auth()->user()->model === SuperAdmin::class),
+                'integer', // Assuming branch_id should be an integer
+                'exists:branches,id', // Ensures branch_id exists in the branches table
+            ],
             'first_name' => ['required', 'string', 'max:50'],
             'last_name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],

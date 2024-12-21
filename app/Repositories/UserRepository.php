@@ -25,7 +25,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getAll(): EloquentCollection
     {
-        return User::all();
+        return User::with(['branch'])->get();
     }
 
     /**

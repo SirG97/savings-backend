@@ -27,7 +27,7 @@ class CustomerCreateRequest extends BaseFormRequest
 //        dd(auth()->user(), SuperAdmin::class);
         return [
             'branch_id' => [
-                Rule::requiredIf(auth()->user()->model === SuperAdmin::class),
+                Rule::requiredIf(auth()->user()?->model === SuperAdmin::class),
                 'integer', // Assuming branch_id should be an integer
                 'exists:branches,id', // Ensures branch_id exists in the branches table
             ],
@@ -40,7 +40,7 @@ class CustomerCreateRequest extends BaseFormRequest
             'resident_lga' => 'nullable|string',
             'resident_address' => 'nullable|string',
             'occupation' => 'nullable|string',
-            'office_address' => 'required|string',
+            'office_address' => 'nullable|string',
             'state' => 'nullable|string',
             'lga' => 'nullable|string',
             'hometown' => 'nullable|string',

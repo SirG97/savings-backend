@@ -46,7 +46,7 @@ class Customer extends Model
         'account_number',
     ];
 
-    protected  $with = ['customerWallet'];
+    protected  $with = ['customerWallet','branch','user'];
 
     public function customerWallet():HasOne{
         return $this->hasOne(CustomerWallet::class);
