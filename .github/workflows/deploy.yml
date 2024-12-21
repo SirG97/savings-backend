@@ -12,6 +12,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Check Server Reachability
+        run: |
+          echo "Pinging server to check reachability..."
+          ping -c 4 ${{ secrets.SERVER_IP }}
+
+      - name: Check SSH Port Accessibility
+        run: |
+          echo "Checking if port 22 is open on the server..."
+          nc -zv ${{ secrets.SERVER_IP }} 22 || echo "Port 22 might be blocked or inaccessible."
+
+      - name: Verify SSH Connection
+        run: |
+          echo "Attempting to establish SSH connection..."
+          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} "echo 'SSH connection successful'"
+
       - name: Deploy
         run: |
+          echo "Starting deployment..."
           ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
