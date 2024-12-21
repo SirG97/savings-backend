@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Wallet\WalletReadRequest;
-use App\Http\Requests\WalletCreateRequest;
-use App\Http\Requests\WalletDeleteRequest;
-use App\Http\Requests\WalletUpdateRequest;
-use App\Services\WalletService;
+use App\Http\Requests\Customer\CustomerCreateRequest;
+use App\Http\Requests\Customer\CustomerDeleteRequest;
+use App\Http\Requests\Customer\CustomerReadRequest;
+use App\Http\Requests\Customer\CustomerUpdateRequest;
+use App\Services\CustomerService;
 use Illuminate\Http\JsonResponse;
 
-class WalletController extends Controller
+class CustomerController extends Controller
 {
 
-    public function __construct(private WalletService $walletService)
+    public function __construct(private CustomerService $customerService)
     { }
 
     /**
-     * Create Wallet.
+     * Create Customer.
      *
      * @header Authorization Bearer {Your key}
      *
-     * @bodyParam name string required The name of the Wallet. Example: John
+     * @bodyParam name string required The name of the Customer. Example: John
      *
      * @response 200
      *
@@ -32,21 +32,21 @@ class WalletController extends Controller
      * }
      *
      * @authenticated
-     * @subgroup Wallet APIs
+     * @subgroup Customer APIs
      * @group Auth APIs
      */
-    public function create(WalletCreateRequest $request): JsonResponse
+    public function create(CustomerCreateRequest $request): JsonResponse
     {
-        return $this->_create($request, $this->walletService);
+        return $this->_create($request, $this->customerService);
     }
 
     /**
-     * Update Wallet.
+     * Update Customer.
      *
      * @header Authorization Bearer {Your key}
      *
-     * @bodyParam id string required The id of the Wallet. Example: 1
-     * @bodyParam name string required The name for the Wallet. Example: John
+     * @bodyParam id string required The id of the Customer. Example: 1
+     * @bodyParam name string required The name for the Customer. Example: John
      *
      * @response 200
      *
@@ -58,20 +58,20 @@ class WalletController extends Controller
      * }
      *
      * @authenticated
-     * @subgroup Wallet APIs
+     * @subgroup Customer APIs
      * @group Auth APIs
      */
-    public function update(WalletUpdateRequest $request): JsonResponse
+    public function update(CustomerUpdateRequest $request): JsonResponse
     {
-        return $this->_update($request, $this->walletService);
+        return $this->_update($request, $this->customerService);
     }
 
     /**
-     * Delete Wallet.
+     * Delete Customer.
      *
      * @header Authorization Bearer {Your key}
      *
-     * @bodyParam id string required The id of the Wallet. Example: 1
+     * @bodyParam id string required The id of the Customer. Example: 1
      *
      * @response 200
      *
@@ -83,18 +83,18 @@ class WalletController extends Controller
      * }
      *
      * @authenticated
-     * @subgroup Wallet APIs
+     * @subgroup Customer APIs
      * @group Auth APIs
      */
-    public function delete(WalletDeleteRequest $request): JsonResponse
+    public function delete(CustomerDeleteRequest $request): JsonResponse
     {
-        return $this->_delete($request, $this->walletService);
+        return $this->_delete($request, $this->customerService);
     }
 
     /**
-     * Read Wallet.
+     * Read Customer.
      *
-     * Fetch a record or records from the Wallets table.
+     * Fetch a record or records from the Customers table.
      * The <b>id</b> param is optional but can either be a <b>string|null|int</b>
      *
      * If the <b>id</b> has a <b>null</b> value the records will be paginated.
@@ -121,12 +121,12 @@ class WalletController extends Controller
      * }
      *
      * @authenticated
-     * @subgroup Wallet APIs
+     * @subgroup Customer APIs
      * @group Auth APIs
      */
-    public function read(WalletReadRequest $request, null|string|int $id = null): JsonResponse
+    public function read(CustomerReadRequest $request, null|string|int $id = null): JsonResponse
     {
-        return $this->_read($this->walletService, $id);
+        return $this->_read($this->customerService, $id);
     }
 
 }

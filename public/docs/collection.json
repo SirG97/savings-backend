@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "723fa6bb-1d3e-453b-ad3b-5eb8dfa51bbe",
+        "_postman_id": "362efe54-5448-446a-a997-67a1902edf38",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -24,9 +24,9 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/change\/password",
+                            "path": "api\/user\/change\/password",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/change\/password"
+                            "raw": "{{baseUrl}}\/api\/user\/change\/password"
                         },
                         "method": "POST",
                         "header": [
@@ -63,9 +63,9 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/edit\/profile",
+                            "path": "api\/user\/edit\/profile",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/edit\/profile"
+                            "raw": "{{baseUrl}}\/api\/user\/edit\/profile"
                         },
                         "method": "POST",
                         "header": [
@@ -102,9 +102,9 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/create-two-factor",
+                            "path": "api\/user\/create-two-factor",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/create-two-factor"
+                            "raw": "{{baseUrl}}\/api\/user\/create-two-factor"
                         },
                         "method": "POST",
                         "header": [
@@ -138,9 +138,9 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/confirm-two-factor",
+                            "path": "api\/user\/confirm-two-factor",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/confirm-two-factor"
+                            "raw": "{{baseUrl}}\/api\/user\/confirm-two-factor"
                         },
                         "method": "POST",
                         "header": [
@@ -177,9 +177,9 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/disable-two-factor",
+                            "path": "api\/user\/disable-two-factor",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/disable-two-factor"
+                            "raw": "{{baseUrl}}\/api\/user\/disable-two-factor"
                         },
                         "method": "POST",
                         "header": [
@@ -213,9 +213,9 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/current-recovery-codes",
+                            "path": "api\/user\/current-recovery-codes",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/current-recovery-codes"
+                            "raw": "{{baseUrl}}\/api\/user\/current-recovery-codes"
                         },
                         "method": "POST",
                         "header": [
@@ -249,9 +249,9 @@
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/new-recovery-codes",
+                            "path": "api\/user\/new-recovery-codes",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/new-recovery-codes"
+                            "raw": "{{baseUrl}}\/api\/user\/new-recovery-codes"
                         },
                         "method": "POST",
                         "header": [
@@ -310,9 +310,48 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"johndoe@xyz.com\",\"phone\":\"08012345678\",\"model\":\"admin\"}"
+                                    "raw": "{\"branch_id\":10,\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"johndoe@xyz.com\",\"phone\":\"08012345678\",\"model\":\"admin\"}"
                                 },
                                 "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Assign branch to user.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/assign",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/assign"
+                                },
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\",\"branch_id\":\"1\"}"
+                                },
+                                "description": "Every staff need to be assigned a branch to work from."
                             },
                             "response": [
                                 {
@@ -443,7 +482,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"id\":\"1\",\"first_name\":\"azu\",\"middle_name\":\"vivpofvuyjvsyztujzpcmt\",\"last_name\":\"c\",\"email\":\"marvin.efren@example.org\",\"phone\":\"ckz\",\"performed_action\":\"approved\",\"reason\":\"The image is not clear\"}"
+                                    "raw": "{\"id\":\"1\",\"first_name\":\"ejrwsdkgjguek\",\"middle_name\":\"mpexxtmlldrhyfxybazge\",\"last_name\":\"cjzrwoqmzqcki\",\"email\":\"kjohnston@example.org\",\"phone\":\"qkwmchzilg\",\"performed_action\":\"approved\",\"reason\":\"The image is not clear\"}"
                                 },
                                 "description": ""
                             },
@@ -532,6 +571,440 @@
                                 "body": {
                                     "mode": "raw",
                                     "raw": "{\"id\":\"1\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Branch APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Create Branch.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/branch\/create",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/branch\/create"
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"name\":\"Nkpor\",\"address\":\"No 12 Oguta Road, Onitsha\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Delete Branch.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/branch\/delete",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/branch\/delete"
+                                },
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read Branch.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/branch\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/branch\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the Branchs table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Update Branch.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/branch\/update",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/branch\/update"
+                                },
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\",\"name\":\"John\",\"address\":\"No 31 Isunjaba Street, Awada\",\"active\":\"0 or 1\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Wallet APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Read Wallet.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/wallet\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/wallet\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the Wallets table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "CustomerWallet APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Read CustomerWallet.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer_wallet\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer_wallet\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the CustomerWallets table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Customer APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Create Customer.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer\/create",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer\/create"
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"branch_id\":17,\"first_name\":\"ycppwmnplrncn\",\"surname\":\"lrtjpfkdjqlbhix\",\"middle_name\":\"itaque\",\"dob\":\"2024-12-18T19:01:34\",\"sex\":\"male\",\"resident_state\":\"enim\",\"resident_lga\":\"incidunt\",\"resident_address\":\"sequi\",\"occupation\":\"qui\",\"office_address\":\"vel\",\"state\":\"omnis\",\"lga\":\"ut\",\"hometown\":\"temporibus\",\"phone\":\"et\",\"next_of_kin\":\"quidem\",\"relationship\":\"id\",\"nok_phone\":\"consequatur\",\"acc_no\":\"et\",\"group\":\"commodi\",\"sb_card_no_from\":\"corrupti\",\"sb_card_no_to\":\"aut\",\"sb\":\"dicta\",\"initial_unit\":\"accusantium\",\"bank_name\":\"ab\",\"bank_code\":\"ratione\",\"account_name\":\"pariatur\",\"account_number\":\"ad\",\"daily_amount\":\"laudantium\",\"name\":\"John\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Delete Customer.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer\/delete",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer\/delete"
+                                },
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read Customer.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the Customers table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Update Customer.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer\/update",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer\/update"
+                                },
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"id\":\"1\",\"first_name\":\"ofwbhfpmbhjwjteqjlks\",\"surname\":\"ahcwwcncfxg\",\"middle_name\":\"fugiat\",\"dob\":\"2024-12-18T19:01:34\",\"sex\":\"male\",\"resident_state\":\"aut\",\"resident_lga\":\"harum\",\"resident_address\":\"omnis\",\"occupation\":\"sed\",\"office_address\":\"cum\",\"state\":\"sequi\",\"lga\":\"id\",\"hometown\":\"voluptatem\",\"phone\":\"ttvsrlx\",\"next_of_kin\":\"vel\",\"relationship\":\"asperiores\",\"nok_phone\":\"sint\",\"acc_no\":\"dolore\",\"branch\":\"recusandae\",\"group\":\"magni\",\"sb_card_no_from\":\"odit\",\"sb_card_no_to\":\"possimus\",\"sb\":\"dignissimos\",\"initial_unit\":\"labore\",\"bank_name\":\"architecto\",\"bank_code\":\"quis\",\"account_name\":\"blanditiis\",\"account_number\":\"quaerat\",\"daily_amount\":\"ea\",\"name\":\"John\"}"
                                 },
                                 "description": ""
                             },
@@ -689,7 +1162,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_pin\":\"deserunt\",\"pin\":\"nf\"}"
+                            "raw": "{\"current_pin\":\"aperiam\",\"pin\":\"rvr\"}"
                         },
                         "description": "",
                         "auth": {
@@ -710,7 +1183,7 @@
                                 {
                                     "id": "uuid",
                                     "key": "uuid",
-                                    "value": "16ee8b01-7871-3034-9e88-2d45a7bfe155",
+                                    "value": "c30904de-2041-31c9-aae0-d0972f9007cb",
                                     "description": ""
                                 }
                             ]
@@ -858,7 +1331,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"owkjxptgfkpellosmhesoyo\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
+                            "raw": "{\"name\":\"oupgctl\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
                         },
                         "description": "Within the config file, you are required to determine whether a\nuser should recieve welcome and verification emails after\nregistration by setting <b>registration.notify.welcome<\/b> to <b>TRUE<\/b> and\n<b>registration.notify.verify<\/b> to <b>TRUE<\/b> respectively.\nYou can also set <b>registration.autologin<\/b> to <b>TRUE<\/b>.",
                         "auth": {

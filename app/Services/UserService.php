@@ -39,6 +39,7 @@ class UserService extends BasicCrudService
         $validated = $request->validated();
         $validated['model'] = UserModel::getType($validated['model']);
         $validated['name'] = $validated['first_name'] . ' ' . $validated['last_name'];
+        $validated['branch_id'] = $validated['branch_id'] ?? Auth::user()->branch_id;
         $password = strtoupper(Str::random(8));
         $plainPassword = $password;
         $validated['password'] = Hash::make($password);

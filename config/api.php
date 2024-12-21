@@ -11,6 +11,12 @@ return [
         'wallet' => [
             'pageSize' => 10,
         ],
+        'customer_wallet' => [
+            'pageSize' => 10,
+        ],
+        'customer' => [
+            'pageSize' => 10,
+        ],
         'notification' => [
             'pageSize' => 10
         ],
