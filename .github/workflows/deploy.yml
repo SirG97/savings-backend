@@ -15,9 +15,9 @@ jobs:
       - name: Test SSH Connection
         run: |
           echo "Testing SSH connection on port 21098..."
-          ssh -p 21098 -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@$${{ secrets.SERVER_DOMAIN }} "echo 'SSH connection successful'"
+          ssh -p 21098 -o StrictHostKeyChecking=no divimmud@$divineglobalgrowth.com "echo 'SSH connection successful'"
 
       - name: Deploy Application
         run: |
           echo "Starting deployment..."
-          ssh -p 21098 -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@$${{ secrets.SERVER_DOMAIN }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
+          ssh -p 21098 -o StrictHostKeyChecking=no divimmud@$divineglobalgrowth.com 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
