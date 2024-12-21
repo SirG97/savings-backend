@@ -12,12 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check SSH Connection
+      - name: Debug Connectivity
         run: |
-          echo "Testing SSH connection..."
-          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} "echo 'SSH connection successful'"
+          echo "Getting runner IP..."
+          curl -s https://ifconfig.me
+          echo "Checking port 21098 on server..."
+          nc -zv ${{ secrets.SERVER_DOMAIN }} 21098 || echo "Port 21098 might be inaccessible."
 
       - name: Deploy
         run: |
-          echo "Starting deployment..."
-          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
+          echo "Testing SSH connection..."
+          ssh -p 21098 -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} "echo 'SSH connection successful'"
+
+      - name: Execute Deployment Script
+        run: |
+          echo "Running deployment script..."
+          ssh -p 21098 -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_DOMAIN }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
