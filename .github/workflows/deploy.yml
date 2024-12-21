@@ -12,6 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy
+      - name: Test SSH Connection
         run: |
-          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
+          echo "Testing SSH connection on port 21098..."
+          ssh -p 21098 -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@$${{ secrets.SERVER_DOMAIN }} "echo 'SSH connection successful'"
+
+      - name: Deploy Application
+        run: |
+          echo "Starting deployment..."
+          ssh -p 21098 -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@$${{ secrets.SERVER_DOMAIN }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
