@@ -10,6 +10,20 @@ on:
 jobs:
   test_and_deploy:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testing
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       # Step 1: Checkout the code
       - name: Checkout code
@@ -19,29 +33,41 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # Adjust to your Laravel version
+          php-version: '8.1' # Adjust to your Laravel version
           extensions: mbstring, bcmath, pdo, mysql, curl
           tools: composer, phpunit
 
-      # Step 3: Install dependencies
+      # Step 3: Set up Laravel environment for testing
+      - name: Set up environment
+        run: |
+          cp .env.example .env
+          php artisan config:clear
+          php artisan cache:clear
+
+      # Step 4: Configure database for testing
+      - name: Configure database
+        run: |
+          php artisan migrate --force
+
+      # Step 5: Install dependencies
       - name: Install dependencies
         run: |
           composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      # Step 4: Run tests
+      # Step 6: Run tests
       - name: Run tests
         run: |
           php artisan test
 
-      # Step 5: Deploy if tests pass
+      # Step 7: Deploy if tests pass
       - name: Deploy to api-staging.divineglobalgrowth.com
         if: success()
         uses: appleboy/ssh-action@v0.1.4
         with:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          host: ${{ secrets.W1_HOST }}
+          port: ${{ secrets.W1_PORT }}
+          username: ${{ secrets.W1_USERNAME }}
+          password: ${{ secrets.W1_PASSWORD }}
           script: |
             cd ~/staging-api.divineglobalgrowth.com/savings-backend
             git pull origin staging
