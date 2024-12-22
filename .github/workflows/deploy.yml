@@ -1,23 +1,56 @@
-name: Deploy
+name: Build and Deploy
 on:
   pull_request:
     branches:
       - staging
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
-  deploy:
+  test_and_deploy:
     runs-on: ubuntu-latest
-    name: Deploy Application
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check SSH Connection
-        run: |
-          echo "Testing SSH connection on port 21098..."
-          ssh -p 22 -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} "echo 'SSH connection successful'"
+      # Step 2: Set up PHP
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # Adjust to your Laravel version
+          extensions: mbstring, bcmath, pdo, mysql, curl
+          tools: composer, phpunit
 
-      - name: Deploy
+      # Step 3: Install dependencies
+      - name: Install dependencies
         run: |
-          echo "Starting deployment on port 21098..."
-          ssh -p 22 -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      # Step 4: Run tests
+      - name: Run tests
+        run: |
+          php artisan test
+
+      # Step 5: Deploy if tests pass
+      - name: Deploy to api-staging.divineglobalgrowth.com
+        if: success()
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.W1_HOST }}
+          port: ${{ secrets.W1_PORT }}
+          username: ${{ secrets.W1_USERNAME }}
+          password: ${{ secrets.W1_PASSWORD }}
+          script: |
+            cd ~/staging-api.divineglobalgrowth.com/savings-backend
+            git pull origin staging
+            cp .env .env.backup
+            cp .env.staging .env
+            composer install --optimize-autoloader --no-dev
+            php artisan migrate --force
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan route:cache
+            php artisan view:cache
+            echo "Deployment successful!"
