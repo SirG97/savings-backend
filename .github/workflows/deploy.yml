@@ -69,7 +69,7 @@ jobs:
           username: ${{ secrets.W1_USERNAME }}
           password: ${{ secrets.W1_PASSWORD }}
           script: |
-            cd ~/staging-api.divineglobalgrowth.com/savings-backend
+
             git pull origin staging
             cp .env .env.backup
             cp .env.staging .env
