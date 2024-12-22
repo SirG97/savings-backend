@@ -14,10 +14,10 @@ jobs:
 
       - name: Check SSH Connection
         run: |
-          echo "Testing SSH connection..."
-          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} "echo 'SSH connection successful'"
+          echo "Testing SSH connection on port 21098..."
+          ssh -p 21098 -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} "echo 'SSH connection successful'"
 
       - name: Deploy
         run: |
-          echo "Starting deployment..."
-          ssh -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
+          echo "Starting deployment on port 21098..."
+          ssh -p 21098 -o StrictHostKeyChecking=no syncflux@${{ secrets.SERVER_IP }} 'bash -s' < ${{ github.workspace }}/.github/workflows/deploy.sh
