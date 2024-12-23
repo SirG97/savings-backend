@@ -58,10 +58,10 @@ jobs:
         if: success()
         uses: appleboy/ssh-action@v0.1.4
         with:
-          host: ${{ secrets.W1_HOST }}
-          port: ${{ secrets.W1_PORT }}
-          username: ${{ secrets.W1_USERNAME }}
-          password: ${{ secrets.W1_PASSWORD }}
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
           script: |
             cd ~/staging-api.divineglobalgrowth.com/savings-backend
             git pull origin staging

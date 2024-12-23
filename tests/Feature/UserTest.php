@@ -45,7 +45,7 @@ class UserTest extends TestCase
 
         $response = $this->postJson(route('createUser'), $postData);
         $responseArray = $response->json();
-//        $response->dump();
+
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
     }
@@ -276,7 +276,6 @@ class UserTest extends TestCase
         ];
 
         $response = $this->putJson(route('suspendUser'), $postData);
-        $response->dump();
         $responseArray = $response->json();
         $this->assertTrue($responseArray['success']);
         $this->assertNotNull($responseArray['data']['suspended_at']);
