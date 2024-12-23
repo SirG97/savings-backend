@@ -26,8 +26,9 @@ class UserTest extends TestCase
     public function testCreateAdmin(): void
     {
         $branch = Branch::factory()->create();
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
@@ -52,8 +53,9 @@ class UserTest extends TestCase
     public function testCreateAuditor(): void
     {
         $branch = Branch::factory()->create();
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
@@ -77,8 +79,9 @@ class UserTest extends TestCase
     public function testCreateMarketer(): void
     {
         $branch = Branch::factory()->create();
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
@@ -273,6 +276,7 @@ class UserTest extends TestCase
         ];
 
         $response = $this->putJson(route('suspendUser'), $postData);
+        $response->dump();
         $responseArray = $response->json();
         $this->assertTrue($responseArray['success']);
         $this->assertNotNull($responseArray['data']['suspended_at']);
