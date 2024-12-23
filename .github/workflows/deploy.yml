@@ -57,6 +57,7 @@ jobs:
           sed -i 's/APP_FRONTEND_MANAGER_URL=/APP_FRONTEND_MANAGER_URL=divineglobalgrowth.com/' .env
           sed -i 's/APP_FRONTEND_ADMIN_URL=/APP_FRONTEND_ADMIN_URL=divineglobalgrowth.com/' .env
           php artisan key:generate
+          php artisan db:seed
           php artisan config:clear
           php artisan cache:clear
 
@@ -64,6 +65,7 @@ jobs:
       - name: Configure database
         run: |
           php artisan migrate --force
+          php artisan db:seed
 
       # Step 6: Run tests
       - name: Run tests
