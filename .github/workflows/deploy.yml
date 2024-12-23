@@ -59,6 +59,8 @@ jobs:
           php artisan config:clear
           php artisan cache:clear
           php artisan config:cache
+          php artisan tinker --execute="dump(env('APP_FRONTEND_MARKETER_URL'));"
+          php artisan tinker --execute="dump(config('app.frontend_marketer_url'));"
 
       # Step 5: Configure database for testing
       - name: Configure database
