@@ -52,6 +52,7 @@ jobs:
           sed -i 's/DB_DATABASE=savings_test/DB_DATABASE=savings_test/' .env
           sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/' .env
+          php artisan key:generate
           php artisan config:clear
           php artisan cache:clear
 
@@ -81,7 +82,8 @@ jobs:
             cp .env.staging .env
             composer install --optimize-autoloader --no-dev
             php artisan migrate --force
-            php artisan config:clear
+            php artisan key:generate
+            php artisan db:seed
             php artisan cache:clear
             php artisan route:cache
             php artisan view:cache
