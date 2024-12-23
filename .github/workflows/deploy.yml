@@ -52,9 +52,9 @@ jobs:
           echo "DB_DATABASE=savings_test" >> .env
           echo "DB_USERNAME=root" >> .env
           echo "DB_PASSWORD=root" >> .env
-          echo "APP_FRONTEND_MARKETER_URL=https://divineglobalgrowth.com" >> .env
-          echo "APP_FRONTEND_MANAGER_URL=https://divineglobalgrowth.com" >> .env
-          echo "APP_FRONTEND_ADMIN_URL=https://divineglobalgrowth.com" >> .env
+          echo 'APP_FRONTEND_MARKETER_URL="https://divineglobalgrowth.com"' >> .env
+          echo 'APP_FRONTEND_MANAGER_URL="https://divineglobalgrowth.com"' >> .env
+          echo 'APP_FRONTEND_ADMIN_URL="https://divineglobalgrowth.com"' >> .env
           php artisan key:generate
           php artisan config:clear
           php artisan cache:clear
