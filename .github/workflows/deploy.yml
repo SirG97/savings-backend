@@ -41,6 +41,11 @@ jobs:
       - name: Install dependencies
         run: |
           composer install --no-interaction --prefer-dist --optimize-autoloader
+      # Verify .env contents
+      - name: Verify .env contents
+        run: |
+          echo "Verifying .env file contents..."
+          cat .env
 
       # Step 4: Set up Laravel environment
       - name: Set up environment

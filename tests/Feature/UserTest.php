@@ -45,7 +45,7 @@ class UserTest extends TestCase
 
         $response = $this->postJson(route('createUser'), $postData);
         $responseArray = $response->json();
-        $response->dump();
+//        $response->dump();
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
     }
