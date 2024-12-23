@@ -17,7 +17,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testing
+          MYSQL_DATABASE: savings_test
         options: >-
           --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
@@ -58,7 +58,6 @@ jobs:
       # Step 5: Configure database for testing
       - name: Configure database
         run: |
-          mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS savings_test;"
           php artisan migrate --force
 
       # Step 6: Run tests
@@ -67,7 +66,7 @@ jobs:
           php artisan test
 
       # Step 7: Deploy if tests pass
-      - name: Deploy to api-staging.divineglobalgrowth.com
+      - name: Deploy to server
         if: success()
         uses: appleboy/ssh-action@v0.1.4
         with:
