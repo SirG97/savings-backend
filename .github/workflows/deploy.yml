@@ -4,7 +4,6 @@ on:
     branches:
       - staging
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -25,59 +24,36 @@ jobs:
           --health-retries=3
 
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up PHP
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # Adjust to your Laravel version
+          php-version: '8.2'
           extensions: mbstring, bcmath, pdo, mysql, curl
           tools: composer, phpunit
 
-      # Step 3: Install dependencies
+      - name: Create or copy .env
+        env:
+          DOT_ENV: ${{ secrets.DOT_ENV_DEV }}
+        run: |
+          touch .env
+          echo "$DOT_ENV" | tee .env
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+
       - name: Install dependencies
         run: |
           composer install --no-interaction --prefer-dist --optimize-autoloader
-      # Verify .env contents
-      - name: Verify .env contents
-        run: |
-          echo "Verifying .env file contents..."
-          cat .env
 
-      # Step 4: Set up Laravel environment
-      - name: Set up environment
-        run: |
-          cp .env.example .env
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=3306" >> .env
-          echo "DB_DATABASE=savings_test" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=root" >> .env
-          echo 'APP_FRONTEND_MARKETER_URL="https://divineglobalgrowth.com"' >> .env
-          echo 'APP_FRONTEND_MANAGER_URL="https://divineglobalgrowth.com"' >> .env
-          echo 'APP_FRONTEND_ADMIN_URL="https://divineglobalgrowth.com"' >> .env
-          php artisan key:generate
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan config:cache
-          php artisan tinker --execute="dump(env('APP_FRONTEND_MARKETER_URL'));"
-          php artisan tinker --execute="dump(config('app.frontend_marketer_url'));"
-
-      # Step 5: Configure database for testing
-      - name: Configure database
+      - name: Configure database for testing
         run: |
           php artisan migrate --seed
 
-      # Step 6: Run tests
       - name: Run tests
         run: |
           php artisan test
 
-      # Step 7: Deploy if tests pass
       - name: Deploy to server
         if: success()
         uses: appleboy/ssh-action@v0.1.4
