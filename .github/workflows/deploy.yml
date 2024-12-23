@@ -58,6 +58,7 @@ jobs:
       # Step 5: Configure database for testing
       - name: Configure database
         run: |
+          mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS savings_test;"
           php artisan migrate --force
 
       # Step 6: Run tests
