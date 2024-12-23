@@ -25,11 +25,14 @@ class UserTest extends TestCase
 
     public function testCreateAdmin(): void
     {
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $branch = Branch::factory()->create();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
+            'branch_id' => $branch->id,
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
@@ -49,11 +52,14 @@ class UserTest extends TestCase
 
     public function testCreateAuditor(): void
     {
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $branch = Branch::factory()->create();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
+            'branch_id' => $branch->id,
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
@@ -72,11 +78,14 @@ class UserTest extends TestCase
 
     public function testCreateMarketer(): void
     {
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $branch = Branch::factory()->create();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
+            'branch_id' => $branch->id,
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
