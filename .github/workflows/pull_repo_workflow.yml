@@ -1,4 +1,5 @@
-name: Build and Deploy
+name: Test
+
 on:
   pull_request:
     branches:
@@ -7,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test_and_deploy:
+  test:
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -53,25 +54,3 @@ jobs:
       - name: Run tests
         run: |
           php artisan test
-
-      - name: Deploy to server
-        if: success()
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          script: |
-            cd ~/staging-api.divineglobalgrowth.com/savings-backend
-            git pull origin staging
-            cp .env .env.backup
-            cp .env.staging .env
-            composer install --optimize-autoloader --no-dev
-            php artisan migrate --force
-            php artisan key:generate
-            php artisan db:seed
-            php artisan cache:clear
-            php artisan route:cache
-            php artisan view:cache
-            echo "Deployment successful!"

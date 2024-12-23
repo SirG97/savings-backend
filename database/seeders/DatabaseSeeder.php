@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\SuperAdmin;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,17 +14,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // Check if the user already exists
+        $existingUser = User::where('email', 'admin@divineglobalgrowth.com')->first();
 
-         \App\Models\User::factory()->create([
-             'first_name' => 'Super',
-             'last_name' => 'Admin',
-             'name' => 'Super Admin',
-             'email' => 'admin@divineglobalgrowth.com',
-             'phone' => '09099887768',
-             'model' => SuperAdmin::class,
-             'email_verified_at' => now(),
-             'password' => Hash::make('password'),
-         ]);
+        if (!$existingUser) {
+            User::create([
+                'first_name' => 'Super',
+                'last_name' => 'Admin',
+                'name' => 'Super Admin',
+                'email' => 'admin@divineglobalgrowth.com',
+                'phone' => '09099887768',
+                'model' => SuperAdmin::class,
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+            ]);
+
+            $this->command->info('Super Admin user created successfully!');
+        } else {
+            $this->command->info('Super Admin user already exists. No new user was created.');
+        }
     }
 }
