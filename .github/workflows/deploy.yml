@@ -46,19 +46,19 @@ jobs:
       - name: Set up environment
         run: |
           cp .env.example .env
-          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=mysql/' .env
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_PORT=3306/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=savings_test/DB_DATABASE=savings_test/' .env
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=root/' .env
-          sed -i 's/APP_URL=/DB_PASSWORD=root/' .env
-          sed -i 's/APP_FRONTEND_MARKETER_URL=/APP_FRONTEND_MARKETER_URL=divineglobalgrowth.com/' .env
-          sed -i 's/APP_FRONTEND_MANAGER_URL=/APP_FRONTEND_MANAGER_URL=divineglobalgrowth.com/' .env
-          sed -i 's/APP_FRONTEND_ADMIN_URL=/APP_FRONTEND_ADMIN_URL=divineglobalgrowth.com/' .env
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=savings_test" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=root" >> .env
+          echo "APP_FRONTEND_MARKETER_URL=https://divineglobalgrowth.com" >> .env
+          echo "APP_FRONTEND_MANAGER_URL=https://divineglobalgrowth.com" >> .env
+          echo "APP_FRONTEND_ADMIN_URL=https://divineglobalgrowth.com" >> .env
           php artisan key:generate
           php artisan config:clear
           php artisan cache:clear
+          php artisan config:cache
 
       # Step 5: Configure database for testing
       - name: Configure database
