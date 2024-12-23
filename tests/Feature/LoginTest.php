@@ -68,7 +68,7 @@ class LoginTest extends TestCase
 
         $response = $this->post('/api/auth/login', $postData);
         $responseArray = json_decode($response->getContent(), true);
-        $response->dump();
+
         $this->assertEquals(200, $responseArray['status_code']);
         $this->assertEquals( 'success', $responseArray['status']);
     }

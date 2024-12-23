@@ -60,7 +60,7 @@ class TwoFactorTest extends TestCase
 
         $response = $this->post(route('disableTwoFactor'));
         $responseArray = json_decode($response->getContent(), true);
-        $response->dump();
+
         $this->assertEquals(200, $responseArray['status_code']);
         $this->assertEquals( 'success', $responseArray['status'] );
     }
