@@ -32,6 +32,17 @@ class CustomerWalletRepository implements CustomerWalletRepositoryInterface
     }
 
     /**
+     * Fetch \App\Models\CustomerWallet record by branch ID.
+     *
+     * @param int $customerId
+     * @return \App\Models\CustomerWallet|null
+     */
+    public function getByCustomerId(int $customerId): null|CustomerWallet
+    {
+        return CustomerWallet::where('customer_id', $customerId)->first();
+    }
+
+    /**
      * Delete \App\Models\CustomerWallet record by ID.
      *
      * @param int $id

@@ -29,6 +29,9 @@ return [
         'transaction' => [
             'pageSize' => 15
         ],
+        'customer_transaction' => [
+            'pageSize' => 15
+        ],
     ],
 
     'redirect' => [

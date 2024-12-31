@@ -25,6 +25,14 @@ interface CustomerWalletRepositoryInterface
     public function getById(int $id): null|CustomerWallet;
 
     /**
+     * Fetch \App\Models\CustomerWallet record by branch ID.
+     *
+     * @param int $customerId
+     * @return \App\Models\CustomerWallet|null
+     */
+    public function getByCustomerId(int $customerId): null|CustomerWallet;
+
+    /**
      * Delete \App\Models\CustomerWallet record by ID.
      *
      * @param int $id

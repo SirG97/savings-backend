@@ -19,7 +19,9 @@ class Wallet extends Model
     ];
 
     protected $casts = [
-        'active' => 'boolean',
+        'bank' => 'float',
+        'cash' => 'float',
+        'balance' => 'float',
     ];
 
     public function branch(): BelongsTo
