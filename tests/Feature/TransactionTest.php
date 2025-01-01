@@ -68,7 +68,7 @@ class TransactionTest extends TestCase
 
         $response = $this->postJson(route('createTransaction'), $postData);
         $responseArray = $response->json();
-        $response->dump();
+
         $response->assertOk();
 
         $this->assertTrue($responseArray['success']);
@@ -227,7 +227,7 @@ class TransactionTest extends TestCase
 
         $response = $this->getJson(route('readTransactionByTransactionType', ['transaction_type' => 'withdrawal','id' => $transactions[2]->id]));
         $responseArray = $response->json();
-        $response->dump();
+
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
 
