@@ -26,17 +26,12 @@ class CustomerTransactionCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'branch_id' => [
-                Rule::requiredIf(auth()->user()?->model === SuperAdmin::class),
-                'integer', // Assuming branch_id should be an integer
-                'exists:branches,id', // Ensures branch_id exists in the branches table
-            ],
             'customer_id' => 'required|exists:customers,id',
             'transaction_type' => 'required|in:' . implode(',', TransactionType::toArray()),
             'amount' => 'required|numeric|min:1',
             'payment_method' => 'required|in:' . implode(',', PaymentMethod::toArray()),
             'description' => 'required|string|max:50',
-            'date' => 'required|date',
+            'date' => 'nullable|date',
             'remark' => 'nullable|string|max:50',
         ];
     }

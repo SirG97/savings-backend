@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Actions\ResponseData;
+use App\Contracts\CustomerRepositoryInterface;
 use App\Contracts\CustomerTransactionRepositoryInterface;
 use App\Contracts\CustomerWalletRepositoryInterface;
 use App\Enums\PaymentMethod;
@@ -19,6 +20,7 @@ class CustomerTransactionService extends BasicCrudService
 {
 
     public function __construct(private CustomerTransactionRepositoryInterface $customerTransactionRepository,
+                                private CustomerRepositoryInterface $customerRepository,
                                 private CustomerWalletRepositoryInterface $customerWalletRepository,
                                 private TransactionService $transactionService)
     { }
@@ -33,10 +35,11 @@ class CustomerTransactionService extends BasicCrudService
     {
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
-        $validated['branch_id'] = $validated['branch_id'] ?? Auth::user()->branch_id;
+        $customer = $this->customerRepository->getById($validated['customer_id']);
+        $validated['branch_id'] = $customer->branch_id;
         $wallet = $this->customerWalletRepository->getByCustomerId($validated['customer_id']);
         $validated['reference'] = $this->generateReference();
-
+        $validated['date'] = $validated['date'] ?? now();
         $validated['balance_before'] = $wallet->balance;
 
         if($validated['transaction_type'] === TransactionType::DEPOSIT->value){
@@ -114,6 +117,11 @@ class CustomerTransactionService extends BasicCrudService
     public function handleRead(null|string|int $id = null): ResponseData
     {
         return $this->read($this->customerTransactionRepository, 'customer_transaction', $id);
+    }
+
+    public function handleReadByTransactionType(TransactionType $transactionType, null|string|int $id = null): ResponseData
+    {
+        return $this->readByTransactionType($this->customerTransactionRepository, 'user', $transactionType, $id);
     }
 
     private function generateReference(): string

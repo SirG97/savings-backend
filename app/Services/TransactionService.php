@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Actions\ResponseData;
+use App\Contracts\CustomerRepositoryInterface;
 use App\Contracts\TransactionRepositoryInterface;
 use App\Contracts\WalletRepositoryInterface;
 use App\Enums\PaymentMethod;
@@ -19,6 +20,7 @@ class TransactionService extends BasicCrudService
 {
 
     public function __construct(private TransactionRepositoryInterface $transactionRepository,
+                                private CustomerRepositoryInterface $customerRepository,
                                 private WalletRepositoryInterface $walletRepository)
     { }
 
@@ -33,10 +35,11 @@ class TransactionService extends BasicCrudService
 
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
-        $validated['branch_id'] = $validated['branch_id'] ?? Auth::user()->branch_id;
+        $customer = $this->customerRepository->getById($validated['customer_id']);
+        $validated['branch_id'] = $customer->branch_id;
         $wallet = $this->walletRepository->getByBranchId($validated['branch_id']);
         $validated['reference'] = $this->generateReference();
-
+        $validated['date'] = $validated['date'] ?? now();
         $validated['balance_before'] = $wallet->balance;
 
         if($validated['transaction_type'] === TransactionType::DEPOSIT->value or
@@ -141,6 +144,12 @@ class TransactionService extends BasicCrudService
     {
         return $this->read($this->transactionRepository, 'transaction', $id);
     }
+
+    public function handleReadByTransactionType(TransactionType $transactionType, null|string|int $id = null): ResponseData
+    {
+        return $this->readByTransactionType($this->transactionRepository, 'user', $transactionType, $id);
+    }
+
 
     private function generateReference(): string
     {

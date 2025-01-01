@@ -176,4 +176,48 @@ class CustomerTransactionTest extends TestCase
         $this->assertTrue($responseArray['success']);
     }
 
+    public function testReadCustomerTransactionByTransactionType(): void
+    {
+        $user = User::factory()->create();
+        $branch = Branch::factory()->create();
+        $customer = Customer::factory()->create([
+                'branch_id' => $branch->id,
+                'user_id' => $user->id]
+        );
+
+        $this->actingAs($user);
+
+        $customerTransaction = CustomerTransaction::factory(3)->create([
+            'customer_id' => $customer->id,
+            'branch_id' => $branch->id,
+            'user_id' => $user->id,
+            'transaction_type' => TransactionType::DEPOSIT->value,
+        ]);
+
+        $customerTransaction2 = CustomerTransaction::factory(3)->create([
+            'customer_id' => $customer->id,
+            'branch_id' => $branch->id,
+            'user_id' => $user->id,
+            'transaction_type' => TransactionType::WITHDRAWAL->value,
+        ]);
+
+        $response = $this->getJson(route('readCustomerTransactionByTransactionType', ['transaction_type' => 'deposit','id' => 'all']));
+        $responseArray = $response->json();
+
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+
+        $response = $this->getJson(route('readCustomerTransactionByTransactionType', ['transaction_type' => 'withdrawal','id' => $customerTransaction2[1]->id]));
+        $responseArray = $response->json();
+
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+
+        $response = $this->getJson(route('readCustomerTransactionByTransactionType', ['transaction_type' => 'withdrawal']));
+        $responseArray = $response->json();
+
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+    }
+
 }

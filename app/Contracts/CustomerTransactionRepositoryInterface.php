@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\Enums\TransactionType;
 use App\Models\CustomerTransaction;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -73,4 +74,30 @@ interface CustomerTransactionRepositoryInterface
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPaginated(int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Update \App\Models\CustomerTransaction record.
+     *
+     * @param TransactionType $transactionType
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByTransactionTypePaginated(TransactionType $transactionType, int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Fetch \App\Models\CustomerTransaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @return EloquentCollection
+     */
+    public function getByTransactionType(TransactionType $transactionType): EloquentCollection;
+
+    /**
+     * Fetch \App\Models\CustomerTransaction record by ID.
+     *
+     * @param TransactionType $transactionType
+     * @param int $id
+     * @return CustomerTransaction|null
+     */
+    public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|CustomerTransaction;
 }

@@ -14,6 +14,7 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'branch_id',
+        'customer_id',
         'payment_method',
         'reference',
         'type',
@@ -32,6 +33,8 @@ class Transaction extends Model
         'balance_after' => 'float',
     ];
 
+    protected  $with = ['customer','branch','user'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -40,6 +43,11 @@ class Transaction extends Model
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 
 }

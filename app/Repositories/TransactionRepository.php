@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\TransactionRepositoryInterface;
+use App\Enums\TransactionType;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -97,5 +98,40 @@ class TransactionRepository implements TransactionRepositoryInterface
     public function getPaginated(int $pageSize): LengthAwarePaginator
     {
         return Transaction::paginate($pageSize);
+    }
+
+    /**
+     * Fetch \App\Models\Transaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByTransactionTypePaginated(TransactionType $transactionType, int $pageSize): LengthAwarePaginator
+    {
+        return Transaction::where('transaction_type', $transactionType)->paginate($pageSize);
+    }
+
+    /**
+     * Fetch \App\Models\Transaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @return EloquentCollection
+     */
+    public function getByTransactionType(TransactionType $transactionType): EloquentCollection
+    {
+        return Transaction::where('transaction_type', $transactionType)->get();
+    }
+
+    /**
+     * Fetch \App\Models\Transaction record by ID.
+     *
+     * @param TransactionType $transactionType
+     * @param int $id
+     * @return Transaction|null
+     */
+    public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|Transaction
+    {
+        return Transaction::where('transaction_type', $transactionType)->where('id',$id)->first();
     }
 }

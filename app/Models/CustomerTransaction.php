@@ -27,6 +27,8 @@ class CustomerTransaction extends Model
         'date'
     ];
 
+    protected  $with = ['customer','branch','user'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

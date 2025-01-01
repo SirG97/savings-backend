@@ -8,7 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerTransactionController;
 use App\Http\Controllers\CustomerWalletController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
@@ -66,10 +66,11 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
         });
 
         Route::prefix('transaction')->group(function () {
-            Route::post('create', [TransactionsController::class, 'create'])->name('createTransaction');
-//            Route::delete('delete', [TransactionsController::class, 'delete'])->name('deleteTransactions');
-            Route::get('read/{id?}', [TransactionsController::class, 'read'])->name('readTransaction');
-//            Route::put('update', [TransactionsController::class, 'update'])->name('updateTransactions');
+            Route::post('create', [TransactionController::class, 'create'])->name('createTransaction');
+//            Route::delete('delete', [TransactionController::class, 'delete'])->name('deleteTransactions');
+            Route::get('read/{id?}', [TransactionController::class, 'read'])->name('readTransaction');
+            Route::get('type_read/{transaction_type}/{id?}',[TransactionController::class, 'readByTransactionType'])->name('readTransactionByTransactionType');
+//            Route::put('update', [TransactionController::class, 'update'])->name('updateTransactions');
 
         });
 
@@ -78,6 +79,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::post('create', [CustomerTransactionController::class, 'create'])->name('createCustomerTransaction');
 //            Route::delete('delete', [CustomerTransactionController::class, 'delete'])->name('deleteCustomerTransaction');
             Route::get('read/{id?}', [CustomerTransactionController::class, 'read'])->name('readCustomerTransaction');
+            Route::get('type_read/{transaction_type}/{id?}',[CustomerTransactionController::class, 'readByTransactionType'])->name('readCustomerTransactionByTransactionType');
 //            Route::put('update', [CustomerTransactionController::class, 'update'])->name('updateCustomerTransaction');
 
         });

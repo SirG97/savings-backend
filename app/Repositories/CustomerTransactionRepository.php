@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\CustomerTransactionRepositoryInterface;
+use App\Enums\TransactionType;
 use App\Models\CustomerTransaction;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -97,5 +98,33 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
     public function getPaginated(int $pageSize): LengthAwarePaginator
     {
         return CustomerTransaction::paginate($pageSize);
+    }
+
+    public function getByTransactionTypePaginated(TransactionType $transactionType, int $pageSize): LengthAwarePaginator
+    {
+        return CustomerTransaction::where('transaction_type', $transactionType)->paginate($pageSize);
+    }
+
+    /**
+     * Fetch \App\Models\CustomerTransaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @return EloquentCollection
+     */
+    public function getByTransactionType(TransactionType $transactionType): EloquentCollection
+    {
+        return CustomerTransaction::where('transaction_type', $transactionType)->get();
+    }
+
+    /**
+     * Fetch \App\Models\CustomerTransaction record by ID.
+     *
+     * @param TransactionType $transactionType
+     * @param int $id
+     * @return CustomerTransaction|null
+     */
+    public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|CustomerTransaction
+    {
+        return CustomerTransaction::where('transaction_type', $transactionType)->where('id',$id)->first();
     }
 }
