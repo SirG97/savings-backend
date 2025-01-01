@@ -22,6 +22,7 @@ class UserController extends Controller
      *
      * @header Authorization Bearer {Your key}
      *
+     * @bodyParam branch_id string  The branch_id of the CustomerTransaction. it is required if it is the admin making the request. Example: 1
      * @bodyParam first_name string required The first name of the user. Example: John
      * @bodyParam last_name string required The last name of the user. Example: Doe
      * @bodyParam email string required The email of the user. Example: johndoe@xyz.com

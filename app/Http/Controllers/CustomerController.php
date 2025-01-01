@@ -20,7 +20,9 @@ class CustomerController extends Controller
      *
      * @header Authorization Bearer {Your key}
      *
-     * @bodyParam name string required The name of the Customer. Example: John
+     * @bodyParam branch_id string The branch_id of the Transaction. it is required if it is the admin making the request. Example: 1
+     * @bodyParam first_name string required The first_name of the Customer. Example: John
+     * @bodyParam surname string required The surname of the Customer. Example: Doe
      *
      * @response 200
      *

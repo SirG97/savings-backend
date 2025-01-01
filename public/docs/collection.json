@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "362efe54-5448-446a-a997-67a1902edf38",
+        "_postman_id": "16ac59c5-23f3-4e73-97c6-28f3be04dd6c",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -285,45 +285,6 @@
                     "description": "",
                     "item": [
                         {
-                            "name": "Create user.",
-                            "request": {
-                                "url": {
-                                    "host": "{{baseUrl}}",
-                                    "path": "api\/user\/users\/create",
-                                    "query": [],
-                                    "raw": "{{baseUrl}}\/api\/user\/users\/create"
-                                },
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Authorization",
-                                        "value": "Bearer {Your key}"
-                                    },
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application\/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application\/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\"branch_id\":10,\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"johndoe@xyz.com\",\"phone\":\"08012345678\",\"model\":\"admin\"}"
-                                },
-                                "description": ""
-                            },
-                            "response": [
-                                {
-                                    "header": [],
-                                    "code": 200,
-                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
-                                    "name": ""
-                                }
-                            ]
-                        },
-                        {
                             "name": "Assign branch to user.",
                             "request": {
                                 "url": {
@@ -482,7 +443,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"id\":\"1\",\"first_name\":\"ejrwsdkgjguek\",\"middle_name\":\"mpexxtmlldrhyfxybazge\",\"last_name\":\"cjzrwoqmzqcki\",\"email\":\"kjohnston@example.org\",\"phone\":\"qkwmchzilg\",\"performed_action\":\"approved\",\"reason\":\"The image is not clear\"}"
+                                    "raw": "{\"id\":\"1\",\"first_name\":\"ytrmvy\",\"middle_name\":\"vw\",\"last_name\":\"xhybambjnijvlstvny\",\"email\":\"darrin35@example.org\",\"phone\":\"aeluiahwytrrbyant\",\"performed_action\":\"approved\",\"reason\":\"The image is not clear\"}"
                                 },
                                 "description": ""
                             },
@@ -572,6 +533,56 @@
                                     "mode": "raw",
                                     "raw": "{\"id\":\"1\"}"
                                 },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Dashboard APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Retrieve user dashboard.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/dashboard\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/dashboard\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "qui",
+                                            "description": "The ID of the ."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
                                 "description": ""
                             },
                             "response": [
@@ -882,7 +893,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"branch_id\":17,\"first_name\":\"ycppwmnplrncn\",\"surname\":\"lrtjpfkdjqlbhix\",\"middle_name\":\"itaque\",\"dob\":\"2024-12-18T19:01:34\",\"sex\":\"male\",\"resident_state\":\"enim\",\"resident_lga\":\"incidunt\",\"resident_address\":\"sequi\",\"occupation\":\"qui\",\"office_address\":\"vel\",\"state\":\"omnis\",\"lga\":\"ut\",\"hometown\":\"temporibus\",\"phone\":\"et\",\"next_of_kin\":\"quidem\",\"relationship\":\"id\",\"nok_phone\":\"consequatur\",\"acc_no\":\"et\",\"group\":\"commodi\",\"sb_card_no_from\":\"corrupti\",\"sb_card_no_to\":\"aut\",\"sb\":\"dicta\",\"initial_unit\":\"accusantium\",\"bank_name\":\"ab\",\"bank_code\":\"ratione\",\"account_name\":\"pariatur\",\"account_number\":\"ad\",\"daily_amount\":\"laudantium\",\"name\":\"John\"}"
+                                    "raw": "{\"branch_id\":\"1\",\"first_name\":\"John\",\"surname\":\"Doe\",\"middle_name\":\"quo\",\"dob\":\"2024-12-31T05:24:15\",\"sex\":\"female\",\"resident_state\":\"officia\",\"resident_lga\":\"vel\",\"resident_address\":\"enim\",\"occupation\":\"architecto\",\"office_address\":\"beatae\",\"state\":\"aut\",\"lga\":\"perspiciatis\",\"hometown\":\"modi\",\"phone\":\"atque\",\"next_of_kin\":\"deleniti\",\"relationship\":\"laboriosam\",\"nok_phone\":\"itaque\",\"acc_no\":\"qui\",\"group\":\"excepturi\",\"sb_card_no_from\":\"placeat\",\"sb_card_no_to\":\"aspernatur\",\"sb\":\"autem\",\"initial_unit\":\"velit\",\"bank_name\":\"recusandae\",\"bank_code\":\"pariatur\",\"account_name\":\"commodi\",\"account_number\":\"omnis\",\"daily_amount\":\"repellat\"}"
                                 },
                                 "description": ""
                             },
@@ -1004,9 +1015,187 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"id\":\"1\",\"first_name\":\"ofwbhfpmbhjwjteqjlks\",\"surname\":\"ahcwwcncfxg\",\"middle_name\":\"fugiat\",\"dob\":\"2024-12-18T19:01:34\",\"sex\":\"male\",\"resident_state\":\"aut\",\"resident_lga\":\"harum\",\"resident_address\":\"omnis\",\"occupation\":\"sed\",\"office_address\":\"cum\",\"state\":\"sequi\",\"lga\":\"id\",\"hometown\":\"voluptatem\",\"phone\":\"ttvsrlx\",\"next_of_kin\":\"vel\",\"relationship\":\"asperiores\",\"nok_phone\":\"sint\",\"acc_no\":\"dolore\",\"branch\":\"recusandae\",\"group\":\"magni\",\"sb_card_no_from\":\"odit\",\"sb_card_no_to\":\"possimus\",\"sb\":\"dignissimos\",\"initial_unit\":\"labore\",\"bank_name\":\"architecto\",\"bank_code\":\"quis\",\"account_name\":\"blanditiis\",\"account_number\":\"quaerat\",\"daily_amount\":\"ea\",\"name\":\"John\"}"
+                                    "raw": "{\"id\":\"1\",\"first_name\":\"vdzrpgkuvhhysuztzqqalb\",\"surname\":\"agtwiswlqvofsgxwyfsud\",\"middle_name\":\"quidem\",\"dob\":\"2024-12-31T05:24:15\",\"sex\":\"female\",\"resident_state\":\"exercitationem\",\"resident_lga\":\"est\",\"resident_address\":\"laboriosam\",\"occupation\":\"ipsa\",\"office_address\":\"quibusdam\",\"state\":\"voluptatem\",\"lga\":\"sint\",\"hometown\":\"debitis\",\"phone\":\"yfjjgxpc\",\"next_of_kin\":\"a\",\"relationship\":\"aspernatur\",\"nok_phone\":\"delectus\",\"acc_no\":\"asperiores\",\"branch\":\"explicabo\",\"group\":\"alias\",\"sb_card_no_from\":\"enim\",\"sb_card_no_to\":\"voluptatibus\",\"sb\":\"et\",\"initial_unit\":\"ipsa\",\"bank_name\":\"at\",\"bank_code\":\"et\",\"account_name\":\"aut\",\"account_number\":\"alias\",\"daily_amount\":\"et\",\"name\":\"John\"}"
                                 },
                                 "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Transaction APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Create Transaction.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/transaction\/create",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/transaction\/create"
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"branch_id\":\"1\",\"customer_id\":\"1\",\"transaction_type\":\"deposit\",\"amount\":\"1000\",\"payment_method\":\"cash\",\"description\":\"Deposit from Musa\",\"date\":\"01-01-1980\",\"remark\":\"aw\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read Transaction.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/transaction\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/transaction\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the Transactions table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "CustomerTransaction APIs",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Create CustomerTransaction.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer_transaction\/create",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer_transaction\/create"
+                                },
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\"branch_id\":\"1\",\"customer_id\":\"1\",\"transaction_type\":\"deposit\",\"amount\":\"1000\",\"payment_method\":\"cash\",\"description\":\"Deposit from Musa\",\"date\":\"01-01-1980\",\"remark\":\"bhpjhwuu\"}"
+                                },
+                                "description": ""
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read CustomerTransaction.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer_transaction\/read\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer_transaction\/read\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the CustomerTransactions table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
                             },
                             "response": [
                                 {
@@ -1162,7 +1351,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_pin\":\"aperiam\",\"pin\":\"rvr\"}"
+                            "raw": "{\"current_pin\":\"accusamus\",\"pin\":\"mc\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1183,7 +1372,7 @@
                                 {
                                     "id": "uuid",
                                     "key": "uuid",
-                                    "value": "c30904de-2041-31c9-aae0-d0972f9007cb",
+                                    "value": "224fc953-7a6a-3024-b39c-0e808b20e68d",
                                     "description": ""
                                 }
                             ]
@@ -1331,7 +1520,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"oupgctl\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
+                            "raw": "{\"name\":\"psnpcfvkunpsjpdabzujygump\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
                         },
                         "description": "Within the config file, you are required to determine whether a\nuser should recieve welcome and verification emails after\nregistration by setting <b>registration.notify.welcome<\/b> to <b>TRUE<\/b> and\n<b>registration.notify.verify<\/b> to <b>TRUE<\/b> respectively.\nYou can also set <b>registration.autologin<\/b> to <b>TRUE<\/b>.",
                         "auth": {

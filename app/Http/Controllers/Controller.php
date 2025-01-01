@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TransactionType;
 use App\Enums\UserModelType;
 use App\Traits\Helpers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -62,6 +63,15 @@ class Controller extends BaseController
     protected function _readByUserModel(mixed $service, UserModelType $model, null|string|int $id = null): JsonResponse
     {
         if ($data = $service->handleReadByUserModel($model, $id)) {
+            return httpJsonResponse($data);
+        };
+
+        return unknownErrorJsonResponse();
+    }
+
+    protected function _readByTransactionType(mixed $service, TransactionType $transactionType, null|string|int $id = null): JsonResponse
+    {
+        if ($data = $service->handleReadByTransactionType($transactionType, $id)) {
             return httpJsonResponse($data);
         };
 

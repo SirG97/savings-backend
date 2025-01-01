@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Actions\ResponseData;
+use App\Enums\TransactionType;
 use App\Enums\UserModel;
 use App\Enums\UserModelType;
 use App\Facades\Database;
@@ -112,21 +113,6 @@ class BasicCrudService
      */
     protected function readByUserId(mixed $repository, string $index, string|int $userId, null|string|int $id = null): ResponseData
     {
-        $user = Auth::user();
-
-        if ($user->model == UserModel::CUSTOMER->value && $user->id != $userId)
-        {
-            return responseData(true, Response::HTTP_OK, trans('crud.read'), []);
-        }
-
-        if ($user->model == UserModel::API_USER->value)
-        {
-            $user = getApiUsersHumanUser($user);
-            if ($user->id != $userId) {
-                return responseData(true, Response::HTTP_OK, trans('crud.read'), []);
-            }
-        }
-
         if (!isset($id)) {
             return responseData(true, Response::HTTP_OK, trans('crud.read'),
                     $repository->getByUserIdPaginated($userId, config("api.paginate.{$index}.pageSize")));
@@ -163,6 +149,23 @@ class BasicCrudService
 
         return responseData(true, Response::HTTP_OK, trans('crud.read'),
             $repository->getByUserModel($model));
+    }
+
+    protected function readByTransactionType(mixed $repository, string $index, TransactionType $transactionType, null|string|int $id = null): ResponseData
+    {
+
+        if (!isset($id)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionTypePaginated($transactionType, config("api.paginate.{$index}.pageSize")));
+        }
+
+        if ($id === 'all') {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionType($transactionType));
+        }
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $repository->getByTransactionTypeAndId($transactionType, $id));
     }
 
     /**
@@ -226,26 +229,5 @@ class BasicCrudService
         return $validated;
     }
 
-    protected function readOneByUserId(mixed $repository, int $userId): ResponseData
-    {
-        $user = Auth::user();
-
-        if ($user->model == UserModel::CUSTOMER->value && $user->id != $userId)
-        {
-            return responseData(true, Response::HTTP_OK, trans('crud.read'), []);
-        }
-
-        if ($user->model == UserModel::API_USER->value)
-        {
-            $user = getApiUsersHumanUser($user);
-            if ($user->id != $userId) {
-                return responseData(true, Response::HTTP_OK, trans('crud.read'), []);
-            }
-        }
-
-        return responseData(true, Response::HTTP_OK, trans('crud.read'),
-            $repository->getByUserId($userId));
-
-    }
 
 }

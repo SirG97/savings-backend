@@ -179,65 +179,6 @@ paths:
                 example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string,\n     \"codes\": array,\n }\n}"
       tags:
         - 'Auth APIs'
-  /api/user/users/create:
-    post:
-      summary: 'Create user.'
-      operationId: createUser
-      description: ''
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
-      tags:
-        - 'Auth APIs'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                branch_id:
-                  type: integer
-                  description: 'The <code>id</code> of an existing record in the branches table.'
-                  example: 10
-                  nullable: false
-                first_name:
-                  type: string
-                  description: 'The first name of the user.'
-                  example: John
-                  nullable: false
-                last_name:
-                  type: string
-                  description: 'The last name of the user.'
-                  example: Doe
-                  nullable: false
-                email:
-                  type: string
-                  description: 'The email of the user.'
-                  example: johndoe@xyz.com
-                  nullable: false
-                phone:
-                  type: string
-                  description: 'The phone of the user.'
-                  example: '08012345678'
-                  nullable: false
-                model:
-                  type: string
-                  description: 'The model of user must either be super_admin, admin, auditor or marketer.'
-                  example: admin
-                  nullable: false
-              required:
-                - first_name
-                - last_name
-                - email
-                - phone
-                - model
   /api/user/users/assign:
     put:
       summary: 'Assign branch to user.'
@@ -412,27 +353,27 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: ejrwsdkgjguek
+                  example: ytrmvy
                   nullable: false
                 middle_name:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: mpexxtmlldrhyfxybazge
+                  example: vw
                   nullable: true
                 last_name:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: cjzrwoqmzqcki
+                  example: xhybambjnijvlstvny
                   nullable: false
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: kjohnston@example.org
+                  example: darrin35@example.org
                   nullable: false
                 phone:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: qkwmchzilg
+                  example: aeluiahwytrrbyant
                   nullable: false
                 performed_action:
                   type: string
@@ -483,6 +424,37 @@ paths:
               required:
                 - id
                 - active
+  '/api/user/dashboard/read/{id}':
+    get:
+      summary: 'Retrieve user dashboard.'
+      operationId: retrieveUserDashboard
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the .'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: qui
   /api/user/branch/create:
     post:
       summary: 'Create Branch.'
@@ -711,34 +683,34 @@ paths:
               type: object
               properties:
                 branch_id:
-                  type: integer
-                  description: 'The <code>id</code> of an existing record in the branches table.'
-                  example: 17
+                  type: string
+                  description: 'The branch_id of the Transaction. it is required if it is the admin making the request.'
+                  example: '1'
                   nullable: false
                 first_name:
                   type: string
-                  description: 'Must not be greater than 200 characters.'
-                  example: ycppwmnplrncn
+                  description: 'The first_name of the Customer.'
+                  example: John
                   nullable: false
                 surname:
                   type: string
-                  description: 'Must not be greater than 200 characters.'
-                  example: lrtjpfkdjqlbhix
+                  description: 'The surname of the Customer.'
+                  example: Doe
                   nullable: false
                 middle_name:
                   type: string
                   description: ''
-                  example: itaque
+                  example: quo
                   nullable: true
                 dob:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2024-12-18T19:01:34'
+                  example: '2024-12-31T05:24:15'
                   nullable: true
                 sex:
                   type: string
                   description: ''
-                  example: male
+                  example: female
                   nullable: true
                   enum:
                     - male
@@ -746,128 +718,122 @@ paths:
                 resident_state:
                   type: string
                   description: ''
-                  example: enim
+                  example: officia
                   nullable: true
                 resident_lga:
                   type: string
                   description: ''
-                  example: incidunt
+                  example: vel
                   nullable: true
                 resident_address:
                   type: string
                   description: ''
-                  example: sequi
+                  example: enim
                   nullable: true
                 occupation:
                   type: string
                   description: ''
-                  example: qui
+                  example: architecto
                   nullable: true
                 office_address:
                   type: string
                   description: ''
-                  example: vel
+                  example: beatae
                   nullable: true
                 state:
                   type: string
                   description: ''
-                  example: omnis
+                  example: aut
                   nullable: true
                 lga:
                   type: string
                   description: ''
-                  example: ut
+                  example: perspiciatis
                   nullable: true
                 hometown:
                   type: string
                   description: ''
-                  example: temporibus
+                  example: modi
                   nullable: true
                 phone:
                   type: string
                   description: ''
-                  example: et
+                  example: atque
                   nullable: false
                 next_of_kin:
                   type: string
                   description: ''
-                  example: quidem
+                  example: deleniti
                   nullable: true
                 relationship:
                   type: string
                   description: ''
-                  example: id
+                  example: laboriosam
                   nullable: true
                 nok_phone:
                   type: string
                   description: ''
-                  example: consequatur
+                  example: itaque
                   nullable: true
                 acc_no:
                   type: string
                   description: ''
-                  example: et
+                  example: qui
                   nullable: true
                 group:
                   type: string
                   description: ''
-                  example: commodi
+                  example: excepturi
                   nullable: true
                 sb_card_no_from:
                   type: string
                   description: ''
-                  example: corrupti
+                  example: placeat
                   nullable: true
                 sb_card_no_to:
                   type: string
                   description: ''
-                  example: aut
+                  example: aspernatur
                   nullable: true
                 sb:
                   type: string
                   description: ''
-                  example: dicta
+                  example: autem
                   nullable: true
                 initial_unit:
                   type: string
                   description: ''
-                  example: accusantium
+                  example: velit
                   nullable: true
                 bank_name:
                   type: string
                   description: ''
-                  example: ab
+                  example: recusandae
                   nullable: true
                 bank_code:
                   type: string
                   description: ''
-                  example: ratione
+                  example: pariatur
                   nullable: true
                 account_name:
                   type: string
                   description: ''
-                  example: pariatur
+                  example: commodi
                   nullable: true
                 account_number:
                   type: string
                   description: ''
-                  example: ad
+                  example: omnis
                   nullable: true
                 daily_amount:
                   type: string
                   description: ''
-                  example: laudantium
+                  example: repellat
                   nullable: true
-                name:
-                  type: string
-                  description: 'The name of the Customer.'
-                  example: John
-                  nullable: false
               required:
                 - first_name
                 - surname
                 - phone
-                - name
   /api/user/customer/delete:
     delete:
       summary: 'Delete Customer.'
@@ -960,27 +926,27 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 200 characters.'
-                  example: ofwbhfpmbhjwjteqjlks
+                  example: vdzrpgkuvhhysuztzqqalb
                   nullable: false
                 surname:
                   type: string
                   description: 'Must not be greater than 200 characters.'
-                  example: ahcwwcncfxg
+                  example: agtwiswlqvofsgxwyfsud
                   nullable: false
                 middle_name:
                   type: string
                   description: ''
-                  example: fugiat
+                  example: quidem
                   nullable: false
                 dob:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2024-12-18T19:01:34'
+                  example: '2024-12-31T05:24:15'
                   nullable: false
                 sex:
                   type: string
                   description: ''
-                  example: male
+                  example: female
                   nullable: false
                   enum:
                     - male
@@ -988,122 +954,122 @@ paths:
                 resident_state:
                   type: string
                   description: ''
-                  example: aut
+                  example: exercitationem
                   nullable: false
                 resident_lga:
                   type: string
                   description: ''
-                  example: harum
+                  example: est
                   nullable: false
                 resident_address:
                   type: string
                   description: ''
-                  example: omnis
+                  example: laboriosam
                   nullable: false
                 occupation:
                   type: string
                   description: ''
-                  example: sed
+                  example: ipsa
                   nullable: false
                 office_address:
                   type: string
                   description: ''
-                  example: cum
+                  example: quibusdam
                   nullable: false
                 state:
                   type: string
                   description: ''
-                  example: sequi
+                  example: voluptatem
                   nullable: false
                 lga:
                   type: string
                   description: ''
-                  example: id
+                  example: sint
                   nullable: false
                 hometown:
                   type: string
                   description: ''
-                  example: voluptatem
+                  example: debitis
                   nullable: false
                 phone:
                   type: string
                   description: 'Must not be greater than 13 characters.'
-                  example: ttvsrlx
+                  example: yfjjgxpc
                   nullable: false
                 next_of_kin:
                   type: string
                   description: ''
-                  example: vel
+                  example: a
                   nullable: false
                 relationship:
                   type: string
                   description: ''
-                  example: asperiores
+                  example: aspernatur
                   nullable: false
                 nok_phone:
                   type: string
                   description: ''
-                  example: sint
+                  example: delectus
                   nullable: false
                 acc_no:
                   type: string
                   description: ''
-                  example: dolore
+                  example: asperiores
                   nullable: false
                 branch:
                   type: string
                   description: ''
-                  example: recusandae
+                  example: explicabo
                   nullable: false
                 group:
                   type: string
                   description: ''
-                  example: magni
+                  example: alias
                   nullable: false
                 sb_card_no_from:
                   type: string
                   description: ''
-                  example: odit
+                  example: enim
                   nullable: false
                 sb_card_no_to:
                   type: string
                   description: ''
-                  example: possimus
+                  example: voluptatibus
                   nullable: false
                 sb:
                   type: string
                   description: ''
-                  example: dignissimos
+                  example: et
                   nullable: false
                 initial_unit:
                   type: string
                   description: ''
-                  example: labore
+                  example: ipsa
                   nullable: false
                 bank_name:
                   type: string
                   description: ''
-                  example: architecto
+                  example: at
                   nullable: false
                 bank_code:
                   type: string
                   description: ''
-                  example: quis
+                  example: et
                   nullable: false
                 account_name:
                   type: string
                   description: ''
-                  example: blanditiis
+                  example: aut
                   nullable: false
                 account_number:
                   type: string
                   description: ''
-                  example: quaerat
+                  example: alias
                   nullable: false
                 daily_amount:
                   type: string
                   description: ''
-                  example: ea
+                  example: et
                   nullable: false
                 name:
                   type: string
@@ -1113,6 +1079,206 @@ paths:
               required:
                 - id
                 - name
+  /api/user/transaction/create:
+    post:
+      summary: 'Create Transaction.'
+      operationId: createTransaction
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                branch_id:
+                  type: string
+                  description: 'The branch_id of the Transaction. it is required if it is the admin making the request.'
+                  example: '1'
+                  nullable: false
+                customer_id:
+                  type: string
+                  description: 'The customer_id of the Transaction. .'
+                  example: '1'
+                  nullable: true
+                transaction_type:
+                  type: string
+                  description: 'The transaction_type of the Transaction. Can be deposit or withdrawal .'
+                  example: deposit
+                  nullable: false
+                amount:
+                  type: string
+                  description: 'The amount of the Transaction.'
+                  example: '1000'
+                  nullable: false
+                payment_method:
+                  type: string
+                  description: 'The payment_method of the Transaction. Can be cash or bank .'
+                  example: cash
+                  nullable: false
+                description:
+                  type: string
+                  description: 'The description of the Transaction.'
+                  example: 'Deposit from Musa'
+                  nullable: false
+                date:
+                  type: string
+                  description: 'The date of the Transaction.'
+                  example: 01-01-1980
+                  nullable: false
+                remark:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: aw
+                  nullable: true
+              required:
+                - customer_id
+                - transaction_type
+                - amount
+                - payment_method
+                - date
+  '/api/user/transaction/read/{id}':
+    get:
+      summary: 'Read Transaction.'
+      operationId: readTransaction
+      description: "Fetch a record or records from the Transactions table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
+  /api/user/customer_transaction/create:
+    post:
+      summary: 'Create CustomerTransaction.'
+      operationId: createCustomerTransaction
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                branch_id:
+                  type: string
+                  description: 'The branch_id of the CustomerTransaction. it is required if it is the admin making the request.'
+                  example: '1'
+                  nullable: false
+                customer_id:
+                  type: string
+                  description: 'The customer_id of the CustomerTransaction. .'
+                  example: '1'
+                  nullable: false
+                transaction_type:
+                  type: string
+                  description: 'The transaction_type of the CustomerTransaction. Can be deposit or withdrawal .'
+                  example: deposit
+                  nullable: false
+                amount:
+                  type: string
+                  description: 'The amount of the CustomerTransaction.'
+                  example: '1000'
+                  nullable: false
+                payment_method:
+                  type: string
+                  description: 'The payment_method of the CustomerTransaction. Can be cash or bank .'
+                  example: cash
+                  nullable: false
+                description:
+                  type: string
+                  description: 'The description of the CustomerTransaction.'
+                  example: 'Deposit from Musa'
+                  nullable: false
+                date:
+                  type: string
+                  description: 'The date of the CustomerTransaction.'
+                  example: 01-01-1980
+                  nullable: false
+                remark:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: bhpjhwuu
+                  nullable: true
+              required:
+                - customer_id
+                - transaction_type
+                - amount
+                - payment_method
+                - date
+  '/api/user/customer_transaction/read/{id}':
+    get:
+      summary: 'Read CustomerTransaction.'
+      operationId: readCustomerTransaction
+      description: "Fetch a record or records from the CustomerTransactions table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
   /api/auth/logout:
     post:
       summary: 'User logout.'
@@ -1191,12 +1357,12 @@ paths:
                 current_pin:
                   type: string
                   description: ''
-                  example: aperiam
+                  example: accusamus
                   nullable: false
                 pin:
                   type: string
                   description: 'Must not be greater than 4 characters.'
-                  example: rvr
+                  example: mc
                   nullable: false
               required:
                 - current_pin
@@ -1217,7 +1383,7 @@ paths:
         in: path
         name: uuid
         description: ''
-        example: c30904de-2041-31c9-aae0-d0972f9007cb
+        example: 224fc953-7a6a-3024-b39c-0e808b20e68d
         required: true
         schema:
           type: string
@@ -1291,7 +1457,7 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: oupgctl
+                  example: psnpcfvkunpsjpdabzujygump
                   nullable: false
                 email:
                   type: string
