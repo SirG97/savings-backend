@@ -69,13 +69,13 @@ class UserService extends BasicCrudService
 //
 //        ]);
 
-        $emailData = new EmailData(subject: $title, lines: [$text], action: true, action_text: trans('general.login'),
-            action_url: $url, from: env('MAIL_FROM_ADDRESS'), remark: null, attachements: null, markdown: 'emails.notification',highlightText: $plainPassword  );
-        $user->notify(new EmailNotification($emailData->toObject()));
-
-        if (config('api.registration.notify.verify', true)) {
-            EmailVerification::dispatch($user);
-        }
+//        $emailData = new EmailData(subject: $title, lines: [$text], action: true, action_text: trans('general.login'),
+//            action_url: $url, from: env('MAIL_FROM_ADDRESS'), remark: null, attachements: null, markdown: 'emails.notification',highlightText: $plainPassword  );
+//        $user->notify(new EmailNotification($emailData->toObject()));
+//
+//        if (config('api.registration.notify.verify', true)) {
+//            EmailVerification::dispatch($user);
+//        }
 
         return responseData(true, Response::HTTP_OK, trans('register.success'));
 
