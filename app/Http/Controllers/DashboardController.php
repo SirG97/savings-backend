@@ -35,6 +35,11 @@ class DashboardController extends Controller
      */
     public function read(DashboardRequest $request, null|string|int $id = null): JsonResponse
     {
-        return $this->_read($this->dashboardService, $id);
+        if ($response = $this->dashboardService->getDashboardData($request)) {
+            return httpJsonResponse($response);
+        }
+
+        return unknownErrorJsonResponse();
+
     }
 }

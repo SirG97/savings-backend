@@ -2,10 +2,16 @@
 
 namespace App\Services;
 
+use App\Actions\ResponseData;
+use App\Contracts\DashboardRepositoryInterface;
+use App\Http\Requests\DashboardRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class DashboardService
+class DashboardService extends BasicCrudService
 {
+    public function __construct(private DashboardRepositoryInterface $dashboardRepository)
+    { }
 
     /**
      * Handle the request.
@@ -13,10 +19,41 @@ class DashboardService
      * @param  \Illuminate\Http\Request  $request
      * @return null|array
      */
-    public function handle(Request $request): null|array
+    public function getDashboardData(DashboardRequest $request): ResponseData
     {
-        $validated = $request->validated();
+        $totalUsers = $this->dashboardRepository->getTotalUsers();
+        $balance = $this->dashboardRepository->getTotalBalance();
+        $filters = [];
+        $transactionSummary = $this->dashboardRepository->getTransactionSummaryByType($filters);
 
-        return null;
+        $data = [
+            'total_users' => $totalUsers,
+            'balance' => $balance,
+            'transaction_summary' => [
+                'deposit' => [
+                    'count' => $transactionSummary['deposit']['count'] ?? 0,
+                    'total_amount' => $transactionSummary['deposit']['total_amount'] ?? 0,
+                ],
+                'withdrawals' => [
+                    'count' => $transactionSummary['withdrawal']['count'] ?? 0,
+                    'total_amount' => $transactionSummary['withdrawal']['total_amount'] ?? 0,
+                ],
+                'commission' => [
+                    'count' => $transactionSummary['commission']['count'] ?? 0,
+                    'total_amount' => $transactionSummary['commission']['total_amount'] ?? 0,
+                ],
+                'expenses' => [
+                    'count' => $transactionSummary['expenses']['count'] ?? 0,
+                    'total_amount' => $transactionSummary['expenses']['total_amount'] ?? 0,
+                ],
+                'transfer' => [
+                    'count' => $transactionSummary['transfer']['count'] ?? 0,
+                    'total_amount' => $transactionSummary['transfer']['total_amount'] ?? 0,
+                ],
+            ],
+        ];
+
+        return responseData(true, Response::HTTP_OK,
+            'Dashboard data retrieved successfully', $data);
     }
 }
