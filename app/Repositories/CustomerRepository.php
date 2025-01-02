@@ -98,4 +98,74 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         return Customer::paginate(pageSize($pageSize));
     }
+
+    /**
+     * Update \App\Models\Customer record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator
+    {
+        return Customer::where('branch_id', $branchId)->paginate(pageSize($pageSize));
+    }
+
+    /**
+     * Fetch all \App\Models\Customer records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection
+    {
+        return Customer::where('branch_id', $branchId)->get();
+    }
+
+    /**
+     * Fetch \App\Models\Customer record by ID.
+     *
+     * @param int $branchId
+     * @param int $id
+     * @return Customer|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|Customer
+    {
+        return Customer::where('branch_id', $branchId)->where('id', $id)->first();
+    }
+
+    /**
+     * Update \App\Models\Customer record.
+     *
+     * @param int $userId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByUserIdPaginated(int $userId, int $pageSize): LengthAwarePaginator
+    {
+        return Customer::where('user_id', $userId)->paginate(pageSize($pageSize));
+    }
+
+    /**
+     * Fetch all \App\Models\Customer records.
+     *
+     * @param int $userId
+     * @return EloquentCollection
+     */
+    public function getByUserId(int $userId): EloquentCollection
+    {
+        return Customer::where('user_id', $userId)->get();
+    }
+
+    /**
+     * Fetch \App\Models\Customer record by ID.
+     *
+     * @param int $userId
+     * @param int $id
+     * @return Customer|null
+     */
+    public function getByUserIdAndId(int $userId, int $id): null|Customer
+    {
+        return Customer::where('user_id', $userId)->where('id',$id)->first();
+    }
 }

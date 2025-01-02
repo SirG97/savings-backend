@@ -84,6 +84,19 @@ class CustomerService extends BasicCrudService
         return $this->read($this->customerRepository, 'customer', $id);
     }
 
+
+    /**
+     * Handle the read by branch id request.
+     *
+     * @param null|string|int $id
+     * @return array
+     */
+    public function handleReadByBranchId(int $branchId, null|string|int $id = null): ResponseData
+    {
+
+        return $this->readByBranchId($this->customerRepository, 'customer', $branchId, $id);
+    }
+
     private function generateAccountId(): string
     {
         $digits_needed=8;

@@ -147,10 +147,14 @@ class TransactionService extends BasicCrudService
 
     public function handleReadByTransactionType(TransactionType $transactionType, null|string|int $id = null): ResponseData
     {
-        return $this->readByTransactionType($this->transactionRepository, 'user', $transactionType, $id);
+        return $this->readByTransactionType($this->transactionRepository, 'transaction', $transactionType, $id);
     }
 
 
+    public function handleReadByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId, null|string|int $id = null): ResponseData
+    {
+        return $this->readByTransactionTypeAndBranchId($this->transactionRepository, 'transaction', $transactionType, $branchId, $id);
+    }
     private function generateReference(): string
     {
         $permitted_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';

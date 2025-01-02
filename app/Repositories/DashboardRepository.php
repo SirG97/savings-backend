@@ -17,21 +17,30 @@ class DashboardRepository implements DashboardRepositoryInterface
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getTotalUsers(): int
+    public function getTotalUsers(int $id = null): int
     {
+        if ($id !== null) {
+            return Customer::where('branch_id', $id)->count();
+        }
         return Customer::count();
     }
-    public function getTotalBalance(): int
+    public function getTotalBalance(int $id = null): int
     {
+        if ($id !== null) {
+            return Wallet::where('id', $id)->sum('balance');
+        }
         return Wallet::sum('balance');
     }
 
-    public function getTransactionSummaryByType(array $filters = []): array
+    public function getTransactionSummaryByType(array $filters = [], int $id = null): array
     {
         $query = Transaction::query();
 
         if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
             $query->whereBetween('created_at', [$filters['start_date'], $filters['end_date']]);
+        }
+        if($id !== null){
+            $query->where('branch_id', $id);
         }
 
         return $query->selectRaw('transaction_type, COUNT(*) as count, SUM(amount) as total_amount')

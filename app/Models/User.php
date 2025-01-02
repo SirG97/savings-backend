@@ -61,6 +61,7 @@ class User extends Authenticatable implements TwoFactorAuthenticatable
         'two_factor',
     ];
 
+    protected  $with = ['branch'];
     /**
      * The attributes that should be cast.
      *

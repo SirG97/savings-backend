@@ -153,7 +153,6 @@ class BasicCrudService
 
     protected function readByTransactionType(mixed $repository, string $index, TransactionType $transactionType, null|string|int $id = null): ResponseData
     {
-
         if (!isset($id)) {
             return responseData(true, Response::HTTP_OK, trans('crud.read'),
                 $repository->getByTransactionTypePaginated($transactionType, config("api.paginate.{$index}.pageSize")));
@@ -166,6 +165,40 @@ class BasicCrudService
 
         return responseData(true, Response::HTTP_OK, trans('crud.read'),
             $repository->getByTransactionTypeAndId($transactionType, $id));
+    }
+
+    protected function readByBranchId(mixed $repository, string $index, int $branchId, null|string|int $id = null): ResponseData
+    {
+
+        if (!isset($id)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByBranchIdPaginated($branchId, config("api.paginate.{$index}.pageSize")));
+        }
+
+        if ($id === 'all') {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByBranchId($branchId));
+        }
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $repository->getByBranchIdAndId($branchId, $id));
+    }
+
+    protected function readByTransactionTypeAndBranchId(mixed $repository, string $index, TransactionType $transactionType, int $branchId, null|string|int $id = null): ResponseData
+    {
+
+        if (!isset($id)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionTypeAndBranchIdPaginated($transactionType, $branchId, config("api.paginate.{$index}.pageSize")));
+        }
+
+        if ($id === 'all') {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionTypeAndBranchId($transactionType, $branchId));
+        }
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $repository->getByBranchIdAndId($branchId, $id));
     }
 
     /**

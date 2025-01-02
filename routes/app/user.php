@@ -62,6 +62,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::post('create', [CustomerController::class, 'create'])->name('createCustomer');
             Route::delete('delete', [CustomerController::class, 'delete'])->name('deleteCustomer');
             Route::get('read/{id?}', [CustomerController::class, 'read'])->name('readCustomer');
+            Route::get('branch_read/{branch_id}/{id?}',[CustomerController::class, 'readByBranchId'])->name('readCustomerByBranchId');
             Route::put('update', [CustomerController::class, 'update'])->name('updateCustomer');
         });
 
@@ -70,6 +71,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
 //            Route::delete('delete', [TransactionController::class, 'delete'])->name('deleteTransactions');
             Route::get('read/{id?}', [TransactionController::class, 'read'])->name('readTransaction');
             Route::get('type_read/{transaction_type}/{id?}',[TransactionController::class, 'readByTransactionType'])->name('readTransactionByTransactionType');
+            Route::get('branch_read/{transaction_type}/{branch_id}/{id?}',[TransactionController::class, 'readByTransactionTypeAndBranchId'])->name('readTransactionByTransactionTypeAndBranchId');
 //            Route::put('update', [TransactionController::class, 'update'])->name('updateTransactions');
 
         });

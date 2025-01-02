@@ -10,10 +10,10 @@ interface DashboardRepositoryInterface
     /**
      * Do something.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @param int $id
+     * @return int
      */
-    public function getTotalUsers(): int;
+    public function getTotalUsers(int $id = null): int;
 
     /**
      * Do something.
@@ -21,11 +21,11 @@ interface DashboardRepositoryInterface
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    public function getTotalBalance(): int;
+    public function getTotalBalance(int $id = null): int;
 
     /*
      *
      * @param array $filters
      */
-    public function getTransactionSummaryByType(array $filters = []): array;
+    public function getTransactionSummaryByType(array $filters = [], int $id = null): array;
 }
