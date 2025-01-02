@@ -25,7 +25,7 @@ class TransactionRepository implements TransactionRepositoryInterface
      * Fetch \App\Models\Transaction record by ID.
      *
      * @param int $id
-     * @return \App\Models\Transaction|null
+     * @return Transaction|null
      */
     public function getById(int $id): null|Transaction
     {
@@ -35,8 +35,20 @@ class TransactionRepository implements TransactionRepositoryInterface
     /**
      * Fetch \App\Models\Transaction record by ID.
      *
+     * @param int $branchId
+     * @param int $id
+     * @return Transaction|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|Transaction
+    {
+        return Transaction::where('branch_id',$branchId)->where('id',$id)->first();
+    }
+
+    /**
+     * Fetch \App\Models\Transaction record by ID.
+     *
      * @param string $reference
-     * @return \App\Models\Transaction|null
+     * @return Transaction|null
      */
     public function getByReference(string $reference): null|Transaction
     {
@@ -58,7 +70,7 @@ class TransactionRepository implements TransactionRepositoryInterface
      * Create \App\Models\Transaction record.
      *
      * @param array $arrayDetails
-     * @return \App\Models\Transaction
+     * @return Transaction
      */
     public function create(array $arrayDetails): Transaction
     {
@@ -70,7 +82,7 @@ class TransactionRepository implements TransactionRepositoryInterface
      *
      * @param array $matchDetails
      * @param array $arrayDetails
-     * @return \App\Models\Transaction
+     * @return Transaction
      */
     public function firstOrCreate(array $matchDetails, array $arrayDetails): Transaction
     {
@@ -115,7 +127,7 @@ class TransactionRepository implements TransactionRepositoryInterface
     /**
      * Fetch \App\Models\Transaction record by transaction type.
      *
-     * @param TransactionType $transactionType
+     * @param string $transactionType
      * @return EloquentCollection
      */
     public function getByTransactionType(TransactionType $transactionType): EloquentCollection
@@ -133,5 +145,29 @@ class TransactionRepository implements TransactionRepositoryInterface
     public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|Transaction
     {
         return Transaction::where('transaction_type', $transactionType)->where('id',$id)->first();
+    }
+
+    /**
+     * Fetch \App\Models\Transaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByTransactionTypeAndBranchIdPaginated(TransactionType $transactionType, int $branchId, int $pageSize): LengthAwarePaginator
+    {
+        return Transaction::where('transaction_type', $transactionType)->where('branch_id',$branchId)->paginate($pageSize);
+    }
+
+    /**
+     * Fetch \App\Models\Transaction record by transaction type and branch id.
+     *
+     * @param TransactionType $transactionType
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId,): EloquentCollection
+    {
+        return Transaction::where('transaction_type', $transactionType)->where('branch_id', $branchId)->get();
     }
 }

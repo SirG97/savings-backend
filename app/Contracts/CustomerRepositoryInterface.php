@@ -12,7 +12,7 @@ interface CustomerRepositoryInterface
     /**
      * Fetch all \App\Models\Customer records.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return EloquentCollection
      */
     public function getAll(): EloquentCollection;
 
@@ -20,7 +20,7 @@ interface CustomerRepositoryInterface
      * Fetch \App\Models\Customer record by ID.
      *
      * @param int $id
-     * @return \App\Models\Customer|null
+     * @return Customer|null
      */
     public function getById(int $id): null|Customer;
 
@@ -28,7 +28,7 @@ interface CustomerRepositoryInterface
      * Fetch \App\Models\Customer record by ID.
      *
      * @param string $accountId
-     * @return \App\Models\Customer|null
+     * @return Customer|null
      */
     public function getByAccountId(string $accountId): null|Customer;
 
@@ -44,7 +44,7 @@ interface CustomerRepositoryInterface
      * Create \App\Models\Customer record.
      *
      * @param array $arrayDetails
-     * @return \App\Models\Customer
+     * @return Customer
      */
     public function create(array $arrayDetails): Customer;
 
@@ -53,7 +53,7 @@ interface CustomerRepositoryInterface
      *
      * @param array $matchDetails
      * @param array $arrayDetails
-     * @return \App\Models\Customer
+     * @return Customer
      */
     public function firstOrCreate(array $matchDetails, array $arrayDetails): Customer;
 
@@ -70,7 +70,59 @@ interface CustomerRepositoryInterface
      * Update \App\Models\Customer record.
      *
      * @param int $pageSize
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function getPaginated(int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Update \App\Models\Customer record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Fetch all \App\Models\Customer records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection;
+
+    /**
+     * Fetch \App\Models\Customer record by ID.
+     *
+     * @param int $branchId
+     * @param int $id
+     * @return Customer|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|Customer;
+
+    /**
+     * Update \App\Models\Customer record.
+     *
+     * @param int $userId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByUserIdPaginated(int $userId, int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Fetch all \App\Models\Customer records.
+     *
+     * @param int $userId
+     * @return EloquentCollection
+     */
+    public function getByUserId(int $userId): EloquentCollection;
+
+    /**
+     * Fetch \App\Models\Customer record by ID.
+     *
+     * @param int $userId
+     * @param int $id
+     * @return Customer|null
+     */
+    public function getByUserIdAndId(int $userId, int $id): null|Customer;
 }

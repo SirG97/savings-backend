@@ -71,9 +71,29 @@ class Controller extends BaseController
 
     protected function _readByTransactionType(mixed $service, TransactionType $transactionType, null|string|int $id = null): JsonResponse
     {
+
         if ($data = $service->handleReadByTransactionType($transactionType, $id)) {
             return httpJsonResponse($data);
         };
+
+        return unknownErrorJsonResponse();
+    }
+
+    protected function _readByTransactionTypeAndBranchId(mixed $service, TransactionType $transactionType, int $branchId, null|string|int $id = null): JsonResponse
+    {
+
+        if ($data = $service->handleReadByTransactionTypeAndBranchId($transactionType, $branchId, $id)) {
+            return httpJsonResponse($data);
+        };
+
+        return unknownErrorJsonResponse();
+    }
+
+    protected function _readByBranchId(mixed $service, int $branchId, null|string|int $id = null): JsonResponse
+    {
+        if ($data = $service->handleReadByBranchId($branchId, $id)) {
+            return httpJsonResponse($data);
+        }
 
         return unknownErrorJsonResponse();
     }

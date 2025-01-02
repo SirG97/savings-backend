@@ -28,6 +28,14 @@ interface TransactionRepositoryInterface
     /**
      * Fetch \App\Models\Transaction record by ID.
      *
+     * @param int $id
+     * @return \App\Models\Transaction|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|Transaction;
+
+    /**
+     * Fetch \App\Models\Transaction record by ID.
+     *
      * @param string $reference
      * @return \App\Models\Transaction|null
      */
@@ -100,4 +108,24 @@ interface TransactionRepositoryInterface
      * @return Transaction|null
      */
     public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|Transaction;
+
+    /**
+     * Fetch \App\Models\Transaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByTransactionTypeAndBranchIdPaginated(TransactionType $transactionType, int $branchId, int $pageSize): LengthAwarePaginator;
+
+
+    /**
+     * Fetch \App\Models\Transaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId,): EloquentCollection;
 }
