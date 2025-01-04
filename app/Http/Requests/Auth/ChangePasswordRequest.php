@@ -18,17 +18,17 @@ class ChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'current_password' => ['required', 'string', new CurrentPassword],
+            'current_password' => ['required', 'string'],
             'password' => ['required', 'string', 'max:16',
                 Password::min(8)
                     ->letters()->mixedCase()
                     ->numbers()->symbols()
                     ->uncompromised(),
                 'confirmed',
-                new DisallowOldPassword(
-                    config('sanctumauthstarter.password.check_all', true),
-                    config('sanctumauthstarter.password.number', 4)
-                )
+//                new DisallowOldPassword(
+//                    config('sanctumauthstarter.password.check_all', ),
+//                    config('sanctumauthstarter.password.number', 4)
+//                )
             ],
         ];
     }

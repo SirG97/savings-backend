@@ -43,25 +43,28 @@ class TransactionService extends BasicCrudService
         $validated['balance_before'] = $wallet->balance;
 
         if($validated['transaction_type'] === TransactionType::DEPOSIT->value or
-            $validated['transaction_type'] === TransactionType::COMMISSION->value){
+            $validated['transaction_type'] === TransactionType::COMMISSION->value) {
 
             $validated['type'] = Type::CREDIT->value;
             $balance = $wallet->balance + (float)$validated['amount'];
             $validated['balance_after'] = $balance;
 
             //Update wallet
-            if($validated['payment_method'] === PaymentMethod::CASH->value){
+            if ($validated['payment_method'] === PaymentMethod::CASH->value) {
                 $walletData = [
                     'balance' => $balance,
                     'cash' => $wallet->cash + (float)$validated['amount'],
                 ];
 
-            }else{
+            } else {
                 $walletData = [
                     'balance' => $balance,
                     'bank' => $wallet->cash + (float)$validated['amount'],
                 ];
             }
+        }elseif($validated['transaction_type'] === TransactionType::TRANSFER->value){
+            $validated['type'] = Type::DEBIT->value;
+
         }else{
             $validated['type'] = Type::DEBIT->value;
             $balance = $wallet->balance - (float)$validated['amount'];

@@ -3,7 +3,12 @@
 namespace App\Services\Auth;
 
 use App\Actions\ResponseData;
+use App\Contracts\CustomerRepositoryInterface;
+use App\Contracts\UserRepositoryInterface;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Admin;
+use App\Models\Marketer;
+use App\Models\SuperAdmin;
 use App\Models\User;
 use Ikechukwukalu\Sanctumauthstarter\Events\TwoFactorLogin as TwoFactorLoginEvent;
 use Ikechukwukalu\Sanctumauthstarter\Models\TwoFactorLogin;
@@ -19,15 +24,55 @@ class LoginService {
 
     use Helpers;
 
+    private UserRepositoryInterface $userRepository;
+
+    public function __construct(CustomerRepositoryInterface $customerRepository,
+                                ThrottleRequestsService $throttleRequestsService,
+                                UserRepositoryInterface $userRepository
+    ) {
+
+        $this->throttleRequestsService = $throttleRequestsService;
+        $this->userRepository = $userRepository;
+    }
+
     public function handleLogin(LoginRequest $request): ?array
+    {
+        $validated = $request->validated();
+
+        if (!$this->verifyIsMarketerUser($validated)) {
+            return null;
+        }
+        return $this->completeLogin($request, $validated);
+    }
+    public function handleSuperAdminLogin(LoginRequest $request): ?array
+    {
+        $validated = $request->validated();
+
+        if (!$this->verifyIsSuperAdminUser($validated)) {
+            return null;
+        }
+        return $this->completeLogin($request, $validated);
+    }
+
+    public function handleAdminLogin(LoginRequest $request): ?array
+    {
+        $validated = $request->validated();
+
+        if (!$this->verifyIsAdminUser($validated)) {
+            return null;
+        }
+        return $this->completeLogin($request, $validated);
+    }
+
+    public function handleMarketerLogin(LoginRequest $request): ?array
     {
         $validated = $request->validated();
         $remember = isset($validated['remember_me']) ? true : false;
 
         if (!Auth::attempt([
-                'email' => $validated['email'],
-                'password' => $validated['password']
-            ], $remember))
+            'email' => $validated['email'],
+            'password' => $validated['password']
+        ], $remember))
         {
             return null;
         }
@@ -54,7 +99,7 @@ class LoginService {
         $email = $request->email;
         $salt = Crypt::decryptString($tfa_pass->salt);
         $password = str_replace($salt, "", Crypt::decryptString(
-                        $tfa_pass->password));
+            $tfa_pass->password));
         $validated = [
             'email' => $email,
             'password' => $password
@@ -118,7 +163,7 @@ class LoginService {
             ]);
 
         $twofactor_url = route('twofactor.required', ['uuid' => $uuid,
-                            'email' => $validated['email']]);
+            'email' => $validated['email']]);
 
         Auth::logout();
 
@@ -129,6 +174,75 @@ class LoginService {
         ];
         return responseData(true, Response::HTTP_OK,
             trans('sanctumauthstarter::auth.enter_2fa'), $data);
+    }
+
+    private function verifyIsSuperAdminUser(array $validated): bool
+    {
+        $user = $this->userRepository->getByEmail($validated['email'])->first();
+
+        if ($user === null) {
+            return false;
+        }
+
+        if ($user->model !== SuperAdmin::class) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function verifyIsAdminUser(array $validated): bool
+    {
+        $user = $this->userRepository->getByEmail($validated['email'])->first();
+
+        if ($user === null) {
+            return false;
+        }
+
+        if ($user->model !== Admin::class) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function verifyIsMarketerUser(array $validated): bool
+    {
+        $user = $this->userRepository->getByEmail($validated['email'])->first();
+
+        if ($user === null) {
+            return false;
+        }
+
+        if ($user->model !== Marketer::class) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function completeLogin($request, $validated): ResponseData|array|null
+    {
+        $validated = $request->validated();
+        $remember = isset($validated['remember_me']) ? true : false;
+
+        if (!Auth::attempt([
+            'email' => $validated['email'],
+            'password' => $validated['password']
+        ], $remember))
+        {
+            return null;
+        }
+
+        $this->throttleRequestsService->clearAttempts($request);
+
+        $user = Auth::user();
+
+        if ($user->two_factor) {
+            return $this->generateTwoFactorURL($request, $validated, $user);
+        }
+
+        return $this->finaliseLoginProcess($user, $validated);
     }
 
     private function finaliseLoginProcess(User $user, array $validated, bool $twoFactor = false): ?array
@@ -160,6 +274,9 @@ class LoginService {
         bool $used = false): ?TwoFactorLogin
     {
         return TwoFactorLogin::where('user_uuid', $uuid)
-                    ->where('used', $used)->first();
+            ->where('used', $used)->first();
     }
+
+
+
 }

@@ -52,6 +52,7 @@ class ChangePasswordController extends Controller
      */
     public function changePassword(ChangePasswordRequest $request): JsonResponse
     {
+
         if ($data = $this->changePasswordService->handlePasswordChange($request))
         {
             return $this->httpJsonResponse(

@@ -43,6 +43,7 @@ class UserService extends BasicCrudService
         $password = strtoupper(Str::random(8));
         $plainPassword = $password;
         $validated['password'] = Hash::make($password);
+        $validated['email_verified_at'] = now();
         $validated['default_password'] = '1';
 
         $response = $this->create($validated, $this->userRepository);
