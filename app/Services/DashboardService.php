@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Actions\ResponseData;
 use App\Contracts\DashboardRepositoryInterface;
 use App\Http\Requests\DashboardRequest;
+use App\Models\SuperAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardService extends BasicCrudService
 {
@@ -21,6 +23,9 @@ class DashboardService extends BasicCrudService
      */
     public function getDashboardData(DashboardRequest $request, $id): ResponseData
     {
+        if(!$id and Auth::user()->model !== SuperAdmin::class ){
+            $id = Auth::user()->branch_id;
+        }
         $totalUsers = $this->dashboardRepository->getTotalUsers($id);
         $balance = $this->dashboardRepository->getTotalBalance($id);
         $filters = [];

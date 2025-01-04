@@ -16,8 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('user')->middleware(['check.suspended'])->group(function () {
+    Route::post('change/password', [ChangePasswordController::class, 'changePassword'])->name('changePassword');
     Route::middleware(['check.email.verification', 'check.default.password', 'check.suspended'])->group(function () {
-        Route::post('change/password', [ChangePasswordController::class, 'changePassword'])->name('changePassword');
+
         Route::post('edit/profile', [ProfileController::class, 'editProfile'])->name('editProfile');
         Route::post('create-two-factor', [TwoFactorController::class, 'createTwoFactor'])->name('createTwoFactor');
         Route::post('confirm-two-factor', [TwoFactorController::class, 'confirmTwoFactor'])->name('confirmTwoFactor');

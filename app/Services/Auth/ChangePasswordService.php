@@ -13,10 +13,13 @@ class ChangePasswordService {
     public function handlePasswordChange(ChangePasswordRequest $request) : ?array
     {
         $validated = $request->validated();
+
         $user = Auth::user();
         $user->password = Hash::make($validated['password']);
+        $user->default_password = "0";
 
         if ($user->save()) {
+
             OldPassword::create([
                 'user_id' => $user->id,
                 'password' => Hash::make($validated['password'])
