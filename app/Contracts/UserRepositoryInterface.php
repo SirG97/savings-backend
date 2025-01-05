@@ -118,5 +118,29 @@ interface UserRepositoryInterface
      */
     public function updateOrCreate(array $matchDetails, array $arrayDetails): User;
 
+    /**
+     * Update \App\Models\User record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator;
 
+    /**
+     * Fetch all \App\Models\User records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection;
+
+    /**
+     * Fetch \App\Models\User record by ID.
+     *
+     * @param int $branchId
+     * @param int $id
+     * @return User|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|User;
 }

@@ -128,4 +128,22 @@ interface TransactionRepositoryInterface
      * @return EloquentCollection
      */
     public function getByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId,): EloquentCollection;
+
+    /**
+     * Update \App\Models\Transaction record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Fetch all \App\Models\Transaction records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection;
+
 }

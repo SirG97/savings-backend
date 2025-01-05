@@ -29,6 +29,7 @@ class CustomerCreateRequest extends BaseFormRequest
             'branch_id' => [
                 Rule::requiredIf(auth()->user()?->model === SuperAdmin::class),
                 'integer', // Assuming branch_id should be an integer
+                'nullable',
                 'exists:branches,id', // Ensures branch_id exists in the branches table
             ],
             'first_name' => 'required|string|max:200',

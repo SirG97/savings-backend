@@ -98,4 +98,40 @@ class CustomerWalletRepository implements CustomerWalletRepositoryInterface
     {
         return CustomerWallet::paginate($pageSize);
     }
+
+
+    /**
+     * Update \App\Models\CustomerWallet record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator
+    {
+        return CustomerWallet::where('branch_id', $branchId)->paginate(pageSize($pageSize));
+    }
+
+    /**
+     * Fetch all \App\Models\CustomerWallet records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection
+    {
+        return CustomerWallet::where('branch_id', $branchId)->get();
+    }
+
+    /**
+     * Fetch \App\Models\CustomerWallet record by ID.
+     *
+     * @param int $branchId
+     * @param int $id
+     * @return CustomerWallet|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|CustomerWallet
+    {
+        return CustomerWallet::where('branch_id', $branchId)->where('id', $id)->first();
+    }
 }

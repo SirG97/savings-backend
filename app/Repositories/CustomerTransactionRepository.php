@@ -127,4 +127,40 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
     {
         return CustomerTransaction::where('transaction_type', $transactionType)->where('id',$id)->first();
     }
+
+
+    /**
+     * Update \App\Models\CustomerTransaction record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator
+    {
+        return CustomerTransaction::where('branch_id', $branchId)->paginate(pageSize($pageSize));
+    }
+
+    /**
+     * Fetch all \App\Models\CustomerTransaction records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection
+    {
+        return CustomerTransaction::where('branch_id', $branchId)->get();
+    }
+
+    /**
+     * Fetch \App\Models\CustomerTransaction record by ID.
+     *
+     * @param int $branchId
+     * @param int $id
+     * @return CustomerTransaction|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|CustomerTransaction
+    {
+        return CustomerTransaction::where('branch_id', $branchId)->where('id', $id)->first();
+    }
 }

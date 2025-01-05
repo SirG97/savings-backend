@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "16ac59c5-23f3-4e73-97c6-28f3be04dd6c",
+        "_postman_id": "92d77399-1b00-49af-bacf-4064e824353d",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -418,6 +418,56 @@
                             ]
                         },
                         {
+                            "name": "Read user by branch id.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/users\/branch_read\/:branch_id\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/users\/branch_read\/:branch_id\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "branch_id",
+                                            "key": "branch_id",
+                                            "value": "deleniti",
+                                            "description": "The ID of the branch."
+                                        },
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the user table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
                             "name": "Update user.",
                             "request": {
                                 "url": {
@@ -443,7 +493,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"id\":\"1\",\"first_name\":\"ytrmvy\",\"middle_name\":\"vw\",\"last_name\":\"xhybambjnijvlstvny\",\"email\":\"darrin35@example.org\",\"phone\":\"aeluiahwytrrbyant\",\"performed_action\":\"approved\",\"reason\":\"The image is not clear\"}"
+                                    "raw": "{\"id\":\"1\",\"first_name\":\"pfrtqinmgotefoqbgxgzn\",\"middle_name\":\"voycbjeeqhgaectnarqnlbz\",\"last_name\":\"toauqlkyyurvphh\",\"email\":\"rippin.milan@example.net\",\"phone\":\"rtmogiwgwrribvculaljd\",\"performed_action\":\"approved\",\"reason\":\"The image is not clear\"}"
                                 },
                                 "description": ""
                             },
@@ -543,6 +593,180 @@
                                     "name": ""
                                 }
                             ]
+                        },
+                        {
+                            "name": "Read transaction by transaction type.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/transaction\/type_read\/:transaction_type\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/transaction\/type_read\/:transaction_type\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "transaction_type",
+                                            "key": "transaction_type",
+                                            "value": "ab",
+                                            "description": ""
+                                        },
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        },
+                                        {
+                                            "id": "transactionType",
+                                            "key": "transactionType",
+                                            "value": "deposit",
+                                            "description": "The transactionType of the record.Can be deposit, withdrawal, etc"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the user table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read transaction by transaction type and branchId.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/transaction\/branch_read\/:transaction_type\/:branch_id\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/transaction\/branch_read\/:transaction_type\/:branch_id\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "transaction_type",
+                                            "key": "transaction_type",
+                                            "value": "nemo",
+                                            "description": ""
+                                        },
+                                        {
+                                            "id": "branch_id",
+                                            "key": "branch_id",
+                                            "value": "consequatur",
+                                            "description": "The ID of the branch."
+                                        },
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        },
+                                        {
+                                            "id": "transactionType",
+                                            "key": "transactionType",
+                                            "value": "deposit",
+                                            "description": "The transactionType of the record.Can be deposit, withdrawal, etc"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the user table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Read transaction by transaction type.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer_transaction\/type_read\/:transaction_type\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer_transaction\/type_read\/:transaction_type\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "transaction_type",
+                                            "key": "transaction_type",
+                                            "value": "necessitatibus",
+                                            "description": ""
+                                        },
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        },
+                                        {
+                                            "id": "transactionType",
+                                            "key": "transactionType",
+                                            "value": "deposit",
+                                            "description": "The transactionType of the record.Can be deposit, withdrawal, etc"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the user table.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
                         }
                     ]
                 },
@@ -562,7 +786,7 @@
                                         {
                                             "id": "id",
                                             "key": "id",
-                                            "value": "qui",
+                                            "value": "esse",
                                             "description": "The ID of the ."
                                         }
                                     ]
@@ -893,7 +1117,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"branch_id\":\"1\",\"first_name\":\"John\",\"surname\":\"Doe\",\"middle_name\":\"quo\",\"dob\":\"2024-12-31T05:24:15\",\"sex\":\"female\",\"resident_state\":\"officia\",\"resident_lga\":\"vel\",\"resident_address\":\"enim\",\"occupation\":\"architecto\",\"office_address\":\"beatae\",\"state\":\"aut\",\"lga\":\"perspiciatis\",\"hometown\":\"modi\",\"phone\":\"atque\",\"next_of_kin\":\"deleniti\",\"relationship\":\"laboriosam\",\"nok_phone\":\"itaque\",\"acc_no\":\"qui\",\"group\":\"excepturi\",\"sb_card_no_from\":\"placeat\",\"sb_card_no_to\":\"aspernatur\",\"sb\":\"autem\",\"initial_unit\":\"velit\",\"bank_name\":\"recusandae\",\"bank_code\":\"pariatur\",\"account_name\":\"commodi\",\"account_number\":\"omnis\",\"daily_amount\":\"repellat\"}"
+                                    "raw": "{\"branch_id\":\"1\",\"first_name\":\"John\",\"surname\":\"Doe\",\"middle_name\":\"rerum\",\"dob\":\"2025-01-05T13:00:35\",\"sex\":\"female\",\"resident_state\":\"sit\",\"resident_lga\":\"qui\",\"resident_address\":\"dolor\",\"occupation\":\"fugiat\",\"office_address\":\"rerum\",\"state\":\"officiis\",\"lga\":\"blanditiis\",\"hometown\":\"voluptates\",\"phone\":\"nisi\",\"next_of_kin\":\"commodi\",\"relationship\":\"dolor\",\"nok_phone\":\"quia\",\"acc_no\":\"libero\",\"group\":\"ut\",\"sb_card_no_from\":\"autem\",\"sb_card_no_to\":\"dicta\",\"sb\":\"iste\",\"initial_unit\":\"aut\",\"bank_name\":\"consequuntur\",\"bank_code\":\"cum\",\"account_name\":\"et\",\"account_number\":\"alias\",\"daily_amount\":\"cupiditate\"}"
                                 },
                                 "description": ""
                             },
@@ -990,6 +1214,56 @@
                             ]
                         },
                         {
+                            "name": "Read Customer by branch id.",
+                            "request": {
+                                "url": {
+                                    "host": "{{baseUrl}}",
+                                    "path": "api\/user\/customer\/branch_read\/:branch_id\/:id",
+                                    "query": [],
+                                    "raw": "{{baseUrl}}\/api\/user\/customer\/branch_read\/:branch_id\/:id",
+                                    "variable": [
+                                        {
+                                            "id": "branch_id",
+                                            "key": "branch_id",
+                                            "value": "ducimus",
+                                            "description": "The ID of the branch."
+                                        },
+                                        {
+                                            "id": "id",
+                                            "key": "id",
+                                            "value": "all",
+                                            "description": "The ID of the record."
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {Your key}"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application\/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application\/json"
+                                    }
+                                ],
+                                "body": null,
+                                "description": "Fetch a record or records from the Customers table by branch id.\nThe <b>id<\/b> param is optional but can either be a <b>string|null|int<\/b>\n\nIf the <b>id<\/b> has a <b>null<\/b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize<\/b>\nconfig.\n\nIf the <b>id<\/b> is a <b>string<\/b> value it can only be set as <b>'all'<\/b>.\nThis will return all the records without being paginated.\n\nIf the <b>id<\/b> value is an <b>integer<\/b> it will try to fetch a single\nmatching record."
+                            },
+                            "response": [
+                                {
+                                    "header": [],
+                                    "code": 200,
+                                    "body": "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}",
+                                    "name": ""
+                                }
+                            ]
+                        },
+                        {
                             "name": "Update Customer.",
                             "request": {
                                 "url": {
@@ -1015,7 +1289,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"id\":\"1\",\"first_name\":\"vdzrpgkuvhhysuztzqqalb\",\"surname\":\"agtwiswlqvofsgxwyfsud\",\"middle_name\":\"quidem\",\"dob\":\"2024-12-31T05:24:15\",\"sex\":\"female\",\"resident_state\":\"exercitationem\",\"resident_lga\":\"est\",\"resident_address\":\"laboriosam\",\"occupation\":\"ipsa\",\"office_address\":\"quibusdam\",\"state\":\"voluptatem\",\"lga\":\"sint\",\"hometown\":\"debitis\",\"phone\":\"yfjjgxpc\",\"next_of_kin\":\"a\",\"relationship\":\"aspernatur\",\"nok_phone\":\"delectus\",\"acc_no\":\"asperiores\",\"branch\":\"explicabo\",\"group\":\"alias\",\"sb_card_no_from\":\"enim\",\"sb_card_no_to\":\"voluptatibus\",\"sb\":\"et\",\"initial_unit\":\"ipsa\",\"bank_name\":\"at\",\"bank_code\":\"et\",\"account_name\":\"aut\",\"account_number\":\"alias\",\"daily_amount\":\"et\",\"name\":\"John\"}"
+                                    "raw": "{\"id\":\"1\",\"first_name\":\"ctrnc\",\"surname\":\"furmmkystoasygrzjzx\",\"middle_name\":\"non\",\"dob\":\"2025-01-05T13:00:35\",\"sex\":\"female\",\"resident_state\":\"tenetur\",\"resident_lga\":\"fuga\",\"resident_address\":\"et\",\"occupation\":\"voluptatem\",\"office_address\":\"pariatur\",\"state\":\"officia\",\"lga\":\"quas\",\"hometown\":\"aut\",\"phone\":\"bipsztdex\",\"next_of_kin\":\"accusamus\",\"relationship\":\"quae\",\"nok_phone\":\"architecto\",\"acc_no\":\"ipsa\",\"branch\":\"rerum\",\"group\":\"consequuntur\",\"sb_card_no_from\":\"voluptatum\",\"sb_card_no_to\":\"nostrum\",\"sb\":\"eaque\",\"initial_unit\":\"eos\",\"bank_name\":\"fuga\",\"bank_code\":\"unde\",\"account_name\":\"consequatur\",\"account_number\":\"totam\",\"daily_amount\":\"repellendus\",\"name\":\"John\"}"
                                 },
                                 "description": ""
                             },
@@ -1060,7 +1334,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"branch_id\":\"1\",\"customer_id\":\"1\",\"transaction_type\":\"deposit\",\"amount\":\"1000\",\"payment_method\":\"cash\",\"description\":\"Deposit from Musa\",\"date\":\"01-01-1980\",\"remark\":\"aw\"}"
+                                    "raw": "{\"customer_id\":\"1\",\"transaction_type\":\"deposit\",\"amount\":\"1000\",\"payment_method\":\"cash\",\"description\":\"Deposit from Musa\",\"date\":\"01-01-1980\",\"remark\":\"pmuke\",\"branch_id\":\"1\"}"
                                 },
                                 "description": ""
                             },
@@ -1149,7 +1423,7 @@
                                 ],
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\"branch_id\":\"1\",\"customer_id\":\"1\",\"transaction_type\":\"deposit\",\"amount\":\"1000\",\"payment_method\":\"cash\",\"description\":\"Deposit from Musa\",\"date\":\"01-01-1980\",\"remark\":\"bhpjhwuu\"}"
+                                    "raw": "{\"customer_id\":\"1\",\"transaction_type\":\"deposit\",\"amount\":\"1000\",\"payment_method\":\"cash\",\"description\":\"Deposit from Musa\",\"date\":\"01-01-1980\",\"remark\":\"vy\",\"branch_id\":\"1\"}"
                                 },
                                 "description": ""
                             },
@@ -1351,7 +1625,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_pin\":\"accusamus\",\"pin\":\"mc\"}"
+                            "raw": "{\"current_pin\":\"eius\",\"pin\":\"f\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1372,7 +1646,7 @@
                                 {
                                     "id": "uuid",
                                     "key": "uuid",
-                                    "value": "224fc953-7a6a-3024-b39c-0e808b20e68d",
+                                    "value": "9d7c9115-3d28-3f98-b645-d323f6099056",
                                     "description": ""
                                 }
                             ]
@@ -1520,7 +1794,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"psnpcfvkunpsjpdabzujygump\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
+                            "raw": "{\"name\":\"hmspdknemighixjyapqnalfd\",\"email\":\"johndoe@xyz.com\",\"password\":\"Ex@m122p$%l6E\",\"first_name\":\"John Doe\",\"last_name\":\"John Doe\",\"password_confirmation\":\"Ex@m122p$%l6E\"}"
                         },
                         "description": "Within the config file, you are required to determine whether a\nuser should recieve welcome and verification emails after\nregistration by setting <b>registration.notify.welcome<\/b> to <b>TRUE<\/b> and\n<b>registration.notify.verify<\/b> to <b>TRUE<\/b> respectively.\nYou can also set <b>registration.autologin<\/b> to <b>TRUE<\/b>.",
                         "auth": {
@@ -1544,6 +1818,90 @@
                             "path": "api\/auth\/login",
                             "query": [],
                             "raw": "{{baseUrl}}\/api\/auth\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"admin@divineglobalgrowth.com\",\"password\":\"password\",\"remember_me\":1}"
+                        },
+                        "description": "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change<\/b> to <b>TRUE<\/b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token<\/small> after login for User authentication",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "SuperAdmin form login.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/admin\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/admin\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {Your key}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"admin@divineglobalgrowth.com\",\"password\":\"password\",\"remember_me\":1}"
+                        },
+                        "description": "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change<\/b> to <b>TRUE<\/b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token<\/small> after login for User authentication",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin form login.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/manager\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/manager\/login"
                         },
                         "method": "POST",
                         "header": [

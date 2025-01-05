@@ -322,6 +322,45 @@ paths:
           present:
             summary: 'When the value is present'
             value: all
+  '/api/user/users/branch_read/{branch_id}/{id}':
+    get:
+      summary: 'Read user by branch id.'
+      operationId: readUserByBranchId
+      description: "Fetch a record or records from the user table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: branch_id
+        description: 'The ID of the branch.'
+        example: deleniti
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
   /api/user/users/update:
     put:
       summary: 'Update user.'
@@ -353,27 +392,27 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: ytrmvy
+                  example: pfrtqinmgotefoqbgxgzn
                   nullable: false
                 middle_name:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: vw
+                  example: voycbjeeqhgaectnarqnlbz
                   nullable: true
                 last_name:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: xhybambjnijvlstvny
+                  example: toauqlkyyurvphh
                   nullable: false
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: darrin35@example.org
+                  example: rippin.milan@example.net
                   nullable: false
                 phone:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: aeluiahwytrrbyant
+                  example: rtmogiwgwrribvculaljd
                   nullable: false
                 performed_action:
                   type: string
@@ -454,7 +493,7 @@ paths:
             value: ''
           present:
             summary: 'When the value is present'
-            value: qui
+            value: esse
   /api/user/branch/create:
     post:
       summary: 'Create Branch.'
@@ -700,12 +739,12 @@ paths:
                 middle_name:
                   type: string
                   description: ''
-                  example: quo
+                  example: rerum
                   nullable: true
                 dob:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2024-12-31T05:24:15'
+                  example: '2025-01-05T13:00:35'
                   nullable: true
                 sex:
                   type: string
@@ -718,117 +757,117 @@ paths:
                 resident_state:
                   type: string
                   description: ''
-                  example: officia
+                  example: sit
                   nullable: true
                 resident_lga:
                   type: string
                   description: ''
-                  example: vel
+                  example: qui
                   nullable: true
                 resident_address:
                   type: string
                   description: ''
-                  example: enim
+                  example: dolor
                   nullable: true
                 occupation:
                   type: string
                   description: ''
-                  example: architecto
+                  example: fugiat
                   nullable: true
                 office_address:
                   type: string
                   description: ''
-                  example: beatae
+                  example: rerum
                   nullable: true
                 state:
                   type: string
                   description: ''
-                  example: aut
+                  example: officiis
                   nullable: true
                 lga:
                   type: string
                   description: ''
-                  example: perspiciatis
+                  example: blanditiis
                   nullable: true
                 hometown:
                   type: string
                   description: ''
-                  example: modi
+                  example: voluptates
                   nullable: true
                 phone:
                   type: string
                   description: ''
-                  example: atque
+                  example: nisi
                   nullable: false
                 next_of_kin:
                   type: string
                   description: ''
-                  example: deleniti
+                  example: commodi
                   nullable: true
                 relationship:
                   type: string
                   description: ''
-                  example: laboriosam
+                  example: dolor
                   nullable: true
                 nok_phone:
                   type: string
                   description: ''
-                  example: itaque
+                  example: quia
                   nullable: true
                 acc_no:
                   type: string
                   description: ''
-                  example: qui
+                  example: libero
                   nullable: true
                 group:
                   type: string
                   description: ''
-                  example: excepturi
+                  example: ut
                   nullable: true
                 sb_card_no_from:
                   type: string
                   description: ''
-                  example: placeat
+                  example: autem
                   nullable: true
                 sb_card_no_to:
                   type: string
                   description: ''
-                  example: aspernatur
+                  example: dicta
                   nullable: true
                 sb:
                   type: string
                   description: ''
-                  example: autem
+                  example: iste
                   nullable: true
                 initial_unit:
                   type: string
                   description: ''
-                  example: velit
+                  example: aut
                   nullable: true
                 bank_name:
                   type: string
                   description: ''
-                  example: recusandae
+                  example: consequuntur
                   nullable: true
                 bank_code:
                   type: string
                   description: ''
-                  example: pariatur
+                  example: cum
                   nullable: true
                 account_name:
                   type: string
                   description: ''
-                  example: commodi
+                  example: et
                   nullable: true
                 account_number:
                   type: string
                   description: ''
-                  example: omnis
+                  example: alias
                   nullable: true
                 daily_amount:
                   type: string
                   description: ''
-                  example: repellat
+                  example: cupiditate
                   nullable: true
               required:
                 - first_name
@@ -895,6 +934,45 @@ paths:
           present:
             summary: 'When the value is present'
             value: all
+  '/api/user/customer/branch_read/{branch_id}/{id}':
+    get:
+      summary: 'Read Customer by branch id.'
+      operationId: readCustomerByBranchId
+      description: "Fetch a record or records from the Customers table by branch id.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user_address.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: branch_id
+        description: 'The ID of the branch.'
+        example: ducimus
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
   /api/user/customer/update:
     put:
       summary: 'Update Customer.'
@@ -926,22 +1004,22 @@ paths:
                 first_name:
                   type: string
                   description: 'Must not be greater than 200 characters.'
-                  example: vdzrpgkuvhhysuztzqqalb
+                  example: ctrnc
                   nullable: false
                 surname:
                   type: string
                   description: 'Must not be greater than 200 characters.'
-                  example: agtwiswlqvofsgxwyfsud
+                  example: furmmkystoasygrzjzx
                   nullable: false
                 middle_name:
                   type: string
                   description: ''
-                  example: quidem
+                  example: non
                   nullable: false
                 dob:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2024-12-31T05:24:15'
+                  example: '2025-01-05T13:00:35'
                   nullable: false
                 sex:
                   type: string
@@ -954,122 +1032,122 @@ paths:
                 resident_state:
                   type: string
                   description: ''
-                  example: exercitationem
+                  example: tenetur
                   nullable: false
                 resident_lga:
                   type: string
                   description: ''
-                  example: est
+                  example: fuga
                   nullable: false
                 resident_address:
                   type: string
                   description: ''
-                  example: laboriosam
+                  example: et
                   nullable: false
                 occupation:
                   type: string
                   description: ''
-                  example: ipsa
+                  example: voluptatem
                   nullable: false
                 office_address:
                   type: string
                   description: ''
-                  example: quibusdam
+                  example: pariatur
                   nullable: false
                 state:
                   type: string
                   description: ''
-                  example: voluptatem
+                  example: officia
                   nullable: false
                 lga:
                   type: string
                   description: ''
-                  example: sint
+                  example: quas
                   nullable: false
                 hometown:
                   type: string
                   description: ''
-                  example: debitis
+                  example: aut
                   nullable: false
                 phone:
                   type: string
                   description: 'Must not be greater than 13 characters.'
-                  example: yfjjgxpc
+                  example: bipsztdex
                   nullable: false
                 next_of_kin:
                   type: string
                   description: ''
-                  example: a
+                  example: accusamus
                   nullable: false
                 relationship:
                   type: string
                   description: ''
-                  example: aspernatur
+                  example: quae
                   nullable: false
                 nok_phone:
                   type: string
                   description: ''
-                  example: delectus
+                  example: architecto
                   nullable: false
                 acc_no:
                   type: string
                   description: ''
-                  example: asperiores
+                  example: ipsa
                   nullable: false
                 branch:
                   type: string
                   description: ''
-                  example: explicabo
+                  example: rerum
                   nullable: false
                 group:
                   type: string
                   description: ''
-                  example: alias
+                  example: consequuntur
                   nullable: false
                 sb_card_no_from:
                   type: string
                   description: ''
-                  example: enim
+                  example: voluptatum
                   nullable: false
                 sb_card_no_to:
                   type: string
                   description: ''
-                  example: voluptatibus
+                  example: nostrum
                   nullable: false
                 sb:
                   type: string
                   description: ''
-                  example: et
+                  example: eaque
                   nullable: false
                 initial_unit:
                   type: string
                   description: ''
-                  example: ipsa
+                  example: eos
                   nullable: false
                 bank_name:
                   type: string
                   description: ''
-                  example: at
+                  example: fuga
                   nullable: false
                 bank_code:
                   type: string
                   description: ''
-                  example: et
+                  example: unde
                   nullable: false
                 account_name:
                   type: string
                   description: ''
-                  example: aut
+                  example: consequatur
                   nullable: false
                 account_number:
                   type: string
                   description: ''
-                  example: alias
+                  example: totam
                   nullable: false
                 daily_amount:
                   type: string
                   description: ''
-                  example: et
+                  example: repellendus
                   nullable: false
                 name:
                   type: string
@@ -1102,11 +1180,6 @@ paths:
             schema:
               type: object
               properties:
-                branch_id:
-                  type: string
-                  description: 'The branch_id of the Transaction. it is required if it is the admin making the request.'
-                  example: '1'
-                  nullable: false
                 customer_id:
                   type: string
                   description: 'The customer_id of the Transaction. .'
@@ -1140,8 +1213,13 @@ paths:
                 remark:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: aw
+                  example: pmuke
                   nullable: true
+                branch_id:
+                  type: string
+                  description: 'The branch_id of the Transaction. it is required if it is the admin making the request.'
+                  example: '1'
+                  nullable: false
               required:
                 - customer_id
                 - transaction_type
@@ -1179,6 +1257,120 @@ paths:
           present:
             summary: 'When the value is present'
             value: all
+  '/api/user/transaction/type_read/{transaction_type}/{id}':
+    get:
+      summary: 'Read transaction by transaction type.'
+      operationId: readTransactionByTransactionType
+      description: "Fetch a record or records from the user table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: transaction_type
+        description: ''
+        example: ab
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
+      -
+        in: path
+        name: transactionType
+        description: 'Optional parameter. The transactionType of the record.Can be deposit, withdrawal, etc'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: deposit
+  '/api/user/transaction/branch_read/{transaction_type}/{branch_id}/{id}':
+    get:
+      summary: 'Read transaction by transaction type and branchId.'
+      operationId: readTransactionByTransactionTypeAndBranchId
+      description: "Fetch a record or records from the user table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: transaction_type
+        description: ''
+        example: nemo
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: branch_id
+        description: 'The ID of the branch.'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
+      -
+        in: path
+        name: transactionType
+        description: 'Optional parameter. The transactionType of the record.Can be deposit, withdrawal, etc'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: deposit
   /api/user/customer_transaction/create:
     post:
       summary: 'Create CustomerTransaction.'
@@ -1202,11 +1394,6 @@ paths:
             schema:
               type: object
               properties:
-                branch_id:
-                  type: string
-                  description: 'The branch_id of the CustomerTransaction. it is required if it is the admin making the request.'
-                  example: '1'
-                  nullable: false
                 customer_id:
                   type: string
                   description: 'The customer_id of the CustomerTransaction. .'
@@ -1236,12 +1423,17 @@ paths:
                   type: string
                   description: 'The date of the CustomerTransaction.'
                   example: 01-01-1980
-                  nullable: false
+                  nullable: true
                 remark:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: bhpjhwuu
+                  example: vy
                   nullable: true
+                branch_id:
+                  type: string
+                  description: 'The branch_id of the CustomerTransaction. it is required if it is the admin making the request.'
+                  example: '1'
+                  nullable: false
               required:
                 - customer_id
                 - transaction_type
@@ -1279,6 +1471,59 @@ paths:
           present:
             summary: 'When the value is present'
             value: all
+  '/api/user/customer_transaction/type_read/{transaction_type}/{id}':
+    get:
+      summary: 'Read transaction by transaction type.'
+      operationId: readTransactionByTransactionType
+      description: "Fetch a record or records from the user table.\nThe <b>id</b> param is optional but can either be a <b>string|null|int</b>\n\nIf the <b>id</b> has a <b>null</b> value the records will be paginated.\nThe returned page size is be set from <b>api.paginate.user.pageSize</b>\nconfig.\n\nIf the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.\nThis will return all the records by user model without being paginated.\n\nIf the <b>id</b> value is an <b>integer</b> it will try to fetch a single\nmatching record."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"success\": true,\n\"status_code\": 200,\n\"message\": string\n\"data\": {}\n}"
+      tags:
+        - 'Auth APIs'
+    parameters:
+      -
+        in: path
+        name: transaction_type
+        description: ''
+        example: necessitatibus
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. The ID of the record.'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: all
+      -
+        in: path
+        name: transactionType
+        description: 'Optional parameter. The transactionType of the record.Can be deposit, withdrawal, etc'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: deposit
   /api/auth/logout:
     post:
       summary: 'User logout.'
@@ -1357,12 +1602,12 @@ paths:
                 current_pin:
                   type: string
                   description: ''
-                  example: accusamus
+                  example: eius
                   nullable: false
                 pin:
                   type: string
                   description: 'Must not be greater than 4 characters.'
-                  example: mc
+                  example: f
                   nullable: false
               required:
                 - current_pin
@@ -1383,7 +1628,7 @@ paths:
         in: path
         name: uuid
         description: ''
-        example: 224fc953-7a6a-3024-b39c-0e808b20e68d
+        example: 9d7c9115-3d28-3f98-b645-d323f6099056
         required: true
         schema:
           type: string
@@ -1457,7 +1702,7 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: psnpcfvkunpsjpdabzujygump
+                  example: hmspdknemighixjyapqnalfd
                   nullable: false
                 email:
                   type: string
@@ -1496,6 +1741,90 @@ paths:
     post:
       summary: 'User form login.'
       operationId: userFormLogin
+      description: "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change</b> to <b>TRUE</b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token</small> after login for User authentication"
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}"
+      tags:
+        - 'No Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: admin@divineglobalgrowth.com
+                  nullable: false
+                password:
+                  type: string
+                  description: 'The password for user authentication must contain uppercase, lowercase, symbols, numbers.'
+                  example: password
+                  nullable: false
+                remember_me:
+                  type: integer
+                  description: 'Could be set to 0 or 1.'
+                  example: 1
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  /api/auth/admin/login:
+    post:
+      summary: 'SuperAdmin form login.'
+      operationId: superAdminFormLogin
+      description: "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change</b> to <b>TRUE</b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token</small> after login for User authentication"
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"status\": \"success\",\n\"status_code\": 200,\n\"data\": {\n     \"message\": string\n     \"access_token\": string\n }\n}"
+      tags:
+        - 'No Auth APIs'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: admin@divineglobalgrowth.com
+                  nullable: false
+                password:
+                  type: string
+                  description: 'The password for user authentication must contain uppercase, lowercase, symbols, numbers.'
+                  example: password
+                  nullable: false
+                remember_me:
+                  type: integer
+                  description: 'Could be set to 0 or 1.'
+                  example: 1
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  /api/auth/manager/login:
+    post:
+      summary: 'Admin form login.'
+      operationId: adminFormLogin
       description: "You can choose to notify a User whenever there has been a Login by setting\n<b>password.notify.change</b> to <b>TRUE</b> Within the config file,\n\nMake sure to retrieve <small class=\"badge badge-blue\">access_token</small> after login for User authentication"
       parameters: []
       responses:
