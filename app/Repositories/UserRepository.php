@@ -176,4 +176,40 @@ class UserRepository implements UserRepositoryInterface
         return User::updateOrCreate($matchDetails, $arrayDetails);
     }
 
+
+    /**
+     * Update \App\Models\User record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator
+    {
+        return User::where('branch_id', $branchId)->paginate(pageSize($pageSize));
+    }
+
+    /**
+     * Fetch all \App\Models\User records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection
+    {
+        return User::where('branch_id', $branchId)->get();
+    }
+
+    /**
+     * Fetch \App\Models\User record by ID.
+     *
+     * @param int $branchId
+     * @param int $id
+     * @return User|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|User
+    {
+        return User::where('branch_id', $branchId)->where('id', $id)->first();
+    }
+
 }

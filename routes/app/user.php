@@ -32,6 +32,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::delete('delete', [UserController::class, 'delete'])->name('deleteUser');
             Route::get('read/{id?}', [UserController::class, 'read'])->name('readUser');
             Route::get('model_read/{model}/{id?}', [UserController::class, 'readByUserModel'])->name('readByUserModel');
+            Route::get('branch_read/{branch_id}/{id?}', [UserController::class, 'readByBranchId'])->name('readByBranchId');
             Route::put('update', [UserController::class, 'update'])->name('updateUser');
             Route::put('suspend', [UserController::class, 'suspend'])->name('suspendUser');
         });

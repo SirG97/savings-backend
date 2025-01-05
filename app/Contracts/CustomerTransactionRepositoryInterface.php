@@ -100,4 +100,30 @@ interface CustomerTransactionRepositoryInterface
      * @return CustomerTransaction|null
      */
     public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|CustomerTransaction;
+
+    /**
+     * Update \App\Models\CustomerTransaction record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Fetch all \App\Models\CustomerTransaction records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection;
+
+    /**
+     * Fetch \App\Models\CustomerTransaction record by ID.
+     *
+     * @param int $branchId
+     * @param int $id
+     * @return CustomerTransaction|null
+     */
+    public function getByBranchIdAndId(int $branchId, int $id): null|CustomerTransaction;
 }

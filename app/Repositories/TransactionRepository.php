@@ -170,4 +170,30 @@ class TransactionRepository implements TransactionRepositoryInterface
     {
         return Transaction::where('transaction_type', $transactionType)->where('branch_id', $branchId)->get();
     }
+
+
+    /**
+     * Update \App\Models\Transaction record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator
+    {
+        return Transaction::where('branch_id', $branchId)->paginate(pageSize($pageSize));
+    }
+
+    /**
+     * Fetch all \App\Models\Transaction records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchId(int $branchId): EloquentCollection
+    {
+        return Transaction::where('branch_id', $branchId)->get();
+    }
+
+
 }

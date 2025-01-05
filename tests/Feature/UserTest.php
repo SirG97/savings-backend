@@ -392,4 +392,36 @@ class UserTest extends TestCase
         $this->assertFalse($responseArray['success']);
     }
 
+    public function testReadUserByBranchId(): void
+    {
+        $user = User::factory()->create();
+        $branch1 = Branch::factory()->create();
+        $branch2 = Branch::factory()->create();
+
+        $this->actingAs($user);
+
+        $users1 = User::factory(3)->create([
+            'model' => Marketer::class,
+            'branch_id' => $branch1->id,
+        ]);
+        $users2 = User::factory(3)->create([
+            'model' => Marketer::class,
+            'branch_id' => $branch2->id,
+        ]);
+
+        $response = $this->getJson(route('readByBranchId', ['id' => 'all','branch_id' => $branch1->id]));
+        $responseArray = $response->json();
+        $response->dump();
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+
+
+        $response = $this->getJson(route('readByBranchId',['branch_id' => $branch1->id]));
+        $responseArray = $response->json();
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+
+    }
+
+
 }

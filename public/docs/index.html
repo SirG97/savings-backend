@@ -114,6 +114,9 @@
                                                                             <li class="tocify-item level-3" data-unique="auth-apis-GETapi-user-users-model_read--model---id--">
                                             <a href="#auth-apis-GETapi-user-users-model_read--model---id--">Read user by user model.</a>
                                         </li>
+                                                                            <li class="tocify-item level-3" data-unique="auth-apis-GETapi-user-users-branch_read--branch_id---id--">
+                                            <a href="#auth-apis-GETapi-user-users-branch_read--branch_id---id--">Read user by branch id.</a>
+                                        </li>
                                                                             <li class="tocify-item level-3" data-unique="auth-apis-PUTapi-user-users-update">
                                             <a href="#auth-apis-PUTapi-user-users-update">Update user.</a>
                                         </li>
@@ -127,6 +130,15 @@
                                                             <ul id="tocify-subheader-auth-apis-user-apis" class="tocify-subheader">
                                                                             <li class="tocify-item level-3" data-unique="auth-apis-DELETEapi-user-users-delete">
                                             <a href="#auth-apis-DELETEapi-user-users-delete">Delete user.</a>
+                                        </li>
+                                                                            <li class="tocify-item level-3" data-unique="auth-apis-GETapi-user-transaction-type_read--transaction_type---id--">
+                                            <a href="#auth-apis-GETapi-user-transaction-type_read--transaction_type---id--">Read transaction by transaction type.</a>
+                                        </li>
+                                                                            <li class="tocify-item level-3" data-unique="auth-apis-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--">
+                                            <a href="#auth-apis-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--">Read transaction by transaction type and branchId.</a>
+                                        </li>
+                                                                            <li class="tocify-item level-3" data-unique="auth-apis-GETapi-user-customer_transaction-type_read--transaction_type---id--">
+                                            <a href="#auth-apis-GETapi-user-customer_transaction-type_read--transaction_type---id--">Read transaction by transaction type.</a>
                                         </li>
                                                                     </ul>
                                                                                 <li class="tocify-item level-2" data-unique="auth-apis-dashboard-apis">
@@ -182,6 +194,9 @@
                                         </li>
                                                                             <li class="tocify-item level-3" data-unique="auth-apis-GETapi-user-customer-read--id--">
                                             <a href="#auth-apis-GETapi-user-customer-read--id--">Read Customer.</a>
+                                        </li>
+                                                                            <li class="tocify-item level-3" data-unique="auth-apis-GETapi-user-customer-branch_read--branch_id---id--">
+                                            <a href="#auth-apis-GETapi-user-customer-branch_read--branch_id---id--">Read Customer by branch id.</a>
                                         </li>
                                                                             <li class="tocify-item level-3" data-unique="auth-apis-PUTapi-user-customer-update">
                                             <a href="#auth-apis-PUTapi-user-customer-update">Update Customer.</a>
@@ -241,6 +256,12 @@
                                                                                 <li class="tocify-item level-2" data-unique="no-auth-apis-POSTapi-auth-login">
                                 <a href="#no-auth-apis-POSTapi-auth-login">User form login.</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="no-auth-apis-POSTapi-auth-admin-login">
+                                <a href="#no-auth-apis-POSTapi-auth-admin-login">SuperAdmin form login.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="no-auth-apis-POSTapi-auth-manager-login">
+                                <a href="#no-auth-apis-POSTapi-auth-manager-login">Admin form login.</a>
+                            </li>
                                                                                 <li class="tocify-item level-2" data-unique="no-auth-apis-GETapi-auth-verify-email--id-">
                                 <a href="#no-auth-apis-GETapi-auth-verify-email--id-">User email verification.</a>
                             </li>
@@ -261,7 +282,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: December 31, 2024</li>
+        <li>Last updated: January 5, 2025</li>
     </ul>
 </div>
 
@@ -2255,6 +2276,171 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
+                    <h2 id="auth-apis-GETapi-user-users-branch_read--branch_id---id--">Read user by branch id.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Fetch a record or records from the user table.
+The <b>id</b> param is optional but can either be a <b>string|null|int</b></p>
+<p>If the <b>id</b> has a <b>null</b> value the records will be paginated.
+The returned page size is be set from <b>api.paginate.user.pageSize</b>
+config.</p>
+<p>If the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.
+This will return all the records by user model without being paginated.</p>
+<p>If the <b>id</b> value is an <b>integer</b> it will try to fetch a single
+matching record.</p>
+
+<span id="example-requests-GETapi-user-users-branch_read--branch_id---id--">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/user/users/branch_read/deleniti/all" \
+    --header "Authorization: Bearer {Your key}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/user/users/branch_read/deleniti/all"
+);
+
+const headers = {
+    "Authorization": "Bearer {Your key}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-user-users-branch_read--branch_id---id--">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;success&quot;: true,
+&quot;status_code&quot;: 200,
+&quot;message&quot;: string
+&quot;data&quot;: {}
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-user-users-branch_read--branch_id---id--" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-user-users-branch_read--branch_id---id--"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-user-users-branch_read--branch_id---id--"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-user-users-branch_read--branch_id---id--" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-user-users-branch_read--branch_id---id--">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-user-users-branch_read--branch_id---id--" data-method="GET"
+      data-path="api/user/users/branch_read/{branch_id}/{id?}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-users-branch_read--branch_id---id--', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-user-users-branch_read--branch_id---id--"
+                    onclick="tryItOut('GETapi-user-users-branch_read--branch_id---id--');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-user-users-branch_read--branch_id---id--"
+                    onclick="cancelTryOut('GETapi-user-users-branch_read--branch_id---id--');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-user-users-branch_read--branch_id---id--"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/user/users/branch_read/{branch_id}/{id?}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-user-users-branch_read--branch_id---id--"
+               value="Bearer {Your key}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {Your key}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-user-users-branch_read--branch_id---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-user-users-branch_read--branch_id---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>branch_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="branch_id"                data-endpoint="GETapi-user-users-branch_read--branch_id---id--"
+               value="deleniti"
+               data-component="url">
+    <br>
+<p>The ID of the branch. Example: <code>deleniti</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-user-users-branch_read--branch_id---id--"
+               value="all"
+               data-component="url">
+    <br>
+<p>The ID of the record. Example: <code>all</code></p>
+            </div>
+                    </form>
+
                     <h2 id="auth-apis-PUTapi-user-users-update">Update user.</h2>
 
 <p>
@@ -2275,11 +2461,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"id\": \"1\",
-    \"first_name\": \"ytrmvy\",
-    \"middle_name\": \"vw\",
-    \"last_name\": \"xhybambjnijvlstvny\",
-    \"email\": \"darrin35@example.org\",
-    \"phone\": \"aeluiahwytrrbyant\",
+    \"first_name\": \"pfrtqinmgotefoqbgxgzn\",
+    \"middle_name\": \"voycbjeeqhgaectnarqnlbz\",
+    \"last_name\": \"toauqlkyyurvphh\",
+    \"email\": \"rippin.milan@example.net\",
+    \"phone\": \"rtmogiwgwrribvculaljd\",
     \"performed_action\": \"approved\",
     \"reason\": \"The image is not clear\"
 }"
@@ -2299,11 +2485,11 @@ const headers = {
 
 let body = {
     "id": "1",
-    "first_name": "ytrmvy",
-    "middle_name": "vw",
-    "last_name": "xhybambjnijvlstvny",
-    "email": "darrin35@example.org",
-    "phone": "aeluiahwytrrbyant",
+    "first_name": "pfrtqinmgotefoqbgxgzn",
+    "middle_name": "voycbjeeqhgaectnarqnlbz",
+    "last_name": "toauqlkyyurvphh",
+    "email": "rippin.milan@example.net",
+    "phone": "rtmogiwgwrribvculaljd",
     "performed_action": "approved",
     "reason": "The image is not clear"
 };
@@ -2428,10 +2614,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="first_name"                data-endpoint="PUTapi-user-users-update"
-               value="ytrmvy"
+               value="pfrtqinmgotefoqbgxgzn"
                data-component="body">
     <br>
-<p>Must not be greater than 50 characters. Example: <code>ytrmvy</code></p>
+<p>Must not be greater than 50 characters. Example: <code>pfrtqinmgotefoqbgxgzn</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>middle_name</code></b>&nbsp;&nbsp;
@@ -2439,10 +2625,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="middle_name"                data-endpoint="PUTapi-user-users-update"
-               value="vw"
+               value="voycbjeeqhgaectnarqnlbz"
                data-component="body">
     <br>
-<p>Must not be greater than 50 characters. Example: <code>vw</code></p>
+<p>Must not be greater than 50 characters. Example: <code>voycbjeeqhgaectnarqnlbz</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>last_name</code></b>&nbsp;&nbsp;
@@ -2450,10 +2636,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="last_name"                data-endpoint="PUTapi-user-users-update"
-               value="xhybambjnijvlstvny"
+               value="toauqlkyyurvphh"
                data-component="body">
     <br>
-<p>Must not be greater than 50 characters. Example: <code>xhybambjnijvlstvny</code></p>
+<p>Must not be greater than 50 characters. Example: <code>toauqlkyyurvphh</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -2461,10 +2647,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="PUTapi-user-users-update"
-               value="darrin35@example.org"
+               value="rippin.milan@example.net"
                data-component="body">
     <br>
-<p>Must be a valid email address. Must not be greater than 255 characters. Example: <code>darrin35@example.org</code></p>
+<p>Must be a valid email address. Must not be greater than 255 characters. Example: <code>rippin.milan@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
@@ -2472,10 +2658,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="phone"                data-endpoint="PUTapi-user-users-update"
-               value="aeluiahwytrrbyant"
+               value="rtmogiwgwrribvculaljd"
                data-component="body">
     <br>
-<p>Must not be greater than 50 characters. Example: <code>aeluiahwytrrbyant</code></p>
+<p>Must not be greater than 50 characters. Example: <code>rtmogiwgwrribvculaljd</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>performed_action</code></b>&nbsp;&nbsp;
@@ -2838,6 +3024,545 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
+                    <h2 id="auth-apis-GETapi-user-transaction-type_read--transaction_type---id--">Read transaction by transaction type.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Fetch a record or records from the user table.
+The <b>id</b> param is optional but can either be a <b>string|null|int</b></p>
+<p>If the <b>id</b> has a <b>null</b> value the records will be paginated.
+The returned page size is be set from <b>api.paginate.user.pageSize</b>
+config.</p>
+<p>If the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.
+This will return all the records by user model without being paginated.</p>
+<p>If the <b>id</b> value is an <b>integer</b> it will try to fetch a single
+matching record.</p>
+
+<span id="example-requests-GETapi-user-transaction-type_read--transaction_type---id--">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/user/transaction/type_read/ab/all" \
+    --header "Authorization: Bearer {Your key}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/user/transaction/type_read/ab/all"
+);
+
+const headers = {
+    "Authorization": "Bearer {Your key}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-user-transaction-type_read--transaction_type---id--">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;success&quot;: true,
+&quot;status_code&quot;: 200,
+&quot;message&quot;: string
+&quot;data&quot;: {}
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-user-transaction-type_read--transaction_type---id--" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-user-transaction-type_read--transaction_type---id--"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-user-transaction-type_read--transaction_type---id--"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-user-transaction-type_read--transaction_type---id--" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-user-transaction-type_read--transaction_type---id--">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-user-transaction-type_read--transaction_type---id--" data-method="GET"
+      data-path="api/user/transaction/type_read/{transaction_type}/{id?}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-transaction-type_read--transaction_type---id--', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-user-transaction-type_read--transaction_type---id--"
+                    onclick="tryItOut('GETapi-user-transaction-type_read--transaction_type---id--');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-user-transaction-type_read--transaction_type---id--"
+                    onclick="cancelTryOut('GETapi-user-transaction-type_read--transaction_type---id--');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-user-transaction-type_read--transaction_type---id--"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/user/transaction/type_read/{transaction_type}/{id?}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-user-transaction-type_read--transaction_type---id--"
+               value="Bearer {Your key}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {Your key}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-user-transaction-type_read--transaction_type---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-user-transaction-type_read--transaction_type---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>transaction_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="transaction_type"                data-endpoint="GETapi-user-transaction-type_read--transaction_type---id--"
+               value="ab"
+               data-component="url">
+    <br>
+<p>Example: <code>ab</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-user-transaction-type_read--transaction_type---id--"
+               value="all"
+               data-component="url">
+    <br>
+<p>The ID of the record. Example: <code>all</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>transactionType</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="transactionType"                data-endpoint="GETapi-user-transaction-type_read--transaction_type---id--"
+               value="deposit"
+               data-component="url">
+    <br>
+<p>The transactionType of the record.Can be deposit, withdrawal, etc Example: <code>deposit</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="auth-apis-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--">Read transaction by transaction type and branchId.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Fetch a record or records from the user table.
+The <b>id</b> param is optional but can either be a <b>string|null|int</b></p>
+<p>If the <b>id</b> has a <b>null</b> value the records will be paginated.
+The returned page size is be set from <b>api.paginate.user.pageSize</b>
+config.</p>
+<p>If the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.
+This will return all the records by user model without being paginated.</p>
+<p>If the <b>id</b> value is an <b>integer</b> it will try to fetch a single
+matching record.</p>
+
+<span id="example-requests-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/user/transaction/branch_read/nemo/consequatur/all" \
+    --header "Authorization: Bearer {Your key}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/user/transaction/branch_read/nemo/consequatur/all"
+);
+
+const headers = {
+    "Authorization": "Bearer {Your key}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;success&quot;: true,
+&quot;status_code&quot;: 200,
+&quot;message&quot;: string
+&quot;data&quot;: {}
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--" data-method="GET"
+      data-path="api/user/transaction/branch_read/{transaction_type}/{branch_id}/{id?}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-transaction-branch_read--transaction_type---branch_id---id--', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+                    onclick="tryItOut('GETapi-user-transaction-branch_read--transaction_type---branch_id---id--');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+                    onclick="cancelTryOut('GETapi-user-transaction-branch_read--transaction_type---branch_id---id--');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/user/transaction/branch_read/{transaction_type}/{branch_id}/{id?}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+               value="Bearer {Your key}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {Your key}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>transaction_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="transaction_type"                data-endpoint="GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+               value="nemo"
+               data-component="url">
+    <br>
+<p>Example: <code>nemo</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>branch_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="branch_id"                data-endpoint="GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+               value="consequatur"
+               data-component="url">
+    <br>
+<p>The ID of the branch. Example: <code>consequatur</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+               value="all"
+               data-component="url">
+    <br>
+<p>The ID of the record. Example: <code>all</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>transactionType</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="transactionType"                data-endpoint="GETapi-user-transaction-branch_read--transaction_type---branch_id---id--"
+               value="deposit"
+               data-component="url">
+    <br>
+<p>The transactionType of the record.Can be deposit, withdrawal, etc Example: <code>deposit</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="auth-apis-GETapi-user-customer_transaction-type_read--transaction_type---id--">Read transaction by transaction type.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Fetch a record or records from the user table.
+The <b>id</b> param is optional but can either be a <b>string|null|int</b></p>
+<p>If the <b>id</b> has a <b>null</b> value the records will be paginated.
+The returned page size is be set from <b>api.paginate.user.pageSize</b>
+config.</p>
+<p>If the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.
+This will return all the records by user model without being paginated.</p>
+<p>If the <b>id</b> value is an <b>integer</b> it will try to fetch a single
+matching record.</p>
+
+<span id="example-requests-GETapi-user-customer_transaction-type_read--transaction_type---id--">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/user/customer_transaction/type_read/necessitatibus/all" \
+    --header "Authorization: Bearer {Your key}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/user/customer_transaction/type_read/necessitatibus/all"
+);
+
+const headers = {
+    "Authorization": "Bearer {Your key}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-user-customer_transaction-type_read--transaction_type---id--">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;success&quot;: true,
+&quot;status_code&quot;: 200,
+&quot;message&quot;: string
+&quot;data&quot;: {}
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-user-customer_transaction-type_read--transaction_type---id--" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-user-customer_transaction-type_read--transaction_type---id--"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-user-customer_transaction-type_read--transaction_type---id--"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-user-customer_transaction-type_read--transaction_type---id--" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-user-customer_transaction-type_read--transaction_type---id--">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-user-customer_transaction-type_read--transaction_type---id--" data-method="GET"
+      data-path="api/user/customer_transaction/type_read/{transaction_type}/{id?}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-customer_transaction-type_read--transaction_type---id--', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-user-customer_transaction-type_read--transaction_type---id--"
+                    onclick="tryItOut('GETapi-user-customer_transaction-type_read--transaction_type---id--');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-user-customer_transaction-type_read--transaction_type---id--"
+                    onclick="cancelTryOut('GETapi-user-customer_transaction-type_read--transaction_type---id--');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-user-customer_transaction-type_read--transaction_type---id--"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/user/customer_transaction/type_read/{transaction_type}/{id?}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-user-customer_transaction-type_read--transaction_type---id--"
+               value="Bearer {Your key}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {Your key}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-user-customer_transaction-type_read--transaction_type---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-user-customer_transaction-type_read--transaction_type---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>transaction_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="transaction_type"                data-endpoint="GETapi-user-customer_transaction-type_read--transaction_type---id--"
+               value="necessitatibus"
+               data-component="url">
+    <br>
+<p>Example: <code>necessitatibus</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-user-customer_transaction-type_read--transaction_type---id--"
+               value="all"
+               data-component="url">
+    <br>
+<p>The ID of the record. Example: <code>all</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>transactionType</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="transactionType"                data-endpoint="GETapi-user-customer_transaction-type_read--transaction_type---id--"
+               value="deposit"
+               data-component="url">
+    <br>
+<p>The transactionType of the record.Can be deposit, withdrawal, etc Example: <code>deposit</code></p>
+            </div>
+                    </form>
+
                                 <h2 id="auth-apis-dashboard-apis">Dashboard APIs</h2>
                                                     <h2 id="auth-apis-GETapi-user-dashboard-read--id--">Retrieve user dashboard.</h2>
 
@@ -2853,7 +3578,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/user/dashboard/read/qui" \
+    --get "http://localhost:8000/api/user/dashboard/read/esse" \
     --header "Authorization: Bearer {Your key}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2861,7 +3586,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/user/dashboard/read/qui"
+    "http://localhost:8000/api/user/dashboard/read/esse"
 );
 
 const headers = {
@@ -2978,10 +3703,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-user-dashboard-read--id--"
-               value="qui"
+               value="esse"
                data-component="url">
     <br>
-<p>The ID of the . Example: <code>qui</code></p>
+<p>The ID of the . Example: <code>esse</code></p>
             </div>
                     </form>
 
@@ -3990,32 +4715,32 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"branch_id\": \"1\",
     \"first_name\": \"John\",
     \"surname\": \"Doe\",
-    \"middle_name\": \"quo\",
-    \"dob\": \"2024-12-31T05:24:15\",
+    \"middle_name\": \"rerum\",
+    \"dob\": \"2025-01-05T13:00:35\",
     \"sex\": \"female\",
-    \"resident_state\": \"officia\",
-    \"resident_lga\": \"vel\",
-    \"resident_address\": \"enim\",
-    \"occupation\": \"architecto\",
-    \"office_address\": \"beatae\",
-    \"state\": \"aut\",
-    \"lga\": \"perspiciatis\",
-    \"hometown\": \"modi\",
-    \"phone\": \"atque\",
-    \"next_of_kin\": \"deleniti\",
-    \"relationship\": \"laboriosam\",
-    \"nok_phone\": \"itaque\",
-    \"acc_no\": \"qui\",
-    \"group\": \"excepturi\",
-    \"sb_card_no_from\": \"placeat\",
-    \"sb_card_no_to\": \"aspernatur\",
-    \"sb\": \"autem\",
-    \"initial_unit\": \"velit\",
-    \"bank_name\": \"recusandae\",
-    \"bank_code\": \"pariatur\",
-    \"account_name\": \"commodi\",
-    \"account_number\": \"omnis\",
-    \"daily_amount\": \"repellat\"
+    \"resident_state\": \"sit\",
+    \"resident_lga\": \"qui\",
+    \"resident_address\": \"dolor\",
+    \"occupation\": \"fugiat\",
+    \"office_address\": \"rerum\",
+    \"state\": \"officiis\",
+    \"lga\": \"blanditiis\",
+    \"hometown\": \"voluptates\",
+    \"phone\": \"nisi\",
+    \"next_of_kin\": \"commodi\",
+    \"relationship\": \"dolor\",
+    \"nok_phone\": \"quia\",
+    \"acc_no\": \"libero\",
+    \"group\": \"ut\",
+    \"sb_card_no_from\": \"autem\",
+    \"sb_card_no_to\": \"dicta\",
+    \"sb\": \"iste\",
+    \"initial_unit\": \"aut\",
+    \"bank_name\": \"consequuntur\",
+    \"bank_code\": \"cum\",
+    \"account_name\": \"et\",
+    \"account_number\": \"alias\",
+    \"daily_amount\": \"cupiditate\"
 }"
 </code></pre></div>
 
@@ -4035,32 +4760,32 @@ let body = {
     "branch_id": "1",
     "first_name": "John",
     "surname": "Doe",
-    "middle_name": "quo",
-    "dob": "2024-12-31T05:24:15",
+    "middle_name": "rerum",
+    "dob": "2025-01-05T13:00:35",
     "sex": "female",
-    "resident_state": "officia",
-    "resident_lga": "vel",
-    "resident_address": "enim",
-    "occupation": "architecto",
-    "office_address": "beatae",
-    "state": "aut",
-    "lga": "perspiciatis",
-    "hometown": "modi",
-    "phone": "atque",
-    "next_of_kin": "deleniti",
-    "relationship": "laboriosam",
-    "nok_phone": "itaque",
-    "acc_no": "qui",
-    "group": "excepturi",
-    "sb_card_no_from": "placeat",
-    "sb_card_no_to": "aspernatur",
-    "sb": "autem",
-    "initial_unit": "velit",
-    "bank_name": "recusandae",
-    "bank_code": "pariatur",
-    "account_name": "commodi",
-    "account_number": "omnis",
-    "daily_amount": "repellat"
+    "resident_state": "sit",
+    "resident_lga": "qui",
+    "resident_address": "dolor",
+    "occupation": "fugiat",
+    "office_address": "rerum",
+    "state": "officiis",
+    "lga": "blanditiis",
+    "hometown": "voluptates",
+    "phone": "nisi",
+    "next_of_kin": "commodi",
+    "relationship": "dolor",
+    "nok_phone": "quia",
+    "acc_no": "libero",
+    "group": "ut",
+    "sb_card_no_from": "autem",
+    "sb_card_no_to": "dicta",
+    "sb": "iste",
+    "initial_unit": "aut",
+    "bank_name": "consequuntur",
+    "bank_code": "cum",
+    "account_name": "et",
+    "account_number": "alias",
+    "daily_amount": "cupiditate"
 };
 
 fetch(url, {
@@ -4205,10 +4930,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="middle_name"                data-endpoint="POSTapi-user-customer-create"
-               value="quo"
+               value="rerum"
                data-component="body">
     <br>
-<p>Example: <code>quo</code></p>
+<p>Example: <code>rerum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dob</code></b>&nbsp;&nbsp;
@@ -4216,10 +4941,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="dob"                data-endpoint="POSTapi-user-customer-create"
-               value="2024-12-31T05:24:15"
+               value="2025-01-05T13:00:35"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2024-12-31T05:24:15</code></p>
+<p>Must be a valid date. Example: <code>2025-01-05T13:00:35</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sex</code></b>&nbsp;&nbsp;
@@ -4240,10 +4965,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="resident_state"                data-endpoint="POSTapi-user-customer-create"
-               value="officia"
+               value="sit"
                data-component="body">
     <br>
-<p>Example: <code>officia</code></p>
+<p>Example: <code>sit</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>resident_lga</code></b>&nbsp;&nbsp;
@@ -4251,10 +4976,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="resident_lga"                data-endpoint="POSTapi-user-customer-create"
-               value="vel"
+               value="qui"
                data-component="body">
     <br>
-<p>Example: <code>vel</code></p>
+<p>Example: <code>qui</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>resident_address</code></b>&nbsp;&nbsp;
@@ -4262,10 +4987,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="resident_address"                data-endpoint="POSTapi-user-customer-create"
-               value="enim"
+               value="dolor"
                data-component="body">
     <br>
-<p>Example: <code>enim</code></p>
+<p>Example: <code>dolor</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>occupation</code></b>&nbsp;&nbsp;
@@ -4273,10 +4998,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="occupation"                data-endpoint="POSTapi-user-customer-create"
-               value="architecto"
+               value="fugiat"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>Example: <code>fugiat</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>office_address</code></b>&nbsp;&nbsp;
@@ -4284,10 +5009,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="office_address"                data-endpoint="POSTapi-user-customer-create"
-               value="beatae"
+               value="rerum"
                data-component="body">
     <br>
-<p>Example: <code>beatae</code></p>
+<p>Example: <code>rerum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>state</code></b>&nbsp;&nbsp;
@@ -4295,10 +5020,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="state"                data-endpoint="POSTapi-user-customer-create"
-               value="aut"
+               value="officiis"
                data-component="body">
     <br>
-<p>Example: <code>aut</code></p>
+<p>Example: <code>officiis</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>lga</code></b>&nbsp;&nbsp;
@@ -4306,10 +5031,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="lga"                data-endpoint="POSTapi-user-customer-create"
-               value="perspiciatis"
+               value="blanditiis"
                data-component="body">
     <br>
-<p>Example: <code>perspiciatis</code></p>
+<p>Example: <code>blanditiis</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>hometown</code></b>&nbsp;&nbsp;
@@ -4317,10 +5042,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="hometown"                data-endpoint="POSTapi-user-customer-create"
-               value="modi"
+               value="voluptates"
                data-component="body">
     <br>
-<p>Example: <code>modi</code></p>
+<p>Example: <code>voluptates</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
@@ -4328,10 +5053,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="phone"                data-endpoint="POSTapi-user-customer-create"
-               value="atque"
+               value="nisi"
                data-component="body">
     <br>
-<p>Example: <code>atque</code></p>
+<p>Example: <code>nisi</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>next_of_kin</code></b>&nbsp;&nbsp;
@@ -4339,10 +5064,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="next_of_kin"                data-endpoint="POSTapi-user-customer-create"
-               value="deleniti"
+               value="commodi"
                data-component="body">
     <br>
-<p>Example: <code>deleniti</code></p>
+<p>Example: <code>commodi</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>relationship</code></b>&nbsp;&nbsp;
@@ -4350,10 +5075,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="relationship"                data-endpoint="POSTapi-user-customer-create"
-               value="laboriosam"
+               value="dolor"
                data-component="body">
     <br>
-<p>Example: <code>laboriosam</code></p>
+<p>Example: <code>dolor</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>nok_phone</code></b>&nbsp;&nbsp;
@@ -4361,10 +5086,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="nok_phone"                data-endpoint="POSTapi-user-customer-create"
-               value="itaque"
+               value="quia"
                data-component="body">
     <br>
-<p>Example: <code>itaque</code></p>
+<p>Example: <code>quia</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>acc_no</code></b>&nbsp;&nbsp;
@@ -4372,10 +5097,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="acc_no"                data-endpoint="POSTapi-user-customer-create"
-               value="qui"
+               value="libero"
                data-component="body">
     <br>
-<p>Example: <code>qui</code></p>
+<p>Example: <code>libero</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>group</code></b>&nbsp;&nbsp;
@@ -4383,10 +5108,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="group"                data-endpoint="POSTapi-user-customer-create"
-               value="excepturi"
+               value="ut"
                data-component="body">
     <br>
-<p>Example: <code>excepturi</code></p>
+<p>Example: <code>ut</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sb_card_no_from</code></b>&nbsp;&nbsp;
@@ -4394,10 +5119,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sb_card_no_from"                data-endpoint="POSTapi-user-customer-create"
-               value="placeat"
+               value="autem"
                data-component="body">
     <br>
-<p>Example: <code>placeat</code></p>
+<p>Example: <code>autem</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sb_card_no_to</code></b>&nbsp;&nbsp;
@@ -4405,10 +5130,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sb_card_no_to"                data-endpoint="POSTapi-user-customer-create"
-               value="aspernatur"
+               value="dicta"
                data-component="body">
     <br>
-<p>Example: <code>aspernatur</code></p>
+<p>Example: <code>dicta</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sb</code></b>&nbsp;&nbsp;
@@ -4416,10 +5141,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sb"                data-endpoint="POSTapi-user-customer-create"
-               value="autem"
+               value="iste"
                data-component="body">
     <br>
-<p>Example: <code>autem</code></p>
+<p>Example: <code>iste</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>initial_unit</code></b>&nbsp;&nbsp;
@@ -4427,10 +5152,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="initial_unit"                data-endpoint="POSTapi-user-customer-create"
-               value="velit"
+               value="aut"
                data-component="body">
     <br>
-<p>Example: <code>velit</code></p>
+<p>Example: <code>aut</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>bank_name</code></b>&nbsp;&nbsp;
@@ -4438,10 +5163,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="bank_name"                data-endpoint="POSTapi-user-customer-create"
-               value="recusandae"
+               value="consequuntur"
                data-component="body">
     <br>
-<p>Example: <code>recusandae</code></p>
+<p>Example: <code>consequuntur</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>bank_code</code></b>&nbsp;&nbsp;
@@ -4449,10 +5174,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="bank_code"                data-endpoint="POSTapi-user-customer-create"
-               value="pariatur"
+               value="cum"
                data-component="body">
     <br>
-<p>Example: <code>pariatur</code></p>
+<p>Example: <code>cum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>account_name</code></b>&nbsp;&nbsp;
@@ -4460,10 +5185,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="account_name"                data-endpoint="POSTapi-user-customer-create"
-               value="commodi"
+               value="et"
                data-component="body">
     <br>
-<p>Example: <code>commodi</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>account_number</code></b>&nbsp;&nbsp;
@@ -4471,10 +5196,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="account_number"                data-endpoint="POSTapi-user-customer-create"
-               value="omnis"
+               value="alias"
                data-component="body">
     <br>
-<p>Example: <code>omnis</code></p>
+<p>Example: <code>alias</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>daily_amount</code></b>&nbsp;&nbsp;
@@ -4482,10 +5207,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="daily_amount"                data-endpoint="POSTapi-user-customer-create"
-               value="repellat"
+               value="cupiditate"
                data-component="body">
     <br>
-<p>Example: <code>repellat</code></p>
+<p>Example: <code>cupiditate</code></p>
         </div>
         </form>
 
@@ -4798,6 +5523,171 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
+                    <h2 id="auth-apis-GETapi-user-customer-branch_read--branch_id---id--">Read Customer by branch id.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Fetch a record or records from the Customers table by branch id.
+The <b>id</b> param is optional but can either be a <b>string|null|int</b></p>
+<p>If the <b>id</b> has a <b>null</b> value the records will be paginated.
+The returned page size is be set from <b>api.paginate.user_address.pageSize</b>
+config.</p>
+<p>If the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.
+This will return all the records without being paginated.</p>
+<p>If the <b>id</b> value is an <b>integer</b> it will try to fetch a single
+matching record.</p>
+
+<span id="example-requests-GETapi-user-customer-branch_read--branch_id---id--">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/user/customer/branch_read/ducimus/all" \
+    --header "Authorization: Bearer {Your key}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/user/customer/branch_read/ducimus/all"
+);
+
+const headers = {
+    "Authorization": "Bearer {Your key}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-user-customer-branch_read--branch_id---id--">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;success&quot;: true,
+&quot;status_code&quot;: 200,
+&quot;message&quot;: string
+&quot;data&quot;: {}
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-user-customer-branch_read--branch_id---id--" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-user-customer-branch_read--branch_id---id--"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-user-customer-branch_read--branch_id---id--"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-user-customer-branch_read--branch_id---id--" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-user-customer-branch_read--branch_id---id--">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-user-customer-branch_read--branch_id---id--" data-method="GET"
+      data-path="api/user/customer/branch_read/{branch_id}/{id?}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-user-customer-branch_read--branch_id---id--', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-user-customer-branch_read--branch_id---id--"
+                    onclick="tryItOut('GETapi-user-customer-branch_read--branch_id---id--');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-user-customer-branch_read--branch_id---id--"
+                    onclick="cancelTryOut('GETapi-user-customer-branch_read--branch_id---id--');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-user-customer-branch_read--branch_id---id--"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/user/customer/branch_read/{branch_id}/{id?}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-user-customer-branch_read--branch_id---id--"
+               value="Bearer {Your key}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {Your key}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-user-customer-branch_read--branch_id---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-user-customer-branch_read--branch_id---id--"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>branch_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="branch_id"                data-endpoint="GETapi-user-customer-branch_read--branch_id---id--"
+               value="ducimus"
+               data-component="url">
+    <br>
+<p>The ID of the branch. Example: <code>ducimus</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-user-customer-branch_read--branch_id---id--"
+               value="all"
+               data-component="url">
+    <br>
+<p>The ID of the record. Example: <code>all</code></p>
+            </div>
+                    </form>
+
                     <h2 id="auth-apis-PUTapi-user-customer-update">Update Customer.</h2>
 
 <p>
@@ -4818,35 +5708,35 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"id\": \"1\",
-    \"first_name\": \"vdzrpgkuvhhysuztzqqalb\",
-    \"surname\": \"agtwiswlqvofsgxwyfsud\",
-    \"middle_name\": \"quidem\",
-    \"dob\": \"2024-12-31T05:24:15\",
+    \"first_name\": \"ctrnc\",
+    \"surname\": \"furmmkystoasygrzjzx\",
+    \"middle_name\": \"non\",
+    \"dob\": \"2025-01-05T13:00:35\",
     \"sex\": \"female\",
-    \"resident_state\": \"exercitationem\",
-    \"resident_lga\": \"est\",
-    \"resident_address\": \"laboriosam\",
-    \"occupation\": \"ipsa\",
-    \"office_address\": \"quibusdam\",
-    \"state\": \"voluptatem\",
-    \"lga\": \"sint\",
-    \"hometown\": \"debitis\",
-    \"phone\": \"yfjjgxpc\",
-    \"next_of_kin\": \"a\",
-    \"relationship\": \"aspernatur\",
-    \"nok_phone\": \"delectus\",
-    \"acc_no\": \"asperiores\",
-    \"branch\": \"explicabo\",
-    \"group\": \"alias\",
-    \"sb_card_no_from\": \"enim\",
-    \"sb_card_no_to\": \"voluptatibus\",
-    \"sb\": \"et\",
-    \"initial_unit\": \"ipsa\",
-    \"bank_name\": \"at\",
-    \"bank_code\": \"et\",
-    \"account_name\": \"aut\",
-    \"account_number\": \"alias\",
-    \"daily_amount\": \"et\",
+    \"resident_state\": \"tenetur\",
+    \"resident_lga\": \"fuga\",
+    \"resident_address\": \"et\",
+    \"occupation\": \"voluptatem\",
+    \"office_address\": \"pariatur\",
+    \"state\": \"officia\",
+    \"lga\": \"quas\",
+    \"hometown\": \"aut\",
+    \"phone\": \"bipsztdex\",
+    \"next_of_kin\": \"accusamus\",
+    \"relationship\": \"quae\",
+    \"nok_phone\": \"architecto\",
+    \"acc_no\": \"ipsa\",
+    \"branch\": \"rerum\",
+    \"group\": \"consequuntur\",
+    \"sb_card_no_from\": \"voluptatum\",
+    \"sb_card_no_to\": \"nostrum\",
+    \"sb\": \"eaque\",
+    \"initial_unit\": \"eos\",
+    \"bank_name\": \"fuga\",
+    \"bank_code\": \"unde\",
+    \"account_name\": \"consequatur\",
+    \"account_number\": \"totam\",
+    \"daily_amount\": \"repellendus\",
     \"name\": \"John\"
 }"
 </code></pre></div>
@@ -4865,35 +5755,35 @@ const headers = {
 
 let body = {
     "id": "1",
-    "first_name": "vdzrpgkuvhhysuztzqqalb",
-    "surname": "agtwiswlqvofsgxwyfsud",
-    "middle_name": "quidem",
-    "dob": "2024-12-31T05:24:15",
+    "first_name": "ctrnc",
+    "surname": "furmmkystoasygrzjzx",
+    "middle_name": "non",
+    "dob": "2025-01-05T13:00:35",
     "sex": "female",
-    "resident_state": "exercitationem",
-    "resident_lga": "est",
-    "resident_address": "laboriosam",
-    "occupation": "ipsa",
-    "office_address": "quibusdam",
-    "state": "voluptatem",
-    "lga": "sint",
-    "hometown": "debitis",
-    "phone": "yfjjgxpc",
-    "next_of_kin": "a",
-    "relationship": "aspernatur",
-    "nok_phone": "delectus",
-    "acc_no": "asperiores",
-    "branch": "explicabo",
-    "group": "alias",
-    "sb_card_no_from": "enim",
-    "sb_card_no_to": "voluptatibus",
-    "sb": "et",
-    "initial_unit": "ipsa",
-    "bank_name": "at",
-    "bank_code": "et",
-    "account_name": "aut",
-    "account_number": "alias",
-    "daily_amount": "et",
+    "resident_state": "tenetur",
+    "resident_lga": "fuga",
+    "resident_address": "et",
+    "occupation": "voluptatem",
+    "office_address": "pariatur",
+    "state": "officia",
+    "lga": "quas",
+    "hometown": "aut",
+    "phone": "bipsztdex",
+    "next_of_kin": "accusamus",
+    "relationship": "quae",
+    "nok_phone": "architecto",
+    "acc_no": "ipsa",
+    "branch": "rerum",
+    "group": "consequuntur",
+    "sb_card_no_from": "voluptatum",
+    "sb_card_no_to": "nostrum",
+    "sb": "eaque",
+    "initial_unit": "eos",
+    "bank_name": "fuga",
+    "bank_code": "unde",
+    "account_name": "consequatur",
+    "account_number": "totam",
+    "daily_amount": "repellendus",
     "name": "John"
 };
 
@@ -5017,10 +5907,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="first_name"                data-endpoint="PUTapi-user-customer-update"
-               value="vdzrpgkuvhhysuztzqqalb"
+               value="ctrnc"
                data-component="body">
     <br>
-<p>Must not be greater than 200 characters. Example: <code>vdzrpgkuvhhysuztzqqalb</code></p>
+<p>Must not be greater than 200 characters. Example: <code>ctrnc</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>surname</code></b>&nbsp;&nbsp;
@@ -5028,10 +5918,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="surname"                data-endpoint="PUTapi-user-customer-update"
-               value="agtwiswlqvofsgxwyfsud"
+               value="furmmkystoasygrzjzx"
                data-component="body">
     <br>
-<p>Must not be greater than 200 characters. Example: <code>agtwiswlqvofsgxwyfsud</code></p>
+<p>Must not be greater than 200 characters. Example: <code>furmmkystoasygrzjzx</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>middle_name</code></b>&nbsp;&nbsp;
@@ -5039,10 +5929,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="middle_name"                data-endpoint="PUTapi-user-customer-update"
-               value="quidem"
+               value="non"
                data-component="body">
     <br>
-<p>Example: <code>quidem</code></p>
+<p>Example: <code>non</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dob</code></b>&nbsp;&nbsp;
@@ -5050,10 +5940,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="dob"                data-endpoint="PUTapi-user-customer-update"
-               value="2024-12-31T05:24:15"
+               value="2025-01-05T13:00:35"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2024-12-31T05:24:15</code></p>
+<p>Must be a valid date. Example: <code>2025-01-05T13:00:35</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sex</code></b>&nbsp;&nbsp;
@@ -5074,10 +5964,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="resident_state"                data-endpoint="PUTapi-user-customer-update"
-               value="exercitationem"
+               value="tenetur"
                data-component="body">
     <br>
-<p>Example: <code>exercitationem</code></p>
+<p>Example: <code>tenetur</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>resident_lga</code></b>&nbsp;&nbsp;
@@ -5085,10 +5975,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="resident_lga"                data-endpoint="PUTapi-user-customer-update"
-               value="est"
+               value="fuga"
                data-component="body">
     <br>
-<p>Example: <code>est</code></p>
+<p>Example: <code>fuga</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>resident_address</code></b>&nbsp;&nbsp;
@@ -5096,10 +5986,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="resident_address"                data-endpoint="PUTapi-user-customer-update"
-               value="laboriosam"
+               value="et"
                data-component="body">
     <br>
-<p>Example: <code>laboriosam</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>occupation</code></b>&nbsp;&nbsp;
@@ -5107,10 +5997,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="occupation"                data-endpoint="PUTapi-user-customer-update"
-               value="ipsa"
+               value="voluptatem"
                data-component="body">
     <br>
-<p>Example: <code>ipsa</code></p>
+<p>Example: <code>voluptatem</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>office_address</code></b>&nbsp;&nbsp;
@@ -5118,10 +6008,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="office_address"                data-endpoint="PUTapi-user-customer-update"
-               value="quibusdam"
+               value="pariatur"
                data-component="body">
     <br>
-<p>Example: <code>quibusdam</code></p>
+<p>Example: <code>pariatur</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>state</code></b>&nbsp;&nbsp;
@@ -5129,10 +6019,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="state"                data-endpoint="PUTapi-user-customer-update"
-               value="voluptatem"
+               value="officia"
                data-component="body">
     <br>
-<p>Example: <code>voluptatem</code></p>
+<p>Example: <code>officia</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>lga</code></b>&nbsp;&nbsp;
@@ -5140,10 +6030,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="lga"                data-endpoint="PUTapi-user-customer-update"
-               value="sint"
+               value="quas"
                data-component="body">
     <br>
-<p>Example: <code>sint</code></p>
+<p>Example: <code>quas</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>hometown</code></b>&nbsp;&nbsp;
@@ -5151,10 +6041,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="hometown"                data-endpoint="PUTapi-user-customer-update"
-               value="debitis"
+               value="aut"
                data-component="body">
     <br>
-<p>Example: <code>debitis</code></p>
+<p>Example: <code>aut</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
@@ -5162,10 +6052,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="phone"                data-endpoint="PUTapi-user-customer-update"
-               value="yfjjgxpc"
+               value="bipsztdex"
                data-component="body">
     <br>
-<p>Must not be greater than 13 characters. Example: <code>yfjjgxpc</code></p>
+<p>Must not be greater than 13 characters. Example: <code>bipsztdex</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>next_of_kin</code></b>&nbsp;&nbsp;
@@ -5173,10 +6063,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="next_of_kin"                data-endpoint="PUTapi-user-customer-update"
-               value="a"
+               value="accusamus"
                data-component="body">
     <br>
-<p>Example: <code>a</code></p>
+<p>Example: <code>accusamus</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>relationship</code></b>&nbsp;&nbsp;
@@ -5184,10 +6074,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="relationship"                data-endpoint="PUTapi-user-customer-update"
-               value="aspernatur"
+               value="quae"
                data-component="body">
     <br>
-<p>Example: <code>aspernatur</code></p>
+<p>Example: <code>quae</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>nok_phone</code></b>&nbsp;&nbsp;
@@ -5195,10 +6085,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="nok_phone"                data-endpoint="PUTapi-user-customer-update"
-               value="delectus"
+               value="architecto"
                data-component="body">
     <br>
-<p>Example: <code>delectus</code></p>
+<p>Example: <code>architecto</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>acc_no</code></b>&nbsp;&nbsp;
@@ -5206,10 +6096,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="acc_no"                data-endpoint="PUTapi-user-customer-update"
-               value="asperiores"
+               value="ipsa"
                data-component="body">
     <br>
-<p>Example: <code>asperiores</code></p>
+<p>Example: <code>ipsa</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>branch</code></b>&nbsp;&nbsp;
@@ -5217,10 +6107,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="branch"                data-endpoint="PUTapi-user-customer-update"
-               value="explicabo"
+               value="rerum"
                data-component="body">
     <br>
-<p>Example: <code>explicabo</code></p>
+<p>Example: <code>rerum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>group</code></b>&nbsp;&nbsp;
@@ -5228,10 +6118,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="group"                data-endpoint="PUTapi-user-customer-update"
-               value="alias"
+               value="consequuntur"
                data-component="body">
     <br>
-<p>Example: <code>alias</code></p>
+<p>Example: <code>consequuntur</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sb_card_no_from</code></b>&nbsp;&nbsp;
@@ -5239,10 +6129,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sb_card_no_from"                data-endpoint="PUTapi-user-customer-update"
-               value="enim"
+               value="voluptatum"
                data-component="body">
     <br>
-<p>Example: <code>enim</code></p>
+<p>Example: <code>voluptatum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sb_card_no_to</code></b>&nbsp;&nbsp;
@@ -5250,10 +6140,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sb_card_no_to"                data-endpoint="PUTapi-user-customer-update"
-               value="voluptatibus"
+               value="nostrum"
                data-component="body">
     <br>
-<p>Example: <code>voluptatibus</code></p>
+<p>Example: <code>nostrum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sb</code></b>&nbsp;&nbsp;
@@ -5261,10 +6151,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sb"                data-endpoint="PUTapi-user-customer-update"
-               value="et"
+               value="eaque"
                data-component="body">
     <br>
-<p>Example: <code>et</code></p>
+<p>Example: <code>eaque</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>initial_unit</code></b>&nbsp;&nbsp;
@@ -5272,10 +6162,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="initial_unit"                data-endpoint="PUTapi-user-customer-update"
-               value="ipsa"
+               value="eos"
                data-component="body">
     <br>
-<p>Example: <code>ipsa</code></p>
+<p>Example: <code>eos</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>bank_name</code></b>&nbsp;&nbsp;
@@ -5283,10 +6173,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="bank_name"                data-endpoint="PUTapi-user-customer-update"
-               value="at"
+               value="fuga"
                data-component="body">
     <br>
-<p>Example: <code>at</code></p>
+<p>Example: <code>fuga</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>bank_code</code></b>&nbsp;&nbsp;
@@ -5294,10 +6184,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="bank_code"                data-endpoint="PUTapi-user-customer-update"
-               value="et"
+               value="unde"
                data-component="body">
     <br>
-<p>Example: <code>et</code></p>
+<p>Example: <code>unde</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>account_name</code></b>&nbsp;&nbsp;
@@ -5305,10 +6195,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="account_name"                data-endpoint="PUTapi-user-customer-update"
-               value="aut"
+               value="consequatur"
                data-component="body">
     <br>
-<p>Example: <code>aut</code></p>
+<p>Example: <code>consequatur</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>account_number</code></b>&nbsp;&nbsp;
@@ -5316,10 +6206,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="account_number"                data-endpoint="PUTapi-user-customer-update"
-               value="alias"
+               value="totam"
                data-component="body">
     <br>
-<p>Example: <code>alias</code></p>
+<p>Example: <code>totam</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>daily_amount</code></b>&nbsp;&nbsp;
@@ -5327,10 +6217,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="daily_amount"                data-endpoint="PUTapi-user-customer-update"
-               value="et"
+               value="repellendus"
                data-component="body">
     <br>
-<p>Example: <code>et</code></p>
+<p>Example: <code>repellendus</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -5365,14 +6255,14 @@ Must be one of:
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"branch_id\": \"1\",
     \"customer_id\": \"1\",
     \"transaction_type\": \"deposit\",
     \"amount\": \"1000\",
     \"payment_method\": \"cash\",
     \"description\": \"Deposit from Musa\",
     \"date\": \"01-01-1980\",
-    \"remark\": \"aw\"
+    \"remark\": \"pmuke\",
+    \"branch_id\": \"1\"
 }"
 </code></pre></div>
 
@@ -5389,14 +6279,14 @@ const headers = {
 };
 
 let body = {
-    "branch_id": "1",
     "customer_id": "1",
     "transaction_type": "deposit",
     "amount": "1000",
     "payment_method": "cash",
     "description": "Deposit from Musa",
     "date": "01-01-1980",
-    "remark": "aw"
+    "remark": "pmuke",
+    "branch_id": "1"
 };
 
 fetch(url, {
@@ -5503,17 +6393,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>branch_id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="branch_id"                data-endpoint="POSTapi-user-transaction-create"
-               value="1"
-               data-component="body">
-    <br>
-<p>The branch_id of the Transaction. it is required if it is the admin making the request. Example: <code>1</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>customer_id</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
  &nbsp;
@@ -5585,10 +6464,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="remark"                data-endpoint="POSTapi-user-transaction-create"
-               value="aw"
+               value="pmuke"
                data-component="body">
     <br>
-<p>Must not be greater than 50 characters. Example: <code>aw</code></p>
+<p>Must not be greater than 50 characters. Example: <code>pmuke</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>branch_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="branch_id"                data-endpoint="POSTapi-user-transaction-create"
+               value="1"
+               data-component="body">
+    <br>
+<p>The branch_id of the Transaction. it is required if it is the admin making the request. Example: <code>1</code></p>
         </div>
         </form>
 
@@ -5766,14 +6656,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"branch_id\": \"1\",
     \"customer_id\": \"1\",
     \"transaction_type\": \"deposit\",
     \"amount\": \"1000\",
     \"payment_method\": \"cash\",
     \"description\": \"Deposit from Musa\",
     \"date\": \"01-01-1980\",
-    \"remark\": \"bhpjhwuu\"
+    \"remark\": \"vy\",
+    \"branch_id\": \"1\"
 }"
 </code></pre></div>
 
@@ -5790,14 +6680,14 @@ const headers = {
 };
 
 let body = {
-    "branch_id": "1",
     "customer_id": "1",
     "transaction_type": "deposit",
     "amount": "1000",
     "payment_method": "cash",
     "description": "Deposit from Musa",
     "date": "01-01-1980",
-    "remark": "bhpjhwuu"
+    "remark": "vy",
+    "branch_id": "1"
 };
 
 fetch(url, {
@@ -5904,17 +6794,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>branch_id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="branch_id"                data-endpoint="POSTapi-user-customer_transaction-create"
-               value="1"
-               data-component="body">
-    <br>
-<p>The branch_id of the CustomerTransaction. it is required if it is the admin making the request. Example: <code>1</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>customer_id</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
  &nbsp;
@@ -5986,10 +6865,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="remark"                data-endpoint="POSTapi-user-customer_transaction-create"
-               value="bhpjhwuu"
+               value="vy"
                data-component="body">
     <br>
-<p>Must not be greater than 50 characters. Example: <code>bhpjhwuu</code></p>
+<p>Must not be greater than 50 characters. Example: <code>vy</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>branch_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="branch_id"                data-endpoint="POSTapi-user-customer_transaction-create"
+               value="1"
+               data-component="body">
+    <br>
+<p>The branch_id of the CustomerTransaction. it is required if it is the admin making the request. Example: <code>1</code></p>
         </div>
         </form>
 
@@ -6168,8 +7058,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"current_pin\": \"accusamus\",
-    \"pin\": \"mc\"
+    \"current_pin\": \"eius\",
+    \"pin\": \"f\"
 }"
 </code></pre></div>
 
@@ -6185,8 +7075,8 @@ const headers = {
 };
 
 let body = {
-    "current_pin": "accusamus",
-    "pin": "mc"
+    "current_pin": "eius",
+    "pin": "f"
 };
 
 fetch(url, {
@@ -6275,10 +7165,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="current_pin"                data-endpoint="POSTapi-change-pin"
-               value="accusamus"
+               value="eius"
                data-component="body">
     <br>
-<p>Example: <code>accusamus</code></p>
+<p>Example: <code>eius</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>pin</code></b>&nbsp;&nbsp;
@@ -6286,10 +7176,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="pin"                data-endpoint="POSTapi-change-pin"
-               value="mc"
+               value="f"
                data-component="body">
     <br>
-<p>Must not be greater than 4 characters. Example: <code>mc</code></p>
+<p>Must not be greater than 4 characters. Example: <code>f</code></p>
         </div>
         </form>
 
@@ -6306,14 +7196,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/pin/required/224fc953-7a6a-3024-b39c-0e808b20e68d" \
+    "http://localhost:8000/api/pin/required/9d7c9115-3d28-3f98-b645-d323f6099056" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/pin/required/224fc953-7a6a-3024-b39c-0e808b20e68d"
+    "http://localhost:8000/api/pin/required/9d7c9115-3d28-3f98-b645-d323f6099056"
 );
 
 const headers = {
@@ -6406,10 +7296,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="uuid"                data-endpoint="POSTapi-pin-required--uuid-"
-               value="224fc953-7a6a-3024-b39c-0e808b20e68d"
+               value="9d7c9115-3d28-3f98-b645-d323f6099056"
                data-component="url">
     <br>
-<p>Example: <code>224fc953-7a6a-3024-b39c-0e808b20e68d</code></p>
+<p>Example: <code>9d7c9115-3d28-3f98-b645-d323f6099056</code></p>
             </div>
                     </form>
 
@@ -6686,7 +7576,7 @@ You can also set <b>registration.autologin</b> to <b>TRUE</b>.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"psnpcfvkunpsjpdabzujygump\",
+    \"name\": \"hmspdknemighixjyapqnalfd\",
     \"email\": \"johndoe@xyz.com\",
     \"password\": \"Ex@m122p$%l6E\",
     \"first_name\": \"John Doe\",
@@ -6707,7 +7597,7 @@ const headers = {
 };
 
 let body = {
-    "name": "psnpcfvkunpsjpdabzujygump",
+    "name": "hmspdknemighixjyapqnalfd",
     "email": "johndoe@xyz.com",
     "password": "Ex@m122p$%l6E",
     "first_name": "John Doe",
@@ -6827,10 +7717,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-auth-register"
-               value="psnpcfvkunpsjpdabzujygump"
+               value="hmspdknemighixjyapqnalfd"
                data-component="body">
     <br>
-<p>Must not be greater than 255 characters. Example: <code>psnpcfvkunpsjpdabzujygump</code></p>
+<p>Must not be greater than 255 characters. Example: <code>hmspdknemighixjyapqnalfd</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -7066,6 +7956,374 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="remember_me"                data-endpoint="POSTapi-auth-login"
+               value="1"
+               data-component="body">
+    <br>
+<p>Could be set to 0 or 1. Example: <code>1</code></p>
+        </div>
+        </form>
+
+                    <h2 id="no-auth-apis-POSTapi-auth-admin-login">SuperAdmin form login.</h2>
+
+<p>
+</p>
+
+<p>You can choose to notify a User whenever there has been a Login by setting
+<b>password.notify.change</b> to <b>TRUE</b> Within the config file,</p>
+<p>Make sure to retrieve <small class="badge badge-blue">access_token</small> after login for User authentication</p>
+
+<span id="example-requests-POSTapi-auth-admin-login">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/auth/admin/login" \
+    --header "Authorization: Bearer {Your key}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"admin@divineglobalgrowth.com\",
+    \"password\": \"password\",
+    \"remember_me\": 1
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/auth/admin/login"
+);
+
+const headers = {
+    "Authorization": "Bearer {Your key}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "admin@divineglobalgrowth.com",
+    "password": "password",
+    "remember_me": 1
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-auth-admin-login">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;status&quot;: &quot;success&quot;,
+&quot;status_code&quot;: 200,
+&quot;data&quot;: {
+     &quot;message&quot;: string
+     &quot;access_token&quot;: string
+ }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-auth-admin-login" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-auth-admin-login"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-auth-admin-login"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-auth-admin-login" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-auth-admin-login">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-auth-admin-login" data-method="POST"
+      data-path="api/auth/admin/login"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-auth-admin-login', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-auth-admin-login"
+                    onclick="tryItOut('POSTapi-auth-admin-login');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-auth-admin-login"
+                    onclick="cancelTryOut('POSTapi-auth-admin-login');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-auth-admin-login"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/auth/admin/login</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization"                data-endpoint="POSTapi-auth-admin-login"
+               value="Bearer {Your key}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {Your key}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-auth-admin-login"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-auth-admin-login"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-auth-admin-login"
+               value="admin@divineglobalgrowth.com"
+               data-component="body">
+    <br>
+<p>The email of the user. Example: <code>admin@divineglobalgrowth.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTapi-auth-admin-login"
+               value="password"
+               data-component="body">
+    <br>
+<p>The password for user authentication must contain uppercase, lowercase, symbols, numbers. Example: <code>password</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>remember_me</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="remember_me"                data-endpoint="POSTapi-auth-admin-login"
+               value="1"
+               data-component="body">
+    <br>
+<p>Could be set to 0 or 1. Example: <code>1</code></p>
+        </div>
+        </form>
+
+                    <h2 id="no-auth-apis-POSTapi-auth-manager-login">Admin form login.</h2>
+
+<p>
+</p>
+
+<p>You can choose to notify a User whenever there has been a Login by setting
+<b>password.notify.change</b> to <b>TRUE</b> Within the config file,</p>
+<p>Make sure to retrieve <small class="badge badge-blue">access_token</small> after login for User authentication</p>
+
+<span id="example-requests-POSTapi-auth-manager-login">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/auth/manager/login" \
+    --header "Authorization: Bearer {Your key}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"admin@divineglobalgrowth.com\",
+    \"password\": \"password\",
+    \"remember_me\": 1
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/auth/manager/login"
+);
+
+const headers = {
+    "Authorization": "Bearer {Your key}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "admin@divineglobalgrowth.com",
+    "password": "password",
+    "remember_me": 1
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-auth-manager-login">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;status&quot;: &quot;success&quot;,
+&quot;status_code&quot;: 200,
+&quot;data&quot;: {
+     &quot;message&quot;: string
+     &quot;access_token&quot;: string
+ }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-auth-manager-login" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-auth-manager-login"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-auth-manager-login"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-auth-manager-login" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-auth-manager-login">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-auth-manager-login" data-method="POST"
+      data-path="api/auth/manager/login"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-auth-manager-login', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-auth-manager-login"
+                    onclick="tryItOut('POSTapi-auth-manager-login');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-auth-manager-login"
+                    onclick="cancelTryOut('POSTapi-auth-manager-login');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-auth-manager-login"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/auth/manager/login</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization"                data-endpoint="POSTapi-auth-manager-login"
+               value="Bearer {Your key}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {Your key}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-auth-manager-login"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-auth-manager-login"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-auth-manager-login"
+               value="admin@divineglobalgrowth.com"
+               data-component="body">
+    <br>
+<p>The email of the user. Example: <code>admin@divineglobalgrowth.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTapi-auth-manager-login"
+               value="password"
+               data-component="body">
+    <br>
+<p>The password for user authentication must contain uppercase, lowercase, symbols, numbers. Example: <code>password</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>remember_me</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="remember_me"                data-endpoint="POSTapi-auth-manager-login"
                value="1"
                data-component="body">
     <br>
