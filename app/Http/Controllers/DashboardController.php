@@ -15,7 +15,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Retrieve user dashboard.
+     * Retrieve dashboard.
      *
      * @header Authorization Bearer {Your key}
      *
@@ -36,6 +36,35 @@ class DashboardController extends Controller
     public function read(DashboardRequest $request, null|string|int $id = null): JsonResponse
     {
         if ($response = $this->dashboardService->getDashboardData($request, $id)) {
+            return httpJsonResponse($response);
+        }
+
+        return unknownErrorJsonResponse();
+
+    }
+
+    /**
+     * Retrieve dashboard.
+     *
+     * @header Authorization Bearer {Your key}
+     *
+     *
+     * @response 200
+     *
+     * {
+     * "success": true,
+     * "status_code": 200,
+     * "message": string
+     * "data": {}
+     * }
+     *
+     * @authenticated
+     * @subgroup Dashboard APIs
+     * @group Auth APIs
+     */
+    public function readByUserId(DashboardRequest $request, null|string|int $id = null): JsonResponse
+    {
+        if ($response = $this->dashboardService->getDashboardDataByUserId($request, $id)) {
             return httpJsonResponse($response);
         }
 

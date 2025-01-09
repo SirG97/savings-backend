@@ -28,4 +28,10 @@ interface DashboardRepositoryInterface
      * @param array $filters
      */
     public function getTransactionSummaryByType(array $filters = [], int $id = null): array;
+
+    public function getTotalUsersByUserId(int $id = null): int;
+
+    public function getTransactionSummaryByTypeAndUserId(array $filters = [], int $id = null): array;
+
+    public function getTransactionSummaryByTypeAndCustomerId(array $filters = [], int $id = null): array;
 }
