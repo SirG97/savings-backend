@@ -71,4 +71,34 @@ class DashboardController extends Controller
         return unknownErrorJsonResponse();
 
     }
+
+
+    /**
+     * Retrieve dashboard.
+     *
+     * @header Authorization Bearer {Your key}
+     *
+     *
+     * @response 200
+     *
+     * {
+     * "success": true,
+     * "status_code": 200,
+     * "message": string
+     * "data": {}
+     * }
+     *
+     * @authenticated
+     * @subgroup Dashboard APIs
+     * @group Auth APIs
+     */
+    public function readByCustomerId(DashboardRequest $request, null|string|int $id = null): JsonResponse
+    {
+        if ($response = $this->dashboardService->getDashboardDataByCustomerId($request, $id)) {
+            return httpJsonResponse($response);
+        }
+
+        return unknownErrorJsonResponse();
+
+    }
 }

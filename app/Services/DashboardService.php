@@ -143,16 +143,13 @@ class DashboardService extends BasicCrudService
 
     public function getDashboardDataByCustomerId(DashboardRequest $request, $id): ResponseData
     {
-        if(!$id and Auth::user()->model !== SuperAdmin::class ){
-            $id = Auth::user()->branch_id;
-        }
-        $totalUsers = $this->dashboardRepository->getTotalUsers($id);
+
+
         $balance = $this->dashboardRepository->getTotalBalance($id);
         $filters = [];
         $transactionSummary = $this->dashboardRepository->getTransactionSummaryByType($filters, $id);
 
         $data = [
-            'total_users' => $totalUsers,
             'balance' => $balance,
             'transaction_summary' => [
                 'deposit' => [
