@@ -23,16 +23,46 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
+            # Navigate to the project directory
             cd ~/api.divineglobalgrowth.com/savings-backend
-            git pull origin main
-            cp .env .env.backup
-            cp .env.staging .env
+
+            # Ensure the directory is a git repository
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin https://github.com/your-repo.git
+            fi
+
+            # Pull the latest code from the main branch
+            git fetch origin
+            git reset --hard origin/main
+
+            # Backup existing .env file
+            if [ -f .env ]; then
+              cp .env .env.backup
+            fi
+
+            # Replace .env file with staging environment config
+            if [ -f .env.staging ]; then
+              cp .env.staging .env
+            else
+              echo "ERROR: .env.staging file is missing. Please upload it."
+              exit 1
+            fi
+
+            # Ensure composer.json exists
+            if [ ! -f composer.json ]; then
+              echo "ERROR: composer.json is missing. Please check your repository."
+              exit 1
+            fi
+
+            # Install dependencies and optimize the Laravel application
             composer install --optimize-autoloader --no-dev
-            php artisan migrate --force
             php artisan key:generate
+            php artisan migrate --force
             php artisan db:seed
             php artisan scribe:generate
             php artisan cache:clear
             php artisan route:cache
             php artisan view:cache
+
             echo "Deployment successful!"
