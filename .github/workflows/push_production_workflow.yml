@@ -56,6 +56,7 @@ jobs:
             fi
 
             # Install dependencies and optimize the Laravel application
+
             composer install --optimize-autoloader --no-dev
             php artisan key:generate
             php artisan migrate --force
