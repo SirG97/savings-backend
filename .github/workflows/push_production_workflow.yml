@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd ~/api.divineglobalgrowth.com/savings-backend
+            cd ~/api.divineglobalgrowth.com
             git pull origin main
             cp .env .env.backup
             cp .env.staging .env
