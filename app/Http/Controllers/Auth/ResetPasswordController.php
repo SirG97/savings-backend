@@ -40,6 +40,7 @@ class ResetPasswordController extends Controller
      */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
+
         if ($data = $this->resetPasswordService->handleResetPassword($request)) {
             return $this->httpJsonResponse(trans('general.success'), 200, $data);
         }

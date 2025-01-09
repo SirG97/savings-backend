@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
+            $table->string('cash')->default(0);
+            $table->string('bank')->default(0);
             $table->string('balance')->default(0);
             $table->softDeletes();
             $table->timestamps();

@@ -25,11 +25,14 @@ class UserTest extends TestCase
 
     public function testCreateAdmin(): void
     {
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $branch = Branch::factory()->create();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
+            'branch_id' => $branch->id,
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
@@ -49,11 +52,14 @@ class UserTest extends TestCase
 
     public function testCreateAuditor(): void
     {
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $branch = Branch::factory()->create();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
+            'branch_id' => $branch->id,
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
@@ -72,11 +78,14 @@ class UserTest extends TestCase
 
     public function testCreateMarketer(): void
     {
-        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
-        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $branch = Branch::factory()->create();
+//        User::where('email', 'admin@divineglobalgrowth.com')->update(['default_password' => '0']);
+//        $user = User::where('email', 'admin@divineglobalgrowth.com')->first();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         $postData = [
+            'branch_id' => $branch->id,
             'name' => $this->faker->name(),
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
@@ -279,6 +288,7 @@ class UserTest extends TestCase
 
         $response = $this->putJson(route('suspendUser'), $postData);
         $responseArray = $response->json();
+        $response->dump();
         $this->assertTrue($responseArray['success']);
         $this->assertNull($responseArray['data']['suspended_at']);
     }
@@ -381,5 +391,37 @@ class UserTest extends TestCase
 
         $this->assertFalse($responseArray['success']);
     }
+
+    public function testReadUserByBranchId(): void
+    {
+        $user = User::factory()->create();
+        $branch1 = Branch::factory()->create();
+        $branch2 = Branch::factory()->create();
+
+        $this->actingAs($user);
+
+        $users1 = User::factory(3)->create([
+            'model' => Marketer::class,
+            'branch_id' => $branch1->id,
+        ]);
+        $users2 = User::factory(3)->create([
+            'model' => Marketer::class,
+            'branch_id' => $branch2->id,
+        ]);
+
+        $response = $this->getJson(route('readByBranchId', ['id' => 'all','branch_id' => $branch1->id]));
+        $responseArray = $response->json();
+        $response->dump();
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+
+
+        $response = $this->getJson(route('readByBranchId',['branch_id' => $branch1->id]));
+        $responseArray = $response->json();
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+
+    }
+
 
 }

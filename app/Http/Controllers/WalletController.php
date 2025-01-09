@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Wallet\WalletReadRequest;
 use App\Http\Requests\WalletCreateRequest;
 use App\Http\Requests\WalletDeleteRequest;
-use App\Http\Requests\WalletReadRequest;
 use App\Http\Requests\WalletUpdateRequest;
 use App\Services\WalletService;
 use Illuminate\Http\JsonResponse;

@@ -13,11 +13,15 @@ class Wallet extends Model
 
     protected $fillable = [
         'branch_id',
+        'bank',
+        'cash',
         'balance'
     ];
 
     protected $casts = [
-        'active' => 'boolean',
+        'bank' => 'float',
+        'cash' => 'float',
+        'balance' => 'float',
     ];
 
     public function branch(): BelongsTo

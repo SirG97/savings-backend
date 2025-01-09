@@ -39,9 +39,11 @@ class UserService extends BasicCrudService
         $validated = $request->validated();
         $validated['model'] = UserModel::getType($validated['model']);
         $validated['name'] = $validated['first_name'] . ' ' . $validated['last_name'];
+        $validated['branch_id'] = $validated['branch_id'] ?? Auth::user()->branch_id;
         $password = strtoupper(Str::random(8));
         $plainPassword = $password;
-        $validated['password'] = Hash::make($password);
+        $validated['password'] = Hash::make('password');
+        $validated['email_verified_at'] = now();
         $validated['default_password'] = '1';
 
         $response = $this->create($validated, $this->userRepository);
@@ -129,6 +131,11 @@ class UserService extends BasicCrudService
     public function handleReadByUserModel(UserModelType $model, null|string|int $id = null): ResponseData
     {
         return $this->readByUserModel($this->userRepository, 'user', $model, $id);
+    }
+
+    public function handleReadByBranchId(int $branchId, null|string|int $id = null): ResponseData
+    {
+        return $this->readByBranchId($this->userRepository, 'user', $branchId, $id);
     }
 
     private function suspendUser(array $validated): ResponseData

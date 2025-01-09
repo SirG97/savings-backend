@@ -63,6 +63,88 @@ class LoginController extends Controller
     }
 
     /**
+     * SuperAdmin form login.
+     *
+     * You can choose to notify a User whenever there has been a Login by setting
+     * <b>password.notify.change</b> to <b>TRUE</b> Within the config file,
+     *
+     * Make sure to retrieve <small class="badge badge-blue">access_token</small> after login for User authentication
+     *
+     * @header Authorization Bearer {Your key}
+     *
+     * @bodyParam email string required The email of the user. Example: admin@divineglobalgrowth.com
+     * @bodyParam password string required The password for user authentication must contain uppercase, lowercase, symbols, numbers. Example: password
+     * @bodyParam remember_me int Could be set to 0 or 1. Example: 1
+     *
+     * @response 200 {
+     * "status": "success",
+     * "status_code": 200,
+     * "data": {
+     *      "message": string
+     *      "access_token": string
+     *  }
+     * }
+     *
+     * @group No Auth APIs
+     */
+    public function superAdminLogin(LoginRequest $request): JsonResponse
+    {
+        if ($data = $this->loginService->loginRequestAttempts($request)) {
+            return $this->httpJsonResponse(
+                trans('sanctumauthstarter::general.fail'), 400, $data);
+        }
+
+        if ($data = $this->loginService->handleSuperAdminLogin($request)) {
+            return $this->httpJsonResponse(
+                trans('sanctumauthstarter::general.success'), 200, $data);
+        }
+
+        $data = ['message' => trans('sanctumauthstarter::auth.failed')];
+        return $this->httpJsonResponse(trans('sanctumauthstarter::general.fail'), 422, $data);
+    }
+
+    /**
+     * Admin form login.
+     *
+     * You can choose to notify a User whenever there has been a Login by setting
+     * <b>password.notify.change</b> to <b>TRUE</b> Within the config file,
+     *
+     * Make sure to retrieve <small class="badge badge-blue">access_token</small> after login for User authentication
+     *
+     * @header Authorization Bearer {Your key}
+     *
+     * @bodyParam email string required The email of the user. Example: admin@divineglobalgrowth.com
+     * @bodyParam password string required The password for user authentication must contain uppercase, lowercase, symbols, numbers. Example: password
+     * @bodyParam remember_me int Could be set to 0 or 1. Example: 1
+     *
+     * @response 200 {
+     * "status": "success",
+     * "status_code": 200,
+     * "data": {
+     *      "message": string
+     *      "access_token": string
+     *  }
+     * }
+     *
+     * @group No Auth APIs
+     */
+    public function adminLogin(LoginRequest $request): JsonResponse
+    {
+        if ($data = $this->loginService->loginRequestAttempts($request)) {
+            return $this->httpJsonResponse(
+                trans('sanctumauthstarter::general.fail'), 400, $data);
+        }
+
+        if ($data = $this->loginService->handleAdminLogin($request)) {
+            return $this->httpJsonResponse(
+                trans('sanctumauthstarter::general.success'), 200, $data);
+        }
+
+        $data = ['message' => trans('sanctumauthstarter::auth.failed')];
+        return $this->httpJsonResponse(trans('sanctumauthstarter::general.fail'), 422, $data);
+    }
+
+    /**
      * User Two-factor login.
      *
      * Presents a form were a user must input the generated code.
