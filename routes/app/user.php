@@ -43,6 +43,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
 
         Route::prefix('dashboard')->group(function () {
             Route::get('read/{id?}', [DashboardController::class, 'read'])->name('readDashboard');
+            Route::get('user_read/{id?}', [DashboardController::class, 'readByUserId'])->name('readDashboard');
         });
 
         Route::prefix('branch')->group(function () {
@@ -65,6 +66,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::delete('delete', [CustomerController::class, 'delete'])->name('deleteCustomer');
             Route::get('read/{id?}', [CustomerController::class, 'read'])->name('readCustomer');
             Route::get('branch_read/{branch_id}/{id?}',[CustomerController::class, 'readByBranchId'])->name('readCustomerByBranchId');
+            Route::get('user_read/{id?}',[CustomerController::class, 'readByUserId'])->name('readCustomerByUserId');
             Route::put('update', [CustomerController::class, 'update'])->name('updateCustomer');
         });
 
