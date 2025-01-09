@@ -43,7 +43,8 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
 
         Route::prefix('dashboard')->group(function () {
             Route::get('read/{id?}', [DashboardController::class, 'read'])->name('readDashboard');
-            Route::get('user_read/{id?}', [DashboardController::class, 'readByUserId'])->name('readDashboard');
+            Route::get('user_read/{id?}', [DashboardController::class, 'readByUserId'])->name('readDashboardByUserId');
+            Route::get('customer_read/{id}', [DashboardController::class, 'readByCustomerId'])->name('readDashboardByCustomerId');
         });
 
         Route::prefix('branch')->group(function () {
