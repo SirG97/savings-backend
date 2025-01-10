@@ -36,11 +36,6 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
-            # Backup existing .env file
-            if [ -f .env ]; then
-              cp .env .env.backup
-            fi
-
             # Install dependencies and optimize the Laravel application
 
             composer install --optimize-autoloader --no-dev
