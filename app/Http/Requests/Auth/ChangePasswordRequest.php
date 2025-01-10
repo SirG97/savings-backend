@@ -21,9 +21,8 @@ class ChangePasswordRequest extends FormRequest
             'current_password' => ['required', 'string'],
             'password' => ['required', 'string', 'max:16',
                 Password::min(8)
-                    ->letters()->mixedCase()
-                    ->numbers()->symbols()
-                    ->uncompromised(),
+                    ->letters()
+                    ->numbers(),
                 'confirmed',
 //                new DisallowOldPassword(
 //                    config('sanctumauthstarter.password.check_all', ),
