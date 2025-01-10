@@ -29,7 +29,7 @@ jobs:
             # Ensure the directory is a git repository
             if [ ! -d .git ]; then
               git init
-              git remote add origin https://github.com/your-repo.git
+              git remote add origin https://github.com/savings-backend.git
             fi
 
             # Pull the latest code from the main branch
@@ -39,20 +39,6 @@ jobs:
             # Backup existing .env file
             if [ -f .env ]; then
               cp .env .env.backup
-            fi
-
-            # Replace .env file with staging environment config
-            if [ -f .env.staging ]; then
-              cp .env.staging .env
-            else
-              echo "ERROR: .env.staging file is missing. Please upload it."
-              exit 1
-            fi
-
-            # Ensure composer.json exists
-            if [ ! -f composer.json ]; then
-              echo "ERROR: composer.json is missing. Please check your repository."
-              exit 1
             fi
 
             # Install dependencies and optimize the Laravel application
