@@ -33,5 +33,9 @@ class DatabaseSeeder extends Seeder
         } else {
             $this->command->info('Super Admin user already exists. No new user was created.');
         }
+
+        $this->call([
+            LoanSeeder::class
+        ]);
     }
 }

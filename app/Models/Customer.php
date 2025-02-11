@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Customer extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = [
         'first_name',
@@ -47,6 +48,20 @@ class Customer extends Model
     ];
 
     protected  $with = ['customerWallet','branch','user'];
+
+    protected $filterable = ['user_id'];
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (int)$this->id,
+            'first_name' => $this->first_name,
+            'surname' => $this->surname,
+            'middle_name' => $this->name,
+            'account_id' => $this->account_id,
+            'phone' => $this->phone,
+        ];
+    }
 
     public function customerWallet():HasOne{
         return $this->hasOne(CustomerWallet::class);

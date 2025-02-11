@@ -125,4 +125,43 @@ interface CustomerRepositoryInterface
      * @return Customer|null
      */
     public function getByUserIdAndId(int $userId, int $id): null|Customer;
+
+    /**
+     * Search all \App\Models\Customer records.
+     *
+     * @param string $value
+     * @param string|null $branchId
+     * @param string|null $userId
+     * @param int $perPage
+     * @return EloquentCollection
+     */
+    public function search(string $value, ?string $branchId, ?string $userId, int $perPage = 10): EloquentCollection;
+
+    /**
+     * Search all \App\Models\Customer records by user id.
+     *
+     * @param string $value
+     * @param string|int $userId
+     * @return EloquentCollection
+     */
+    public function searchByUserId(string $value, string|int $userId): EloquentCollection;
+
+    /**
+     * Search all \App\Models\Customer records by branch id.
+     *
+     * @param string $value
+     * @param string|int $branchId
+     * @return EloquentCollection
+     */
+    public function searchByBranchId(string $value, string|int $branchId): EloquentCollection;
+
+    /**
+     * Search all \App\Models\Customer records by branch id and user id.
+     *
+     * @param string $value
+     * @param string|int $branchId
+     * @param string|int $userId
+     * @return EloquentCollection
+     */
+    public function searchByBranchIdAndUserId(string $value, string|int $branchId, string|int $userId): EloquentCollection;
 }

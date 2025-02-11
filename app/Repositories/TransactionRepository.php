@@ -195,5 +195,14 @@ class TransactionRepository implements TransactionRepositoryInterface
         return Transaction::where('branch_id', $branchId)->get();
     }
 
-
+    /**
+     * Search all \App\Models\Transaction records.
+     *
+     * @param string $value
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function search(string $value): EloquentCollection
+    {
+        return Transaction::search($value)->get();
+    }
 }

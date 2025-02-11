@@ -7,6 +7,8 @@ use App\Contracts\CustomerRepositoryInterface;
 use App\Contracts\CustomerTransactionRepositoryInterface;
 use App\Contracts\CustomerWalletRepositoryInterface;
 use App\Contracts\DashboardRepositoryInterface;
+use App\Contracts\LoanApplicationRepositoryInterface;
+use App\Contracts\LoanRepositoryInterface;
 use App\Contracts\TransactionRepositoryInterface;
 use App\Contracts\UserRepositoryInterface;
 use App\Contracts\WalletRepositoryInterface;
@@ -15,6 +17,8 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\CustomerTransactionRepository;
 use App\Repositories\CustomerWalletRepository;
 use App\Repositories\DashboardRepository;
+use App\Repositories\LoanApplicationRepository;
+use App\Repositories\LoanRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
@@ -35,6 +39,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
         $this->app->bind(CustomerTransactionRepositoryInterface::class, CustomerTransactionRepository::class);
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
+        $this->app->bind(LoanRepositoryInterface::class, LoanRepository::class);
+        $this->app->bind(LoanApplicationRepositoryInterface::class, LoanApplicationRepository::class);
     }
 
     /**

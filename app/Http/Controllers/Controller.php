@@ -60,6 +60,15 @@ class Controller extends BaseController
         return unknownErrorJsonResponse();
     }
 
+    protected function _readByCustomerId(mixed $service, int $customerId, null|string|int $id = null): JsonResponse
+    {
+        if ($data = $service->handleReadByUserId($customerId, $id)) {
+            return httpJsonResponse($data);
+        };
+
+        return unknownErrorJsonResponse();
+    }
+
     protected function _readByUserModel(mixed $service, UserModelType $model, null|string|int $id = null): JsonResponse
     {
         if ($data = $service->handleReadByUserModel($model, $id)) {

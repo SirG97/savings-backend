@@ -7,13 +7,15 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
+        "http-interop/http-factory-guzzle": "^1.2",
         "ikechukwukalu/clamavfileupload": "^2.0",
         "ikechukwukalu/magicmake": "^1.0",
         "ikechukwukalu/sanctumauthstarter": "^2.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
-        "laravel/scout": "^10.11",
-        "laravel/tinker": "^2.8"
+        "laravel/scout": "^10.12",
+        "laravel/tinker": "^2.8",
+        "meilisearch/meilisearch-php": "^1.12"
     },
     "require-dev": {
         "brianium/paratest": "^7.4",

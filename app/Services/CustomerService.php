@@ -59,6 +59,7 @@ class CustomerService extends BasicCrudService
      */
     public function handleUpdate(CustomerUpdateRequest $request): ResponseData
     {
+
         return $this->update($request, $this->customerRepository);
     }
 
@@ -95,6 +96,19 @@ class CustomerService extends BasicCrudService
     {
 
         return $this->readByBranchId($this->customerRepository, 'customer', $branchId, $id);
+    }
+
+    /**
+     * Handle the read by branch id request.
+     *
+     * @param int $userId
+     * @param null|string|int $id
+     * @return ResponseData
+     */
+    public function handleReadByUserId(int $userId, null|string|int $id = null): ResponseData
+    {
+
+        return $this->readByUserId($this->customerRepository, 'customer', $userId, $id);
     }
 
     private function generateAccountId(): string

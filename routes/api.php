@@ -39,3 +39,5 @@ Route::middleware('cors')->group(function() {
 
     require __DIR__.'/app/public.php';
 });
+
+

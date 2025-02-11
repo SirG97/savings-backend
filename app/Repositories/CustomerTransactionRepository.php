@@ -163,4 +163,15 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
     {
         return CustomerTransaction::where('branch_id', $branchId)->where('id', $id)->first();
     }
+
+    /**
+     * Search all \App\Models\CustomerTransaction records.
+     *
+     * @param string $value
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function search(string $value): EloquentCollection
+    {
+        return CustomerTransaction::search($value)->get();
+    }
 }

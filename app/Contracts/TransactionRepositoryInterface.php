@@ -146,4 +146,12 @@ interface TransactionRepositoryInterface
      */
     public function getByBranchId(int $branchId): EloquentCollection;
 
+    /**
+     * Search all \App\Models\Transaction records.
+     *
+     * @param string $value
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function search(string $value): EloquentCollection;
+
 }
