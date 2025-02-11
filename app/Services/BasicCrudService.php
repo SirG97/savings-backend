@@ -134,6 +134,29 @@ class BasicCrudService
      * @param null|string|int $id
      * @return array
      */
+    protected function readByCustomerId(mixed $repository, string $index, string|int $customerId, null|string|int $id = null): ResponseData
+    {
+        if (!isset($id)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByCustomerIdPaginated($customerId, config("api.paginate.{$index}.pageSize")));
+        }
+
+        if ($id === 'all') {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByCustomerId($customerId));
+        }
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $repository->getByCustomerIdAndId($customerId, $id));
+    }
+
+    /**
+     * Read records.
+     *
+     * @param mixed $repository
+     * @param null|string|int $id
+     * @return array
+     */
     protected function readByUserModel(mixed $repository, string $index, UserModelType $model, null|string|int $id = null): ResponseData
     {
 

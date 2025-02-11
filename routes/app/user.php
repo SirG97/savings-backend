@@ -8,6 +8,9 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerTransactionController;
 use App\Http\Controllers\CustomerWalletController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoanApplicationController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
@@ -89,6 +92,33 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::get('type_read/{transaction_type}/{id?}',[CustomerTransactionController::class, 'readByTransactionType'])->name('readCustomerTransactionByTransactionType');
 //            Route::put('update', [CustomerTransactionController::class, 'update'])->name('updateCustomerTransaction');
 
+        });
+
+        Route::prefix('search')->group(function () {
+            Route::get('user/{value}', [SearchController::class, 'user'])->name('userSearch');
+            Route::get('customer/{value}', [SearchController::class, 'customer'])->name('customerSearch');
+            Route::get('customer_transaction/{value}', [SearchController::class, 'customerTransaction'])->name('customerTransactionSearch');
+            Route::get('transaction/{value}', [SearchController::class, 'transaction'])->name('transactionSearch');
+        });
+
+        Route::prefix('loan')->group(function () {
+            Route::post('create', [LoanController::class, 'create'])->name('createLoan');
+            Route::get('read/{id?}', [LoanController::class, 'read'])->name('readLoan');
+            Route::put('update', [LoanController::class, 'update'])->name('updateLoan');
+            Route::delete('delete', [LoanController::class, 'delete'])->name('deleteLoan');
+
+        });
+
+        Route::prefix('loan_application')->group(function () {
+            Route::post('create', [LoanApplicationController::class, 'create'])->name('createLoanApplication');
+            Route::get('read/{id?}', [LoanApplicationController::class, 'read'])->name('readLoanApplication');
+            Route::put('update', [LoanApplicationController::class, 'update'])->name('updateLoanApplication');
+            Route::put('approve', [LoanApplicationController::class, 'approveLoanApplication'])->name('approveLoanApplication');
+            Route::put('reject', [LoanApplicationController::class, 'rejectLoanApplication'])->name('rejectLoanApplication');
+            Route::get('customer_read/{customer_id}', [LoanApplicationController::class, 'readByCustomerId'])->name('readByCustomer');
+            Route::get('user_read/{user_id}', [LoanApplicationController::class, 'readByUserId'])->name('readByUser');
+            Route::get('branch_read/{branch_id}', [LoanApplicationController::class, 'readByBranchId'])->name('readByBranch');
+            Route::get('status/{status}', [LoanApplicationController::class, 'getApplicationsByStatus'])->name('getApplicationsByStatus');
         });
 
     });

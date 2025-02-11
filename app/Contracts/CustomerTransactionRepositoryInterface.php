@@ -126,4 +126,12 @@ interface CustomerTransactionRepositoryInterface
      * @return CustomerTransaction|null
      */
     public function getByBranchIdAndId(int $branchId, int $id): null|CustomerTransaction;
+
+    /**
+     * Search all \App\Models\CustomerTransaction records.
+     *
+     * @param string $value
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function search(string $value): EloquentCollection;
 }

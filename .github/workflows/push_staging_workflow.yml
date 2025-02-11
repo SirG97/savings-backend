@@ -25,10 +25,8 @@ jobs:
           script: |
             cd ~/staging-api.divineglobalgrowth.com/savings-backend
             git pull origin staging
-            cp .env .env.backup
-            cp .env.staging .env
             composer install --optimize-autoloader --no-dev
-            php artisan migrate --force
+            php artisan migrate
             php artisan key:generate
             php artisan db:seed
             php artisan scribe:generate

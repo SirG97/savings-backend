@@ -15,7 +15,7 @@ return [
             'pageSize' => 10,
         ],
         'customer' => [
-            'pageSize' => 10,
+            'pageSize' => 50,
         ],
         'notification' => [
             'pageSize' => 10
@@ -27,10 +27,16 @@ return [
             'pageSize' => 15
         ],
         'transaction' => [
-            'pageSize' => 15
+            'pageSize' => 50
         ],
         'customer_transaction' => [
+            'pageSize' => 50
+        ],
+        'loan' => [
             'pageSize' => 15
+        ],
+        'loan_application' => [
+            'pageSize' => 50
         ],
     ],
 

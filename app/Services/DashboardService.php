@@ -29,6 +29,12 @@ class DashboardService extends BasicCrudService
         $totalUsers = $this->dashboardRepository->getTotalUsers($id);
         $balance = $this->dashboardRepository->getTotalBalance($id);
         $filters = [];
+        if($request->query('startDate') !== null){
+            $filters['start_date'] = $request->query('startDate');
+        }
+        if($request->query('endDate') !== null){
+            $filters['end_date'] = $request->query('endDate');
+        }
         $transactionSummary = $this->dashboardRepository->getTransactionSummaryByType($filters, $id);
 
         $data = [
@@ -67,6 +73,12 @@ class DashboardService extends BasicCrudService
         $totalUsers = $this->dashboardRepository->getTotalUsers();
         $balance = $this->dashboardRepository->getTotalBalance();
         $filters = [];
+        if($request->query('startDate') !== null){
+            $filters['start_date'] = $request->query('startDate');
+        }
+        if($request->query('endDate') !== null){
+            $filters['end_date'] = $request->query('endDate');
+        }
         $transactionSummary = $this->dashboardRepository->getTransactionSummaryByType($filters);
 
         $data = [
@@ -108,6 +120,12 @@ class DashboardService extends BasicCrudService
         $totalUsers = $this->dashboardRepository->getTotalUsersByUserId($id);
         $balance = $this->dashboardRepository->getTotalBalance($id);
         $filters = [];
+        if($request->query('startDate') !== null){
+            $filters['start_date'] = $request->query('startDate');
+        }
+        if($request->query('endDate') !== null){
+            $filters['end_date'] = $request->query('endDate');
+        }
         $transactionSummary = $this->dashboardRepository->getTransactionSummaryByTypeAndUserId($filters, $id);
 
         $data = [
@@ -147,6 +165,12 @@ class DashboardService extends BasicCrudService
 
         $balance = $this->dashboardRepository->getTotalBalance($id);
         $filters = [];
+        if($request->query('startDate') !== null){
+            $filters['start_date'] = $request->query('startDate');
+        }
+        if($request->query('endDate') !== null){
+            $filters['end_date'] = $request->query('endDate');
+        }
         $transactionSummary = $this->dashboardRepository->getTransactionSummaryByType($filters, $id);
 
         $data = [

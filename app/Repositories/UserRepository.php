@@ -150,7 +150,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function search(string $value): EloquentCollection
     {
-        return User::search($value)->where('model', Marketer::class)->get();
+        return User::search($value)->get();
     }
 
     /**
@@ -211,5 +211,7 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::where('branch_id', $branchId)->where('id', $id)->first();
     }
+
+
 
 }

@@ -12,10 +12,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laragear\TwoFactor\TwoFactorAuthentication;
 use Laragear\TwoFactor\Contracts\TwoFactorAuthenticatable;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements TwoFactorAuthenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthentication;
+    use HasApiTokens, Searchable, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthentication;
     protected $table = 'users';
     protected $guard_name = 'sanctum';
 
@@ -49,6 +50,17 @@ class User extends Authenticatable implements TwoFactorAuthenticatable
         'two_factor',
         'branch_id'
     ];
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (int)$this->id,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+        ];
+    }
 
     /**
      * The attributes that should be hidden for serialization.

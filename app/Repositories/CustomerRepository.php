@@ -168,4 +168,66 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         return Customer::where('user_id', $userId)->where('id',$id)->first();
     }
+
+    /**
+     * Search all \App\Models\Customer records.
+     *
+     * @param string $value
+     * @param string|null $branchId
+     * @param string|null $userId
+     * @param int $perPage
+     * @return EloquentCollection
+     */
+    public function search(string $value, ?string $branchId = null, ?string $userId = null, int $perPage = 10): EloquentCollection
+    {
+        return Customer::query()
+            ->where(function ($query) use ($value) {
+                $query->where('first_name', 'LIKE', "%{$value}%")
+                    ->orWhere('surname', 'LIKE', "%{$value}%")
+                    ->orWhere('middle_name', 'LIKE', "%{$value}%")
+                    ->orWhere('account_id', 'LIKE', "%{$value}%");
+            })
+            ->when($branchId, fn($query) => $query->where('branch_id', $branchId))
+            ->when($userId, fn($query) => $query->where('user_id', $userId))
+            ->get();
+
+    }
+
+    /**
+     * Search all \App\Models\Customer records by user id.
+     *
+     * @param string $value
+     * @param string|int $userId
+     * @return EloquentCollection
+     */
+    public function searchByUserId(string $value, string|int $userId): EloquentCollection
+    {
+        return Customer::search($value)->where('user_id', $userId)->get();
+    }
+
+    /**
+     * Search all \App\Models\Customer records by branch id.
+     *
+     * @param string $value
+     * @param string|int $branchId
+     * @return EloquentCollection
+     */
+    public function searchByBranchId(string $value, string|int $branchId): EloquentCollection
+    {
+        return Customer::search($value)->where('branch_id', $branchId)->get();
+
+    }
+
+    /**
+     * Search all \App\Models\Customer records by branch id and user id.
+     *
+     * @param string $value
+     * @param string|int $branchId
+     * @param string|int $userId
+     * @return EloquentCollection
+     */
+    public function searchByBranchIdAndUserId(string $value, string|int $branchId, string|int $userId): EloquentCollection
+    {
+        return Customer::search($value)->where('branch_id', $branchId)->where('user_id', $userId)->get();
+    }
 }
