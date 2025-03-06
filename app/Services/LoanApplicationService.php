@@ -4,23 +4,36 @@ namespace App\Services;
 
 use App\Actions\ResponseData;
 use App\Contracts\CustomerRepositoryInterface;
+use App\Contracts\CustomerTransactionRepositoryInterface;
+use App\Contracts\CustomerWalletRepositoryInterface;
 use App\Contracts\LoanApplicationRepositoryInterface;
 use App\Contracts\LoanRepositoryInterface;
+use App\Contracts\TransactionRepositoryInterface;
+use App\Contracts\WalletRepositoryInterface;
 use App\Enums\LoanStatus;
+use App\Enums\PaymentMethod;
 use App\Enums\PerformedAction;
+use App\Enums\TransactionType;
+use App\Enums\Type;
 use App\Http\Requests\LoanApplication\LoanApplicationCreateRequest;
 use App\Http\Requests\LoanApplication\LoanApplicationDeleteRequest;
 use App\Http\Requests\LoanApplication\LoanApplicationUpdateRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class LoanApplicationService extends BasicCrudService
 {
     public function __construct(
         private LoanApplicationRepositoryInterface $loanApplicationRepository,
         private LoanRepositoryInterface $loanRepository,
-        private CustomerRepositoryInterface $customerRepository
+        private CustomerRepositoryInterface $customerRepository,
+        private CustomerTransactionRepositoryInterface $customerTransactionRepository,
+        private TransactionRepositoryInterface $transactionRepository,
+        private CustomerWalletRepositoryInterface $customerWalletRepository,
+        private WalletRepositoryInterface $walletRepository,
 
     ) { }
 
@@ -39,6 +52,14 @@ class LoanApplicationService extends BasicCrudService
 
         if (!$loan) {
             return responseData(false, Response::HTTP_UNPROCESSABLE_ENTITY,'Loan not available' );
+        }
+
+        if($pendingLoan = $this->loanApplicationRepository->checkPendingLoanByCustomerId($validated['customer_id'])){
+            return responseData(false, Response::HTTP_UNPROCESSABLE_ENTITY,'Customer already has a pending loan. Please approve or reject it first before applying another one.' );
+        }
+
+        if($isEligible = $this->loanApplicationRepository->isCustomerEligible($validated['customer_id'])){
+            return responseData(false, Response::HTTP_UNPROCESSABLE_ENTITY,'You cannot apply for loan if you have an approved, due or overdue loan' );
         }
 
         // Calculate interest for the entire loan duration
@@ -67,7 +88,7 @@ class LoanApplicationService extends BasicCrudService
     {
         $validated = $request->validated();
         if($validated['status'] == PerformedAction::APPROVED->value){
-            return $this->handleApproval($validated['id']);
+            return $this->handleApproval($validated['id'], $validated);
         }
         return $this->handleRejection($validated['id'],$validated['reason']);
     }
@@ -94,34 +115,77 @@ class LoanApplicationService extends BasicCrudService
         return $this->read($this->loanApplicationRepository, 'loan_application', $id);
     }
 
+        /**
+     * Handle the read request.
+     *
+     * @param null|string|int $id
+     * @return array
+     */
+    public function handleReadByUserIdAndStatus(int $userId, string $status, null|string|int $id = null): ResponseData
+    {
+        return $this->read($this->loanApplicationRepository, 'loan_application', $id);
+    }
+
     /**
      * Handle loan application approval
      *
      * @param int $id
      * @return \App\Actions\ResponseData
      */
-    public function handleApproval(int $id): ResponseData
+    private function handleApproval(int $id, array $validated): ResponseData
     {
         $loanApplication = $this->loanApplicationRepository->getById($id);
-
+    
         if ($loanApplication->status !== LoanStatus::PENDING->value) {
-            return new ResponseData(false, Response::HTTP_UNPROCESSABLE_ENTITY, 'Only pending applications can be approved',);
+            return new ResponseData(false, Response::HTTP_UNPROCESSABLE_ENTITY, 'Only pending applications can be approved');
         }
 
-        $dueDate = Carbon::now()->addMonths($loanApplication->duration);
+        $wallet =  $wallet = $this->walletRepository->getByBranchId($loanApplication->branch_id);
+        
+        if($validated['payment_method'] === PaymentMethod::CASH->value and
+            $wallet->cash < (float)$loanApplication->amount){
+            return responseData(false, Response::HTTP_BAD_REQUEST,
+                'Insufficient cash balance to approve loan');
+        }
 
-        $this->loanApplicationRepository->update($id, [
-            'status' => LoanStatus::APPROVED->value,
-            'approved_at' => Carbon::now(),
-            'due_date' => $dueDate
-        ]);
+        if($validated['payment_method'] === PaymentMethod::BANK->value and
+            $wallet->bank < (float)$loanApplication->amount){
+            return responseData(false, Response::HTTP_BAD_REQUEST,
+                'Insufficient bank balance to approve loan');
+        }
 
-        return new ResponseData(
-           true,
-            Response::HTTP_OK,
-            'Loan application approved successfully',
-
-        );
+        try {
+            return DB::transaction(function () use ($id, $validated, $loanApplication) {
+                $dueDate = Carbon::now()->addMonths($loanApplication->duration);
+    
+                $this->loanApplicationRepository->update($id, [
+                    'status' => LoanStatus::APPROVED->value,
+                    'approved_at' => Carbon::now(),
+                    'due_date' => $dueDate,
+                    'approved_by' => auth()->id()
+                ]);
+    
+                // Create transaction for customer and branch
+                $this->debitBranchWithLoanAmount($loanApplication, $validated);
+                $this->creditCustomerWithLoanAmount($loanApplication, $validated);
+    
+                return new ResponseData(
+                    true,
+                    Response::HTTP_OK,
+                    'Loan application approved successfully'
+                );
+            });
+        } catch (Throwable $e) {
+            // Log the exception if needed
+            logger()->error('Loan application approval failed: ' . $e->getMessage());
+    
+            // Return a failure response
+            return new ResponseData(
+                false,
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+                'Loan application approval failed'
+            );
+        }
     }
 
     /**
@@ -131,7 +195,7 @@ class LoanApplicationService extends BasicCrudService
      * @param string $reason
      * @return \App\Actions\ResponseData
      */
-    public function handleRejection(int $id, string $reason): ResponseData
+    private function handleRejection(int $id, string $reason): ResponseData
     {
         $loanApplication = $this->loanApplicationRepository->getById($id);
 
@@ -157,6 +221,111 @@ class LoanApplicationService extends BasicCrudService
         );
     }
 
+    private function creditCustomerWithLoanAmount($loanApplication, $validated):bool{
+        $data = [];
+        $wallet =  $wallet = $this->customerWalletRepository->getByCustomerId($loanApplication->customer_id);
+        $data['branch_id'] = $loanApplication->branch_id;
+        $data['user_id'] = $loanApplication->user_id;
+        $data['customer_id'] = $loanApplication->customer_id;
+        $data['reference'] = $this->generateReference();
+        $data['balance_before'] = $wallet->balance;
+        $data['balance_after'] = $wallet->balance + $loanApplication->amount;
+        $data['type'] = Type::CREDIT->value;
+        $data['amount'] = $loanApplication->amount;
+        $data['transaction_type'] = TransactionType::LOAN_CREDIT->value;
+        $data['date'] = now();
+        $data['description'] = "Loan approved and disbursed";
+        $data['payment_method'] = $validated['payment_method'];
+
+        if(!$this->customerWalletRepository->update($wallet->id, [
+            'balance' => $wallet->balance + $loanApplication->amount,
+            'loan' => $wallet->loan + $loanApplication->total_amount
+        ])){
+            return false;
+        }
+
+        if(!$this->customerTransactionRepository->create($data)){
+            $this->customerWalletRepository->update($wallet->id, [
+                'balance' => $wallet->balance - $loanApplication->amount,
+                'loan' => $wallet->loan - $loanApplication->total_amount
+            ]);
+            return false;
+        }
+
+        return true;
+    }
+
+    private function debitBranchWithLoanAmount($loanApplication, $validated):bool{
+        $data = [];
+        $wallet =  $wallet = $this->walletRepository->getByBranchId($loanApplication->branch_id);
+        $data['branch_id'] = $loanApplication->branch_id;
+        $data['user_id'] = auth()->id();
+        $data['customer_id'] = $loanApplication->customer_id;
+        $data['reference'] = $this->generateBranchReference();
+        $data['balance_before'] = $wallet->balance;
+        $data['balance_after'] = $wallet->balance - $loanApplication->amount;
+        $data['type'] = Type::DEBIT->value;
+        $data['amount'] = $loanApplication->amount;
+        $data['transaction_type'] = TransactionType::LOAN_DEBIT->value;
+        $data['date'] = now();
+        $data['description'] = "Loan approved and disbursed";
+        $data['payment_method'] = $validated['payment_method'];
+
+        if(!$this->walletRepository->update($wallet->id, [
+            'loan' => $wallet->loan + $loanApplication->amount
+        ])){
+        
+            return false;
+        }
+
+        if(!$this->transactionRepository->create($data)){
+          
+            $this->walletRepository->update($wallet->id, [
+                'loan' => $wallet->loan - $loanApplication->amount
+            ]);
+            return false;
+        }
+     
+        return true;
+      
+    }
+
+    private function generateReference(): string
+    {
+        $permitted_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $length = 10;
+        $input_length = strlen($permitted_string);
+        $random_string = '';
+        for($i = 0; $i < $length; $i++) {
+            $random_character = $permitted_string[mt_rand(0, $input_length - 1)];
+            $random_string .= $random_character;
+        }
+
+        if($reference = $this->customerTransactionRepository->getByReference($random_string)){
+            $this->generateReference();
+        }
+
+        return $random_string;
+    }
+
+    private function generateBranchReference(): string
+    {
+        $permitted_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $length = 10;
+        $input_length = strlen($permitted_string);
+        $random_string = '';
+        for($i = 0; $i < $length; $i++) {
+            $random_character = $permitted_string[mt_rand(0, $input_length - 1)];
+            $random_string .= $random_character;
+        }
+
+        if($reference = $this->transactionRepository->getByReference($random_string)){
+            $this->generateReference();
+        }
+
+        return $random_string;
+    }
+
 
     /**
      * Handle the read request by user id.
@@ -164,9 +333,19 @@ class LoanApplicationService extends BasicCrudService
      * @param null|string|int $id
      * @return array
      */
-    public function handleReadByUserId(null|string|int $id = null): ResponseData
+    public function handleReadByUserId($userId, $status): ResponseData
     {
-        return $this->readByUserId($this->loanApplicationRepository, 'loan_application', $id);
+
+        if (isset($status)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $this->loanApplicationRepository->getByUserIdAndStatusPaginated($userId, $status, config("api.paginate.loan_application.pageSize")));
+        }
+
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $this->loanApplicationRepository->getByUserIdPaginated($userId, config("api.paginate.loan_application.pageSize")));
+
+      
     }
 
 
@@ -176,9 +355,17 @@ class LoanApplicationService extends BasicCrudService
      * @param null|string|int $id
      * @return array
      */
-    public function handleReadByBranchId(null|string|int $id = null): ResponseData
+    public function handleReadByBranchId($branchId, $status): ResponseData
     {
-        return $this->readByBranchId($this->loanApplicationRepository, 'loan_application', $id);
+        if (isset($status)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $this->loanApplicationRepository->getByBranchIdAndStatusPaginated($branchId, $status, config("api.paginate.loan_application.pageSize")));
+        }
+
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $this->loanApplicationRepository->getByBranchIdPaginated($branchId, config("api.paginate.loan_application.pageSize")));
+
     }
 
     /**

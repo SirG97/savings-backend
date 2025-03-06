@@ -35,9 +35,18 @@ class LoanApplication extends Model
         'active' => 'boolean',
     ];
 
+    protected $with = [
+        'user', 'customer', 'branch'
+    ];
+
     public function loan(): BelongsTo
     {
         return $this->belongsTo(Loan::class);
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     public function customer(): BelongsTo

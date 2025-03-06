@@ -200,9 +200,14 @@ class LoanApplicationController extends Controller
      * @subgroup LoanApplication APIs
      * @group Auth APIs
      */
-    public function readByUserId(LoanApplicationReadRequest $request, null|string|int $id = null): JsonResponse
+    public function readByUserId(LoanApplicationReadRequest $request, int $userId, null|string $status, null|string|int $id = null): JsonResponse
     {
-        return $this->_readByUserId($this->loanApplicationService, $id);
+        if ($response = $this->loanApplicationService->handleReadByUserId($userId, $status)) {
+            return httpJsonResponse($response);
+        }
+
+        return unknownErrorJsonResponse();
+        
     }
 
     /**
@@ -238,9 +243,15 @@ class LoanApplicationController extends Controller
      * @subgroup LoanApplication APIs
      * @group Auth APIs
      */
-    public function readByBranchId(LoanApplicationReadRequest $request, null|string|int $id = null): JsonResponse
+    public function readByBranchId(LoanApplicationReadRequest $request,int $userId, null|string $status, null|string|int $id = null): JsonResponse
     {
-        return $this->_readByBranchId($this->loanApplicationService, $id);
+        if ($response = $this->loanApplicationService->handleReadByBranchId($userId, $status)) {
+            return httpJsonResponse($response);
+        }
+
+        return unknownErrorJsonResponse();
     }
+
+
 
 }

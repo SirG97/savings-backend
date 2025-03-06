@@ -62,7 +62,7 @@ class Controller extends BaseController
 
     protected function _readByCustomerId(mixed $service, int $customerId, null|string|int $id = null): JsonResponse
     {
-        if ($data = $service->handleReadByUserId($customerId, $id)) {
+        if ($data = $service->handleReadByCustomerId($customerId, $id)) {
             return httpJsonResponse($data);
         };
 

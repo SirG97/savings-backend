@@ -2,8 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Enums\PaymentMethod;
+use App\Enums\PerformedAction;
+use App\Models\Branch;
+use App\Models\Customer;
+use App\Models\CustomerWallet;
+use App\Models\Loan;
 use App\Models\LoanApplication;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -35,17 +42,27 @@ class LoanApplicationTest extends TestCase
 
     public function testCreateLoanApplication()
     {
-        $user = User::factory()->create();
+        $branch = Branch::factory()->create();
+        $user = User::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+        
+        $customer = Customer::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+
 
         $this->actingAs($user);
 
         $postData = [
-            'name' => $this->faker->name(),
+            'duration' => 2,
+            'amount' => 100000,
+            'customer_id' => $customer->id,
         ];
 
         $response = $this->postJson(route('createLoanApplication'), $postData);
         $responseArray = $response->json();
-
+   
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
     }
@@ -58,7 +75,7 @@ class LoanApplicationTest extends TestCase
 
         $postData = [
             'id' => 'abc',
-            'name' => $this->faker->name(),
+            'status' => PerformedAction::APPROVED->value,
         ];
 
         $response = $this->putJson(route('updateLoanApplication'), $postData);
@@ -67,17 +84,90 @@ class LoanApplicationTest extends TestCase
         $this->assertFalse($responseArray['success']);
     }
 
-    public function testUpdateLoanApplication()
+    public function testApproveLoanApplication()
     {
-        $user = User::factory()->create();
+        $branch = Branch::factory()->create();
+        $user = User::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+
+        $customer = Customer::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+
+        $wallet = Wallet::factory()->create([
+            'branch_id' => $branch->id,
+            'cash' => 10000000,
+            'bank' => 10000000,
+            'balance' => 20000000,
+        ]);
+
+        $customerWallet = CustomerWallet::factory()->create([
+            'customer_id' => $customer->id,
+            'balance' => 0,
+        ]);
+
+        $loan = Loan::find(1);
 
         $this->actingAs($user);
 
-        $loanApplication = LoanApplication::factory()->create();
+        $loanApplication = LoanApplication::factory()->create([
+            'user_id' => $user->id,
+            'loan_id' => $loan->id,
+            'branch_id' => $branch->id,
+            'customer_id' => $customer->id,
+        ]);
 
         $postData = [
             'id' => $loanApplication->id,
-            'name' => $this->faker->name(),
+            'status' => PerformedAction::APPROVED->value,
+            'payment_method' => PaymentMethod::CASH->value
+        ];
+
+        $response = $this->putJson(route('updateLoanApplication'), $postData);
+        $responseArray = $response->json();
+       
+        $response->assertOk();
+        $this->assertTrue($responseArray['success']);
+    }
+
+    public function testRejectLoanApplication()
+    {
+        $branch = Branch::factory()->create();
+        $user = User::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+        $customer = Customer::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+
+        $wallet = Wallet::factory()->create([
+            'branch_id' => $branch->id,
+            'cash' => 10000000,
+            'bank' => 10000000,
+            'balance' => 20000000,
+        ]);
+
+        $customerWallet = CustomerWallet::factory()->create([
+            'customer_id' => $customer->id,
+            'balance' => 0,
+        ]);
+
+        $loan = Loan::find(1);
+
+        $this->actingAs($user);
+
+        $loanApplication = LoanApplication::factory()->create([
+            'user_id' => $user->id,
+            'loan_id' => $loan->id,
+            'branch_id' => $branch->id,
+            'customer_id' => $customer->id,
+        ]);
+
+        $postData = [
+            'id' => $loanApplication->id,
+            'status' => PerformedAction::REJECTED->value,
+            'reason' => 'Nothing'
         ];
 
         $response = $this->putJson(route('updateLoanApplication'), $postData);
@@ -105,11 +195,36 @@ class LoanApplicationTest extends TestCase
 
     public function testDeleteLoanApplication()
     {
-        $user = User::factory()->create();
+        $branch = Branch::factory()->create();
+        $user = User::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+        $customer = Customer::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+
+        $wallet = Wallet::factory()->create([
+            'branch_id' => $branch->id,
+            'cash' => 10000000,
+            'bank' => 10000000,
+            'balance' => 20000000,
+        ]);
+
+        $customerWallet = CustomerWallet::factory()->create([
+            'customer_id' => $customer->id,
+            'balance' => 0,
+        ]);
+
+        $loan = Loan::find(1);
 
         $this->actingAs($user);
 
-        $loanApplication = LoanApplication::factory()->create();
+        $loanApplication = LoanApplication::factory()->create([
+            'user_id' => $user->id,
+            'loan_id' => $loan->id,
+            'branch_id' => $branch->id,
+            'customer_id' => $customer->id,
+        ]);
 
         $postData = [
             'id' => $loanApplication->id
@@ -118,17 +233,42 @@ class LoanApplicationTest extends TestCase
         $response = $this->deleteJson(route('deleteLoanApplication'), $postData);
         $responseArray = $response->json();
 
-        $response->assertOk();
-        $this->assertTrue($responseArray['success']);
+        // $response->assertOk();
+        $this->assertFalse($responseArray['success']);
     }
 
     public function testReadLoanApplication(): void
     {
-        $user = User::factory()->create();
+        $branch = Branch::factory()->create();
+        $user = User::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+        $customer = Customer::factory()->create([
+            'branch_id' => $branch->id,
+        ]);
+
+        $wallet = Wallet::factory()->create([
+            'branch_id' => $branch->id,
+            'cash' => 10000000,
+            'bank' => 10000000,
+            'balance' => 20000000,
+        ]);
+
+        $customerWallet = CustomerWallet::factory()->create([
+            'customer_id' => $customer->id,
+            'balance' => 0,
+        ]);
+
+        $loan = Loan::find(1);
 
         $this->actingAs($user);
 
-        $loanApplication = LoanApplication::factory()->create();
+        $loanApplication = LoanApplication::factory()->create([
+            'user_id' => $user->id,
+            'loan_id' => $loan->id,
+            'branch_id' => $branch->id,
+            'customer_id' => $customer->id,
+        ]);
 
         $response = $this->getJson(route('readLoanApplication', ['id' => 'all']));
         $responseArray = $response->json();

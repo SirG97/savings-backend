@@ -7,6 +7,8 @@ enum TransactionType: string
     case DEPOSIT = 'deposit';
     case WITHDRAWAL = 'withdrawal';
     case TRANSFER = 'transfer';
+    case LOAN_CREDIT = 'loan_credit';
+    case LOAN_DEBIT = 'loan_debit';
     case EXPENSES = 'expenses';
     case COMMISSION = 'commission';
     case REVERSAL = 'reversal';

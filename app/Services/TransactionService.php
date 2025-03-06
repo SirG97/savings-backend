@@ -36,6 +36,8 @@ class TransactionService extends BasicCrudService
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
         $customer = $this->customerRepository->getById($validated['customer_id']);
+
+        
         $validated['branch_id'] = $customer->branch_id;
         $wallet = $this->walletRepository->getByBranchId($validated['branch_id']);
         $validated['reference'] = $this->generateReference();
