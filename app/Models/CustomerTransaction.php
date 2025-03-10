@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\DefaultOrderTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Laravel\Scout\Searchable;
 
 class CustomerTransaction extends Model
 {
-    use HasFactory, Searchable, SoftDeletes;
+    use HasFactory, Searchable, SoftDeletes, DefaultOrderTrait;
 
     protected $fillable = [
         'user_id',

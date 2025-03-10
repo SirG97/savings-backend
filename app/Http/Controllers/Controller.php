@@ -98,6 +98,17 @@ class Controller extends BaseController
         return unknownErrorJsonResponse();
     }
 
+
+    protected function _readByTransactionTypeAndUserId(mixed $service, TransactionType $transactionType, int $userId, null|string|int $id = null): JsonResponse
+    {
+
+        if ($data = $service->handleReadByTransactionTypeAndUserId($transactionType, $userId, $id)) {
+            return httpJsonResponse($data);
+        };
+
+        return unknownErrorJsonResponse();
+    }
+
     protected function _readByBranchId(mixed $service, int $branchId, null|string|int $id = null): JsonResponse
     {
         if ($data = $service->handleReadByBranchId($branchId, $id)) {

@@ -154,4 +154,22 @@ interface TransactionRepositoryInterface
      */
     public function search(string $value): EloquentCollection;
 
+      /**
+     * Fetch \App\Models\Transaction record by transaction type.
+     *
+     * @param TransactionType $transactionType
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByTransactionTypeAndUserIdPaginated(TransactionType $transactionType, int $userId, int $pageSize): LengthAwarePaginator;
+
+        /**
+     * Fetch \App\Models\Transaction record by transaction type and branch id.
+     *
+     * @param TransactionType $transactionType
+     * @param int $userId
+     * @return EloquentCollection
+     */
+    public function getByTransactionTypeAndUserId(TransactionType $transactionType, int $userId): EloquentCollection;
+
 }

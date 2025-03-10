@@ -25,7 +25,7 @@ class CustomerUpdateRequest extends BaseFormRequest
     {
         return [
             'id' => 'required|exists:customers,id',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'sometimes|exists:users,id',
             'first_name' => 'sometimes|string|max:200',
             'surname' => 'sometimes|string|max:200',
             'middle_name' => 'sometimes|string',

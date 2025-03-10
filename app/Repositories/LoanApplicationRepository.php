@@ -197,6 +197,19 @@ class LoanApplicationRepository implements LoanApplicationRepositoryInterface
         return LoanApplication::where('user_id', $userId)->get();
     }
 
+
+    /**
+     * Fetch all \App\Models\LoanApplication records.
+     *
+     * @param int $customerId
+     * @return EloquentCollection
+     */
+    public function getByCustomerId(int $customerId): EloquentCollection
+    {
+        return LoanApplication::where('customer_id', $customerId)->get();
+    }
+
+
     /**
      * Fetch \App\Models\LoanApplication record by ID.
      *
@@ -207,6 +220,19 @@ class LoanApplicationRepository implements LoanApplicationRepositoryInterface
     public function getByUserIdAndId(int $userId, int $id): null|LoanApplication
     {
         return LoanApplication::where('user_id', $userId)->where('id',$id)->first();
+    }
+
+
+    /**
+     * Get \App\Models\LoanApplication record.
+     *
+     * @param int $customerId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByCustomerIdPaginated(int $customerId, int $pageSize): LengthAwarePaginator
+    {
+        return LoanApplication::where('customer_id', $customerId)->paginate(pageSize($pageSize));
     }
 
     /**
@@ -227,12 +253,13 @@ class LoanApplicationRepository implements LoanApplicationRepositoryInterface
      * @param int $id
      * @return LoanApplication|null
      */
-    public function isCustomerEligible(int $id): null|LoanApplication
+    public function outstandingLoan(int $id): null|LoanApplication
     {
-        return LoanApplication::where('customer_id', $id)
-        ->where('status',LoanStatus::DUE->value)
-        ->orWhere('status',LoanStatus::OVERDUE->value)
-        ->orWhere('status',LoanStatus::APPROVED->value)
+        return LoanApplication::whereIn('status',[
+            LoanStatus::DUE->value,
+            LoanStatus::OVERDUE->value,
+            LoanStatus::APPROVED->value])
+        ->where('customer_id', $id)
         ->first();
 
     }

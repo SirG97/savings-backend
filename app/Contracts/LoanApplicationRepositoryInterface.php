@@ -120,13 +120,22 @@ interface LoanApplicationRepositoryInterface
      */
     public function getByUserIdPaginated(int $userId, int $pageSize): LengthAwarePaginator;
 
+        /**
+     * Get \App\Models\LoanApplication record.
+     *
+     * @param int $customerId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByCustomerIdPaginated(int $customerId, int $pageSize): LengthAwarePaginator;
+
     /**
-     * Fetch \App\Models\LoanApplication record by ID.
+     * Fetch \App\Models\LoanApplication record by customerID.
      *
      * @param int $id
      * @return LoanApplication|null
      */
-    public function isCustomerEligible(int $id): null|LoanApplication;
+    public function outstandingLoan(int $id): null|LoanApplication;
 
     
 }

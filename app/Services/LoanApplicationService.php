@@ -58,7 +58,7 @@ class LoanApplicationService extends BasicCrudService
             return responseData(false, Response::HTTP_UNPROCESSABLE_ENTITY,'Customer already has a pending loan. Please approve or reject it first before applying another one.' );
         }
 
-        if($isEligible = $this->loanApplicationRepository->isCustomerEligible($validated['customer_id'])){
+        if($isEligible = $this->loanApplicationRepository->outstandingLoan($validated['customer_id'])){
             return responseData(false, Response::HTTP_UNPROCESSABLE_ENTITY,'You cannot apply for loan if you have an approved, due or overdue loan' );
         }
 
@@ -238,7 +238,7 @@ class LoanApplicationService extends BasicCrudService
         $data['payment_method'] = $validated['payment_method'];
 
         if(!$this->customerWalletRepository->update($wallet->id, [
-            'balance' => $wallet->balance + $loanApplication->amount,
+            // 'balance' => $wallet->balance + $loanApplication->amount,
             'loan' => $wallet->loan + $loanApplication->total_amount
         ])){
             return false;
@@ -259,7 +259,7 @@ class LoanApplicationService extends BasicCrudService
         $data = [];
         $wallet =  $wallet = $this->walletRepository->getByBranchId($loanApplication->branch_id);
         $data['branch_id'] = $loanApplication->branch_id;
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = $loanApplication->user_id;
         $data['customer_id'] = $loanApplication->customer_id;
         $data['reference'] = $this->generateBranchReference();
         $data['balance_before'] = $wallet->balance;
@@ -271,18 +271,28 @@ class LoanApplicationService extends BasicCrudService
         $data['description'] = "Loan approved and disbursed";
         $data['payment_method'] = $validated['payment_method'];
 
-        if(!$this->walletRepository->update($wallet->id, [
-            'loan' => $wallet->loan + $loanApplication->amount
-        ])){
-        
+                    //Update wallet
+        if($validated['payment_method'] === PaymentMethod::CASH->value){
+            $walletData = [
+                'balance' => $wallet->balance - $loanApplication->amount,
+                'cash' => $wallet->cash - $loanApplication->amount,
+                'loan' => $wallet->loan + $loanApplication->total_amount
+            ];
+
+        }else{
+            $walletData = [
+                'balance' => $wallet->balance - $loanApplication->amount,
+                'bank' => $wallet->bank - $loanApplication->amount,
+                'loan' => $wallet->loan + $loanApplication->total_mount
+            ];
+        }
+
+        if(!$this->walletRepository->update($wallet->id, $walletData)){
             return false;
         }
 
         if(!$this->transactionRepository->create($data)){
-          
-            $this->walletRepository->update($wallet->id, [
-                'loan' => $wallet->loan - $loanApplication->amount
-            ]);
+        
             return false;
         }
      
@@ -376,6 +386,6 @@ class LoanApplicationService extends BasicCrudService
      */
     public function handleReadByCustomerId(null|string|int $id = null): ResponseData
     {
-        return $this->read($this->loanApplicationRepository, 'loan_application', $id);
+        return $this->readByCustomerId($this->loanApplicationRepository, 'loan_application', $id);
     }
 }
