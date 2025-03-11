@@ -147,7 +147,7 @@ class BasicCrudService
         }
 
         return responseData(true, Response::HTTP_OK, trans('crud.read'),
-            $repository->getByCustomerIdAndId($customerId, $id));
+            $repository->getById($customerId, $id));
     }
 
     /**
@@ -222,6 +222,41 @@ class BasicCrudService
 
         return responseData(true, Response::HTTP_OK, trans('crud.read'),
             $repository->getByBranchIdAndId($branchId, $id));
+    }
+
+    protected function readByTransactionTypeAndUserId(mixed $repository, string $index, TransactionType $transactionType, int $userId, null|string|int $id = null): ResponseData
+    {
+   
+        if (!isset($id)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionTypeAndUserIdPaginated($transactionType, $userId, config("api.paginate.{$index}.pageSize")));
+        }
+
+        if ($id === 'all') {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionTypeAndUserId($transactionType, $userId));
+        }
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $repository->getByUserIdAndId($userId, $id));
+    }
+
+
+    protected function readByTransactionTypeAndCustomerId(mixed $repository, string $index, TransactionType $transactionType, int $customerId, null|string|int $id = null): ResponseData
+    {
+   
+        if (!isset($id)) {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionTypeAndCustomerIdPaginated($transactionType, $customerId, config("api.paginate.{$index}.pageSize")));
+        }
+
+        if ($id === 'all') {
+            return responseData(true, Response::HTTP_OK, trans('crud.read'),
+                $repository->getByTransactionTypeAndCustomerId($transactionType, $customerId));
+        }
+
+        return responseData(true, Response::HTTP_OK, trans('crud.read'),
+            $repository->getById($customerId, $id));
     }
 
     /**

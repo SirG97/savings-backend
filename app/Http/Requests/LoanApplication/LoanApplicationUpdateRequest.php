@@ -26,6 +26,7 @@ class LoanApplicationUpdateRequest extends BaseFormRequest
             'id' => 'required|exists:loan_applications,id',
             'status' => 'sometimes|string|in:' . implode(',', PerformedAction::toArray()),
             'reason' => 'required_if:status,' . PerformedAction::REJECTED->value,
+            'payment_method' => 'required_if:status,' . PerformedAction::APPROVED->value,
         ];
     }
 }

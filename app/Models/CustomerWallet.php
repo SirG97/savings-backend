@@ -14,7 +14,8 @@ class CustomerWallet extends Model
     protected $fillable = [
         'customer_id',
         'count',
-        'balance'
+        'balance',
+        'loan'
     ];
 
     protected $casts = [

@@ -7,6 +7,9 @@ enum TransactionType: string
     case DEPOSIT = 'deposit';
     case WITHDRAWAL = 'withdrawal';
     case TRANSFER = 'transfer';
+    case LOAN = 'loan';
+    case LOAN_CREDIT = 'loan_credit';
+    case LOAN_DEBIT = 'loan_debit';
     case EXPENSES = 'expenses';
     case COMMISSION = 'commission';
     case REVERSAL = 'reversal';
@@ -20,6 +23,9 @@ enum TransactionType: string
             static::EXPENSES->value,
             static::COMMISSION->value,
             static::REVERSAL->value,
+            static::LOAN->value,
+            static::LOAN_CREDIT->value,
+            static::LOAN_DEBIT->value,
 
         ];
     }

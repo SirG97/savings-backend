@@ -65,4 +65,77 @@ interface LoanApplicationRepositoryInterface
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPaginated(int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Fetch \App\Models\LoanApplication record by ID.
+     *
+     * @param int $id
+     * @return \App\Models\LoanApplication|null
+     */
+    public function checkPendingLoanByCustomerId(int $id): null|LoanApplication;
+
+            /**
+     * Update \App\Models\LoanApplication record.
+     *
+     * @param int $userId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByUserIdAndStatusPaginated(int $userId, string $status, int $pageSize): LengthAwarePaginator;
+
+
+        /**
+     * Fetch all \App\Models\LoanApplication records.
+     *
+     * @param int $branchId
+     * @return EloquentCollection
+     */
+    public function getByBranchIdAndStatus(int $branchId, string $status): EloquentCollection;
+
+
+        /**
+     * Update \App\Models\LoanApplication record.
+     *
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByBranchIdAndStatusPaginated(int $branchId, string $status, int $pageSize): LengthAwarePaginator;
+
+                /**
+     * Update \App\Models\LoanApplication record.
+     *
+     * @param int $userId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByUserIdAndStatus(int $userId, string $status): EloquentCollection;
+
+        /**
+     * Update \App\Models\LoanApplication record.
+     *
+     * @param int $userId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByUserIdPaginated(int $userId, int $pageSize): LengthAwarePaginator;
+
+        /**
+     * Get \App\Models\LoanApplication record.
+     *
+     * @param int $customerId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByCustomerIdPaginated(int $customerId, int $pageSize): LengthAwarePaginator;
+
+    /**
+     * Fetch \App\Models\LoanApplication record by customerID.
+     *
+     * @param int $id
+     * @return LoanApplication|null
+     */
+    public function outstandingLoan(int $id): null|LoanApplication;
+
+    
 }

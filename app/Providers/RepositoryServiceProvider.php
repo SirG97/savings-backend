@@ -41,6 +41,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
         $this->app->bind(LoanRepositoryInterface::class, LoanRepository::class);
         $this->app->bind(LoanApplicationRepositoryInterface::class, LoanApplicationRepository::class);
+        
     }
 
     /**

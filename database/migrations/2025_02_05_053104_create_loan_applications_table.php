@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->foreignId('approved_by')->nullable()->constrained('users')->cascadeOnDelete();
             $table->string('amount');
+            $table->string('duration');
             $table->enum('status', LoanStatus::toArray())->default(LoanStatus::PENDING->value);
             $table->string('interest_amount')->default(8.9);
             $table->string('total_amount');

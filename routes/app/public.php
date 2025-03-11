@@ -12,7 +12,7 @@ Route::prefix('auth')->group(function () {
     Route::post('register', [RegisterController::class, 'register'])->name('register');
     Route::post('login', [LoginController::class, 'login'])->name('login');
     Route::post('admin/login', [LoginController::class, 'superAdminLogin'])->name('superAdmin.login');
-    Route::post('manager/login', [LoginController::class, 'adminLogin'])->name('login');
+    Route::post('manager/login', [LoginController::class, 'adminLogin'])->name('Admin.login');
     Route::middleware('auth:sanctum')->post('logout', [LogoutController::class, 'logout'])->name('logout');
     Route::middleware('auth:sanctum')->post('logout-from-all-sessions', [LogoutController::class, 'logoutFromAllSessions'])->name('logoutFromAllSessions');
     Route::get('verify/email/{id}', [VerificationController::class, 'verifyUserEmail'])->name('verification.verify');

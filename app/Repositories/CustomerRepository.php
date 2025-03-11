@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Contracts\CustomerRepositoryInterface;
+use App\Enums\TransactionType;
 use App\Models\Customer;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -28,7 +30,27 @@ class CustomerRepository implements CustomerRepositoryInterface
      */
     public function getById(int $id): null|Customer
     {
-        return Customer::find($id);
+        $customer = Customer::find($id);
+
+        if (!$customer) {
+            return null;
+        }
+    
+        // ✅ Calculate deposit and withdrawal totals separately
+        $total_deposit = Transaction::where('customer_id', $id)
+            ->where('transaction_type', TransactionType::DEPOSIT->value)
+            ->sum('amount') ?? 0;
+
+        $total_withdrawal = Transaction::where('customer_id', $id)
+            ->where('transaction_type', TransactionType::WITHDRAWAL->value)
+            ->sum('amount') ?? 0;
+
+        // ✅ Attach computed values to the customer object
+        $customer->total_deposit = $total_deposit;
+        $customer->total_withdrawal = $total_withdrawal;
+
+        return $customer; // ✅ No breaking changes
+
     }
 
     /**

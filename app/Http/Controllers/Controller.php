@@ -62,7 +62,7 @@ class Controller extends BaseController
 
     protected function _readByCustomerId(mixed $service, int $customerId, null|string|int $id = null): JsonResponse
     {
-        if ($data = $service->handleReadByUserId($customerId, $id)) {
+        if ($data = $service->handleReadByCustomerId($customerId, $id)) {
             return httpJsonResponse($data);
         };
 
@@ -92,6 +92,17 @@ class Controller extends BaseController
     {
 
         if ($data = $service->handleReadByTransactionTypeAndBranchId($transactionType, $branchId, $id)) {
+            return httpJsonResponse($data);
+        };
+
+        return unknownErrorJsonResponse();
+    }
+
+
+    protected function _readByTransactionTypeAndUserId(mixed $service, TransactionType $transactionType, int $userId, null|string|int $id = null): JsonResponse
+    {
+
+        if ($data = $service->handleReadByTransactionTypeAndUserId($transactionType, $userId, $id)) {
             return httpJsonResponse($data);
         };
 

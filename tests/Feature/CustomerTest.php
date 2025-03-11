@@ -224,7 +224,7 @@ class CustomerTest extends TestCase
 
         $response = $this->putJson(route('updateCustomer'), $postData);
         $responseArray = $response->json();
-
+        $response->dump();
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
     }

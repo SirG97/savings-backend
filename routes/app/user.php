@@ -80,6 +80,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::get('read/{id?}', [TransactionController::class, 'read'])->name('readTransaction');
             Route::get('type_read/{transaction_type}/{id?}',[TransactionController::class, 'readByTransactionType'])->name('readTransactionByTransactionType');
             Route::get('branch_read/{transaction_type}/{branch_id}/{id?}',[TransactionController::class, 'readByTransactionTypeAndBranchId'])->name('readTransactionByTransactionTypeAndBranchId');
+            Route::get('user_read/{transaction_type}/{user_id}/{id?}',[TransactionController::class, 'readByTransactionTypeAndUserId'])->name('readTransactionByTransactionTypeAndUserId');
 //            Route::put('update', [TransactionController::class, 'update'])->name('updateTransactions');
 
         });
@@ -89,6 +90,8 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::post('create', [CustomerTransactionController::class, 'create'])->name('createCustomerTransaction');
 //            Route::delete('delete', [CustomerTransactionController::class, 'delete'])->name('deleteCustomerTransaction');
             Route::get('read/{id?}', [CustomerTransactionController::class, 'read'])->name('readCustomerTransaction');
+            Route::get('user_read/{transaction_type}/{user_id}/{id?}', [CustomerTransactionController::class, 'readByTransactionTypeAndUser'])->name('readByTransactionTypeAndUser');
+            Route::get('customer_read/{transaction_type}/{customer_id}/{id?}', [CustomerTransactionController::class, 'readByTransactionTypeAndCustomer'])->name('readByTransactionTypeAndCustomer');
             Route::get('type_read/{transaction_type}/{id?}',[CustomerTransactionController::class, 'readByTransactionType'])->name('readCustomerTransactionByTransactionType');
 //            Route::put('update', [CustomerTransactionController::class, 'update'])->name('updateCustomerTransaction');
 
@@ -113,12 +116,13 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::post('create', [LoanApplicationController::class, 'create'])->name('createLoanApplication');
             Route::get('read/{id?}', [LoanApplicationController::class, 'read'])->name('readLoanApplication');
             Route::put('update', [LoanApplicationController::class, 'update'])->name('updateLoanApplication');
-            Route::put('approve', [LoanApplicationController::class, 'approveLoanApplication'])->name('approveLoanApplication');
-            Route::put('reject', [LoanApplicationController::class, 'rejectLoanApplication'])->name('rejectLoanApplication');
+            Route::put('approve', [LoanApplicationController::class, 'update'])->name('approveLoanApplication');
+            Route::put('reject', [LoanApplicationController::class, 'update'])->name('rejectLoanApplication');
             Route::get('customer_read/{customer_id}', [LoanApplicationController::class, 'readByCustomerId'])->name('readByCustomer');
-            Route::get('user_read/{user_id}', [LoanApplicationController::class, 'readByUserId'])->name('readByUser');
-            Route::get('branch_read/{branch_id}', [LoanApplicationController::class, 'readByBranchId'])->name('readByBranch');
+            Route::get('user_read/{user_id}/{status?}', [LoanApplicationController::class, 'readByUserId'])->name('readByUser');
+            Route::get('branch_read/{branch_id}/{status?}', [LoanApplicationController::class, 'readByBranchId'])->name('readByBranch');
             Route::get('status/{status}', [LoanApplicationController::class, 'getApplicationsByStatus'])->name('getApplicationsByStatus');
+            Route::delete('delete', [LoanApplicationController::class, 'delete'])->name('deleteLoanApplication');
         });
 
     });

@@ -36,6 +36,8 @@ class TransactionService extends BasicCrudService
         $validated = $request->validated();
         $validated['user_id'] = Auth::user()->id;
         $customer = $this->customerRepository->getById($validated['customer_id']);
+
+
         $validated['branch_id'] = $customer->branch_id;
         $wallet = $this->walletRepository->getByBranchId($validated['branch_id']);
         $validated['reference'] = $this->generateReference();
@@ -158,6 +160,13 @@ class TransactionService extends BasicCrudService
     {
         return $this->readByTransactionTypeAndBranchId($this->transactionRepository, 'transaction', $transactionType, $branchId, $id);
     }
+
+
+    public function handleReadByTransactionTypeAndUserId(TransactionType $transactionType, int $userId, null|string|int $id = null): ResponseData
+    {
+        return $this->readByTransactionTypeAndUserId($this->transactionRepository, 'transaction', $transactionType, $userId, $id);
+    }
+
     private function generateReference(): string
     {
         $permitted_string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
@@ -171,7 +180,7 @@ class TransactionService extends BasicCrudService
 
 
         if($reference = $this->transactionRepository->getByReference($random_string)){
-            $this->generateReference($length);
+            $this->generateReference();
         }
 
         return $random_string;
