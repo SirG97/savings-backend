@@ -306,7 +306,7 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
     public function getByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId): EloquentCollection
     {
         if($transactionType->value == 'loan'){
-            return CustomerTransaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('user_id', $userId)->get();
+            return CustomerTransaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('branch_id', $branchId)->get();
         }
 
         return CustomerTransaction::where('transaction_type', $transactionType->value)->where('branch_id', $branchId)->get();
