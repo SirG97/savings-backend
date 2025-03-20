@@ -59,6 +59,8 @@ class CustomerTransactionService extends BasicCrudService
         $validated['date'] ??= now();
         $validated['balance_before'] = $wallet->balance;
 
+
+
         if($validated['transaction_type'] === TransactionType::DEPOSIT->value){
 
             $validated['type'] = Type::CREDIT->value;
@@ -66,12 +68,20 @@ class CustomerTransactionService extends BasicCrudService
             $validated['balance_after'] = $balance;
 
         }else{
+
             $validated['type'] = Type::DEBIT->value;
             $balance = $wallet->balance - (float)$validated['amount'];
             $validated['balance_after'] = $balance;
+            if($validated['balance_before']){
 
-            if($wallet->balance < (float)$validated['amount']){
-                var_dump($wallet->balance, $validated['amount']);
+            }
+            $commission = 0;
+            if(isset($validated['commission'])){
+                $commission = + (float)$validated['commission'];
+            }
+
+            if($wallet->balance < ((float)$validated['amount'] + $commission)){
+              
                 return responseData(false, Response::HTTP_BAD_REQUEST,
                     'Insufficient cash balance');
             }
@@ -91,12 +101,45 @@ class CustomerTransactionService extends BasicCrudService
                 'Customer wallet could not be updated');
         }
 
-        $branchTransaction = $this->transactionService->handleCreate($request);
+        // if(!isset($validated['commission'])){
+            $branchTransaction = $this->transactionService->handleCreate($request);
+            if(!$branchTransaction->success){
+                $this->delete(['id' => $response->data->id], $this->customerTransactionRepository);
+                return responseData(false, Response::HTTP_INTERNAL_SERVER_ERROR,
+                    $branchTransaction->message);
+            }
+        // }
+        
+        if(isset($validated['commission']) and $validated['commission'] > 0){
+            $wallet->refresh();
+            $customerName = $customer->first_name . ' ' . $customer->last_name;
+            $amount = $validated["amount"];
+            $validated['reference'] = $this->generateReference();
+            $validated['user_id'] = Auth::user()->id;
+            $validated['branch_id'] = $customer->branch_id;
+            $validated['date'] ??= now();
+            $validated['balance_before'] = $wallet->balance;
+            $validated['type'] = Type::DEBIT->value;
+            $balance = $wallet->balance - (float)$validated['commission'];
+            $validated['balance_after'] = $balance;
+            $validated['description'] = "Commission for withdrawal amount of " . $amount . " for customer " . $customerName;
+            $validated['amount'] = $validated['commission'];
+            $validated['transaction_type'] = TransactionType::COMMISSION->value;
 
-        if(!$branchTransaction->success){
-            $this->delete(['id' => $response->data->id], $this->customerTransactionRepository);
-            return responseData(false, Response::HTTP_INTERNAL_SERVER_ERROR,
-                $branchTransaction->message);
+            $response = $this->create($validated, $this->customerTransactionRepository);
+
+            if(!$response->success){
+                $this->delete(['id' => $response->data->id], $this->customerTransactionRepository);
+                return responseData(false, Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'Failed to create commission transaction');
+            }
+    
+            if(!$this->customerWalletRepository->update($wallet->id, ['balance' => $balance])){
+                $this->delete(['id' => $response->data->id], $this->customerTransactionRepository);
+                return responseData(false, Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'Commission could not be deducted from customer wallet');
+            }
+            
         }
 
         return $response;
@@ -149,6 +192,11 @@ class CustomerTransactionService extends BasicCrudService
     public function handleReadByTransactionTypeAndUserId(TransactionType $transactionType, string|int $userId, null|string|int $id = null): ResponseData
     {
         return $this->readByTransactionTypeAndUserId($this->customerTransactionRepository, 'customer_transaction', $transactionType,$userId, $id);
+    }
+
+    public function handleReadByTransactionTypeAndBranchId(TransactionType $transactionType, string|int $branchId, null|string|int $id = null): ResponseData
+    {
+        return $this->readByTransactionTypeAndBranchId($this->customerTransactionRepository, 'customer_transaction', $transactionType,$branchId, $id);
     }
 
     private function generateReference(): string

@@ -29,6 +29,7 @@ class CustomerTransactionCreateRequest extends BaseFormRequest
             'customer_id' => 'required|exists:customers,id',
             'transaction_type' => 'required|in:' . implode(',', TransactionType::toArray()),
             'amount' => 'required|numeric|min:1',
+            'commission' => 'sometimes|numeric|min:1',
             'payment_method' => 'required|in:' . implode(',', PaymentMethod::toArray()),
             'description' => 'required|string|max:50',
             'date' => 'nullable|date',

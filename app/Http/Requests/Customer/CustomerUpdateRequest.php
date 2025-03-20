@@ -39,7 +39,7 @@ class CustomerUpdateRequest extends BaseFormRequest
             'state' => 'sometimes|string',
             'lga' => 'sometimes|string',
             'hometown' => 'sometimes|string',
-            'phone' => 'sometimes|string|max:13|unique:customers,phone,' . $this->input('id'),
+            'phone' => 'sometimes|string|max:13',
             'next_of_kin'  => 'sometimes|string',
             'relationship' => 'sometimes|string',
             'nok_phone' => 'sometimes|string',

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Contracts\CustomerTransactionRepositoryInterface;
 use App\Enums\TransactionType;
 use App\Models\CustomerTransaction;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -199,8 +200,8 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getByTransactionTypeAndCustomerIdPaginated(TransactionType $transactionType, int $customerId, int $pageSize): LengthAwarePaginator
     {
-        $startDate = request('startDate');
-        $endDate = request('endDate');
+        $startDate = Carbon::parse(request('startDate'));
+        $endDate = Carbon::parse(request('endDate'));
         
        
         if ($transactionType->value == 'loan') {
@@ -241,8 +242,8 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getByTransactionTypeAndUserIdPaginated(TransactionType $transactionType, int $userId, int $pageSize): LengthAwarePaginator
     {
-        $startDate = request('startDate');
-        $endDate = request('endDate');
+        $startDate = Carbon::parse(request('startDate'));
+        $endDate = Carbon::parse(request('endDate'));
         
        
         if ($transactionType->value == 'loan') {
@@ -272,5 +273,42 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
         }
 
         return CustomerTransaction::where('transaction_type', $transactionType)->where('user_id', $userId)->get();
+    }
+
+    public function getByTransactionTypeAndBranchIdPaginated(TransactionType $transactionType, int $branchId, int $pageSize): LengthAwarePaginator
+    {
+    
+        $startDate = Carbon::parse(request('startDate'));
+        $endDate = Carbon::parse(request('endDate'));
+        
+       
+        if ($transactionType->value == 'loan') {
+            return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
+            ->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value])
+                ->where('branch_id',$branchId)->paginate($pageSize);
+
+        }
+        // var_dump($startDate, $endDate);
+
+        return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
+        ->where('transaction_type', $transactionType)->where('branch_id', $branchId)->paginate($pageSize);
+    }
+
+        /**
+     * Fetch \App\Models\Transaction record by transaction type and branch id.
+     *
+     * @param TransactionType $transactionType
+     * @param int $userId
+     * @return EloquentCollection
+     */
+    public function getByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId): EloquentCollection
+    {
+        if($transactionType->value == 'loan'){
+            return CustomerTransaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('user_id', $userId)->get();
+        }
+
+        return CustomerTransaction::where('transaction_type', $transactionType->value)->where('branch_id', $branchId)->get();
     }
 }

@@ -45,7 +45,7 @@ class CustomerCreateRequest extends BaseFormRequest
             'state' => 'nullable|string',
             'lga' => 'nullable|string',
             'hometown' => 'nullable|string',
-            'phone' => 'required|unique:customers,phone',
+            'phone' => 'required',
             'next_of_kin'  => 'nullable|string',
             'relationship' => 'nullable|string',
             'nok_phone' => 'nullable|string',
