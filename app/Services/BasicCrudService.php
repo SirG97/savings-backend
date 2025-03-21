@@ -209,7 +209,7 @@ class BasicCrudService
 
     protected function readByTransactionTypeAndBranchId(mixed $repository, string $index, TransactionType $transactionType, int $branchId, null|string|int $id = null): ResponseData
     {
-
+     
         if (!isset($id)) {
             return responseData(true, Response::HTTP_OK, trans('crud.read'),
                 $repository->getByTransactionTypeAndBranchIdPaginated($transactionType, $branchId, config("api.paginate.{$index}.pageSize")));

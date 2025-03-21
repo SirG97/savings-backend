@@ -264,4 +264,49 @@ class CustomerTransactionController extends Controller
         // return $this->_readByTransactionType($this->customerTransactionService, $transactionType, $id);
     }
 
+               /**
+     * Read transaction by transaction type and customer id.
+     *
+     * Fetch a record or records from the user table.
+     * The <b>id</b> param is optional but can either be a <b>string|null|int</b>
+     *
+     * If the <b>id</b> has a <b>null</b> value the records will be paginated.
+     * The returned page size is be set from <b>api.paginate.user.pageSize</b>
+     * config.
+     *
+     * If the <b>id</b> is a <b>string</b> value it can only be set as <b>'all'</b>.
+     * This will return all the records by user model without being paginated.
+     *
+     * If the <b>id</b> value is an <b>integer</b> it will try to fetch a single
+     * matching record.
+     *
+     * @header Authorization Bearer {Your key}
+     *
+     * @urlParam id string The ID of the record. Example: all
+     * @urlParam transactionType string The transactionType of the record.Can be deposit, withdrawal, etc Example: deposit
+     *
+     * @response 200
+     *
+     * {
+     * "success": true,
+     * "status_code": 200,
+     * "message": string
+     * "data": {}
+     * }
+     *
+     * @authenticated
+     * @subgroup User APIs
+     * @group Auth APIs
+     */
+    public function readByTransactionTypeAndBranchId(TransactionTypeReadRequest $request, TransactionType $transactionType, int|string $branchId, null|string|int $id = null): JsonResponse
+    {
+       
+        if ($data = $this->customerTransactionService->handleReadByTransactionTypeAndBranchId($transactionType, $branchId, $id)) {
+            return httpJsonResponse($data);
+        }
+
+        return unknownErrorJsonResponse();
+        // return $this->_readByTransactionType($this->customerTransactionService, $transactionType, $id);
+    }
+
 }
