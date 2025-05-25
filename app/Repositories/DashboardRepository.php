@@ -35,6 +35,8 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getTransactionSummaryByType(array $filters = [], int $id = null): array
     {
         $query = Transaction::query();
+        $query->whereNull('reverses_id')
+        ->whereNull('reversed_by');
 
         if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
             $query->whereBetween('created_at', [$filters['start_date'], $filters['end_date']]);
@@ -61,6 +63,8 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getTransactionSummaryByTypeAndUserId(array $filters = [], int $id = null): array
     {
         $query = Transaction::query();
+        $query->whereNull('reverses_id')
+        ->whereNull('reversed_by');
 
         if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
             $query->whereBetween('created_at', [$filters['start_date'], $filters['end_date']]);
@@ -79,6 +83,8 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getTransactionSummaryByTypeAndCustomerId(array $filters = [], int $id = null): array
     {
         $query = Transaction::query();
+        $query->whereNull('reverses_id')
+        ->whereNull('reversed_by');
 
         if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
             $query->whereBetween('created_at', [$filters['start_date'], $filters['end_date']]);

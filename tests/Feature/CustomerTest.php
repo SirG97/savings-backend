@@ -224,7 +224,7 @@ class CustomerTest extends TestCase
 
         $response = $this->putJson(route('updateCustomer'), $postData);
         $responseArray = $response->json();
-        $response->dump();
+        
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
     }
@@ -323,7 +323,7 @@ class CustomerTest extends TestCase
 
         $response = $this->getJson(route('readCustomerByBranchId', ['id' => 'all', 'branch_id' => $branch->id]));
         $responseArray = $response->json();
-        $response->dump();
+      
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
 

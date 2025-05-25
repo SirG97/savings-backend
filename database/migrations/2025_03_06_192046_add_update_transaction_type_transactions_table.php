@@ -20,7 +20,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE transactions MODIFY COLUMN transaction_type ENUM('deposit', 'withdrawal', 'transfer','expenses','commission', 'withdrawal') NOT NULL");
-        DB::statement("ALTER TABLE customer_transactions MODIFY COLUMN transaction_type ENUM('deposit', 'withdrawal', 'transfer','expenses','commission', 'withdrawal') NOT NULL");
+        DB::statement("ALTER TABLE transactions MODIFY COLUMN transaction_type ENUM('deposit', 'withdrawal', 'transfer','expenses','commission') NOT NULL");
+        DB::statement("ALTER TABLE customer_transactions MODIFY COLUMN transaction_type ENUM('deposit', 'withdrawal', 'transfer','expenses','commission') NOT NULL");
     }
 };

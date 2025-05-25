@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\LoanStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\TransactionType;
+use App\Enums\Type;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\CustomerTransaction;
@@ -13,6 +14,7 @@ use App\Models\Loan;
 use App\Models\LoanApplication;
 use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -434,7 +436,7 @@ class CustomerTransactionTest extends TestCase
             'endDate' => '2025-04-20',
         ]));
         $responseArray = $response->json();
-        $response->dump();
+       
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
 
@@ -455,6 +457,127 @@ class CustomerTransactionTest extends TestCase
 
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
+    }
+
+    public function testReverseCustomerDepositTransaction()
+    {
+        // Setup test data
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        
+        $branch = Branch::factory()->create();
+        $customer = Customer::factory()->create([
+            'branch_id' => $branch->id,
+            'user_id' => $user->id
+        ]);
+        
+        // Initialize wallets with zero balance
+        $branchWallet = Wallet::factory()->create([
+            'branch_id' => $branch->id,
+            'balance' => 0,
+            'cash' => 0,
+            'bank' => 0
+        ]);
+        
+        $customerWallet = CustomerWallet::factory()->create([
+            'customer_id' => $customer->id,
+            'balance' => 0
+        ]);
+
+        // Create a deposit transaction first
+        $depositData = [
+            'branch_id' => $branch->id,
+            'customer_id' => $customer->id,
+            'user_id' => $user->id,
+            'amount' => 1000,
+            'transaction_type' => TransactionType::DEPOSIT->value,
+            'payment_method' => PaymentMethod::BANK->value,
+            'description' => 'Initial deposit',
+            'date' => now()->format('Y-m-d'),
+        ];
+
+        $depositResponse = $this->postJson(route('createCustomerTransaction'), $depositData);
+        $depositResponse->assertOk();
+        
+        // Get the created transaction
+        $transaction = CustomerTransaction::first();
+        
+        // Test reversing the transaction
+        $reversalResponse = $this->postJson(route('reverseCustomerTransaction', ['transaction_id' => $transaction->id]));
+        $reversalResponse->assertOk();
+        
+        $reversalResponseArray = $reversalResponse->json();
+        $this->assertTrue($reversalResponseArray['success']);
+        
+        // Verify the reversal transaction was created
+        $this->assertDatabaseCount('customer_transactions', 2); // Original + reversal
+        
+        $reversalTransaction = CustomerTransaction::latest('id')->first();
+        $this->assertEquals(TransactionType::REVERSAL->value, $reversalTransaction->transaction_type);
+        $this->assertEquals($transaction->id, $reversalTransaction->reverses_id);
+        
+        // Verify the original transaction was marked as reversed
+        $originalTransaction = $transaction->fresh();
+        $this->assertEquals($reversalTransaction->id, $originalTransaction->reversed_by);
+        
+        // Verify wallet balances were updated correctly
+        $customerWallet->refresh();
+        $this->assertEquals(0, $customerWallet->balance); // Should be back to original balance
+        
+        $branchWallet->refresh();
+        $this->assertEquals(0, $branchWallet->balance);
+        $this->assertEquals(0, $branchWallet->bank); // Bank balance should be back to original
+    }
+
+    public function testCannotReverseAlreadyReversedTransaction()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        
+        $branch = Branch::factory()->create();
+        $customer = Customer::factory()->create([
+            'branch_id' => $branch->id,
+            'user_id' => $user->id
+        ]);
+        
+        CustomerWallet::factory()->create(['customer_id' => $customer->id]);
+        Wallet::factory()->create(['branch_id' => $branch->id]);
+    
+        // Create the original transaction
+        $originalTransaction = CustomerTransaction::factory()->create([
+            'customer_id' => $customer->id,
+            'branch_id' => $branch->id,
+            'user_id' => $user->id,
+            'transaction_type' => TransactionType::DEPOSIT->value,
+            'type' => Type::CREDIT->value,
+            'amount' => 1000,
+            'balance_before' => 0,
+            'balance_after' => 1000
+        ]);
+    
+        // Create the reversal transaction
+        $reversalTransaction = CustomerTransaction::factory()->create([
+            'customer_id' => $customer->id,
+            'branch_id' => $branch->id,
+            'user_id' => $user->id,
+            'transaction_type' => TransactionType::REVERSAL->value,
+            'type' => Type::DEBIT->value,
+            'amount' => 1000,
+            'balance_before' => 1000,
+            'balance_after' => 0,
+            'reverses_id' => $originalTransaction->id
+        ]);
+    
+        // Update original to point to reversal
+        $originalTransaction->update(['reversed_by' => $reversalTransaction->id]);
+    
+        // Attempt to reverse again
+        $response = $this->postJson(route('reverseCustomerTransaction', ['transaction_id' => $originalTransaction->id]));
+        
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $responseData = $response->json();
+        $this->assertFalse($responseData['success']);
+        $this->assertEquals('Transaction already reversed', $responseData['message']);
     }
 
 }

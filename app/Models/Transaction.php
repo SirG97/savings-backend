@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ExcludeReversedTransactionsScope;
 use App\Traits\DefaultOrderTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,9 @@ class Transaction extends Model
         'balance_after',
         'description',
         'remark',
-        'date'
+        'date',
+        'reversed_by',
+        'reverses_id'
     ];
 
     protected $casts = [
@@ -36,6 +39,11 @@ class Transaction extends Model
     ];
 
     protected  $with = ['customer','branch','user'];
+
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope(new ExcludeReversedTransactionsScope);
+    // }
 
     public function user(): BelongsTo
     {
@@ -59,6 +67,25 @@ class Transaction extends Model
             'amount' => $this->amount,
 
         ];
+    }
+
+
+    // To query reversed transactions when needed
+    public function scopeWithReversed($query)
+    {
+        return $query->withoutGlobalScope(ExcludeReversedTransactionsScope::class);
+    }
+
+    // Relationship to the transaction this reverses
+    public function reversedTransaction()
+    {
+        return $this->belongsTo(Transaction::class, 'reverses_id');
+    }
+
+    // Relationship to the reversal transaction (if this was reversed)
+    public function reversalTransaction()
+    {
+        return $this->hasOne(Transaction::class, 'reversed_by');
     }
 
 }

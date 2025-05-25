@@ -12,6 +12,7 @@ use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionReversalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
@@ -81,7 +82,8 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::get('type_read/{transaction_type}/{id?}',[TransactionController::class, 'readByTransactionType'])->name('readTransactionByTransactionType');
             Route::get('branch_read/{transaction_type}/{branch_id}/{id?}',[TransactionController::class, 'readByTransactionTypeAndBranchId'])->name('readTransactionByTransactionTypeAndBranchId');
             Route::get('user_read/{transaction_type}/{user_id}/{id?}',[TransactionController::class, 'readByTransactionTypeAndUserId'])->name('readTransactionByTransactionTypeAndUserId');
-//            Route::put('update', [TransactionController::class, 'update'])->name('updateTransactions');
+            Route::post('reverse/{transaction_id}', [TransactionReversalController::class, 'reverseBranchTransaction'])->name('reverseBranchTransaction');
+            //            Route::put('update', [TransactionController::class, 'update'])->name('updateTransactions');
 
         });
 
@@ -94,7 +96,7 @@ Route::prefix('user')->middleware(['check.suspended'])->group(function () {
             Route::get('customer_read/{transaction_type}/{customer_id}/{id?}', [CustomerTransactionController::class, 'readByTransactionTypeAndCustomer'])->name('readByTransactionTypeAndCustomer');
             Route::get('type_read/{transaction_type}/{id?}',[CustomerTransactionController::class, 'readByTransactionType'])->name('readCustomerTransactionByTransactionType');
             Route::get('branch_read/{transaction_type}/{branch_id}/{id?}',[CustomerTransactionController::class, 'readByTransactionTypeAndBranchId'])->name('readCustomerTransactionByTransactionTypeAndBranchId');
-
+            Route::post('reverse/{transaction_id}', [TransactionReversalController::class, 'reverseCustomerTransaction'])->name('reverseCustomerTransaction');
 //            Route::put('update', [CustomerTransactionController::class, 'update'])->name('updateCustomerTransaction');
 
         });
