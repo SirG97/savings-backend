@@ -48,7 +48,8 @@ class User extends Authenticatable implements TwoFactorAuthenticatable
         'kyc_verified_at',
         'phone_verified_at',
         'two_factor',
-        'branch_id'
+        'branch_id',
+        'loan_manager'
     ];
 
     public function toSearchableArray()
@@ -82,6 +83,7 @@ class User extends Authenticatable implements TwoFactorAuthenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'loan_manager' => 'boolean',
     ];
 
     public function customer():hasMany{
