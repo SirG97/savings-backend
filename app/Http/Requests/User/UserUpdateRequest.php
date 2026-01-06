@@ -27,6 +27,7 @@ class UserUpdateRequest extends BaseFormRequest
             'last_name' => 'sometimes|string|max:50',
             'email' => 'sometimes|string|email|max:255|unique:users,email,' . $this->input('id'),
             'phone' => 'sometimes|string|max:50|unique:users,phone,' . $this->input('id'),
+            'loan_manager' => ['nullable', 'boolean'],
 //            'model' => 'sometimes|in:'. implode(',', UserModelType::toArray()),
         ];
     }

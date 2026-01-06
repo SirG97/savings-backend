@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\DefaultOrderTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Laravel\Scout\Searchable;
 
 class Customer extends Model
 {
-    use HasFactory, SoftDeletes, Searchable;
+    use HasFactory, SoftDeletes, Searchable, DefaultOrderTrait;
 
     protected $fillable = [
         'first_name',

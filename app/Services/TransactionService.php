@@ -30,7 +30,7 @@ class TransactionService extends BasicCrudService
      * @param TransactionCreateRequest|array $request
      * @return ResponseData
      */
-    public function handleCreate(TransactionCreateRequest|CustomerTransactionCreateRequest $request): ResponseData
+    public function handleCreate(TransactionCreateRequest|CustomerTransactionCreateRequest $request, $ref = null): ResponseData
     {
 
         $validated = $request->validated();
@@ -40,7 +40,7 @@ class TransactionService extends BasicCrudService
 
         $validated['branch_id'] = $customer->branch_id;
         $wallet = $this->walletRepository->getByBranchId($validated['branch_id']);
-        $validated['reference'] = $this->generateReference();
+        $validated['reference'] = $ref ?? $this->generateReference();
         $validated['date'] = $validated['date'] ?? now();
         $validated['balance_before'] = $wallet->balance;
 

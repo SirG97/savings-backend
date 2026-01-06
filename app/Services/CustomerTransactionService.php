@@ -54,8 +54,9 @@ class CustomerTransactionService extends BasicCrudService
 
             return $this->paybackLoan($customer, $wallet,$loanApplication, $validated);
         }
-      
-        $validated['reference'] = $this->generateReference();
+        
+        $ref = $this->generateReference();
+        $validated['reference'] = $ref;
         $validated['date'] ??= now();
         $validated['balance_before'] = $wallet->balance;
 
@@ -102,7 +103,7 @@ class CustomerTransactionService extends BasicCrudService
         }
 
         // if(!isset($validated['commission'])){
-            $branchTransaction = $this->transactionService->handleCreate($request);
+            $branchTransaction = $this->transactionService->handleCreate($request, $ref);
             if(!$branchTransaction->success){
                 $this->delete(['id' => $response->data->id], $this->customerTransactionRepository);
                 return responseData(false, Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -126,9 +127,9 @@ class CustomerTransactionService extends BasicCrudService
             $validated['amount'] = $validated['commission'];
             $validated['transaction_type'] = TransactionType::COMMISSION->value;
 
-            $response = $this->create($validated, $this->customerTransactionRepository);
+            $commissionResponse = $this->create($validated, $this->customerTransactionRepository);
 
-            if(!$response->success){
+            if(!$commissionResponse->success){
                 $this->delete(['id' => $response->data->id], $this->customerTransactionRepository);
                 return responseData(false, Response::HTTP_INTERNAL_SERVER_ERROR,
                     'Failed to create commission transaction');
@@ -139,6 +140,8 @@ class CustomerTransactionService extends BasicCrudService
                 return responseData(false, Response::HTTP_INTERNAL_SERVER_ERROR,
                     'Commission could not be deducted from customer wallet');
             }
+
+            $this->customerTransactionRepository->update($response->data->id, ['commission_id' => $commissionResponse->data->id]);
             
         }
 

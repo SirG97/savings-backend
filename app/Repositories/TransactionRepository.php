@@ -10,6 +10,21 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class TransactionRepository implements TransactionRepositoryInterface
 {
+    /**
+     * Base query that excludes reversed transactions unless we're specifically looking for reversals
+     */
+    protected function baseQuery(?TransactionType $transactionType = null)
+    {
+        $query = Transaction::query();
+        
+        // Only exclude reversed transactions if we're not specifically querying for reversals
+        if (!$transactionType || $transactionType->value !== TransactionType::REVERSAL->value) {
+            $query->whereNull('reverses_id')
+                  ->whereNull('reversed_by');
+        }
+        
+        return $query;
+    }
 
     /**
      * Fetch all \App\Models\Transaction records.
@@ -18,7 +33,7 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getAll(): EloquentCollection
     {
-        return Transaction::all();
+        return $this->baseQuery()->get();
     }
 
     /**
@@ -41,18 +56,21 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getByBranchIdAndId(int $branchId, int $id): null|Transaction
     {
-        return Transaction::where('branch_id',$branchId)->where('id',$id)->first();
+        return Transaction::where('branch_id', $branchId)
+            ->where('id', $id)
+            ->first();
     }
 
     /**
-     * Fetch \App\Models\Transaction record by ID.
+     * Fetch \App\Models\Transaction record by reference.
      *
      * @param string $reference
      * @return Transaction|null
      */
     public function getByReference(string $reference): null|Transaction
     {
-        return Transaction::where('reference', $reference)->first();
+        return Transaction::where('reference', $reference)
+            ->first();
     }
 
     /**
@@ -98,7 +116,9 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function update(int $id, array $arrayDetails): int
     {
-        return Transaction::where('id', $id)->update($arrayDetails);
+        return $this->baseQuery()
+            ->where('id', $id)
+            ->update($arrayDetails);
     }
 
     /**
@@ -109,7 +129,8 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getPaginated(int $pageSize): LengthAwarePaginator
     {
-        return Transaction::paginate($pageSize);
+        return $this->baseQuery()
+            ->paginate($pageSize);
     }
 
     /**
@@ -121,18 +142,22 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getByTransactionTypePaginated(TransactionType $transactionType, int $pageSize): LengthAwarePaginator
     {
-        return Transaction::where('transaction_type', $transactionType)->paginate($pageSize);
+        return $this->baseQuery($transactionType)
+            ->where('transaction_type', $transactionType)
+            ->paginate($pageSize);
     }
 
     /**
      * Fetch \App\Models\Transaction record by transaction type.
      *
-     * @param string $transactionType
+     * @param TransactionType $transactionType
      * @return EloquentCollection
      */
     public function getByTransactionType(TransactionType $transactionType): EloquentCollection
     {
-        return Transaction::where('transaction_type', $transactionType)->get();
+        return $this->baseQuery($transactionType)
+            ->where('transaction_type', $transactionType)
+            ->get();
     }
 
     /**
@@ -144,33 +169,45 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|Transaction
     {
+        $query = $this->baseQuery($transactionType);
 
         if ($transactionType->value == 'loan') {
-            return Transaction::whereIn('transaction_type', [
+            return $query->whereIn('transaction_type', [
                 TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])->where('id',$id)->first();
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->where('id', $id)
+            ->first();
         }
-        return Transaction::where('transaction_type', $transactionType)->where('id',$id)->first();
+
+        return $query->where('transaction_type', $transactionType)
+            ->where('id', $id)
+            ->first();
     }
 
     /**
      * Fetch \App\Models\Transaction record by transaction type.
      *
      * @param TransactionType $transactionType
+     * @param int $branchId
      * @param int $pageSize
      * @return LengthAwarePaginator
      */
     public function getByTransactionTypeAndBranchIdPaginated(TransactionType $transactionType, int $branchId, int $pageSize): LengthAwarePaginator
     {
-        if ($transactionType->value == 'loan') {
-            return Transaction::whereIn('transaction_type', [
-                TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])
-                ->where('branch_id',$branchId)->paginate($pageSize);
+        $query = $this->baseQuery($transactionType)
+            ->where('branch_id', $branchId);
 
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->paginate($pageSize);
         }
 
-        return Transaction::where('transaction_type', $transactionType)->where('branch_id',$branchId)->paginate($pageSize);
+        return $query->where('transaction_type', $transactionType)
+            ->paginate($pageSize);
     }
 
     /**
@@ -182,13 +219,20 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId): EloquentCollection
     {
-        if($transactionType->value == 'loan'){
-            return Transaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('branch_id', $branchId)->get();
+        $query = $this->baseQuery($transactionType)
+            ->where('branch_id', $branchId);
+
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->get();
         }
 
-        return Transaction::where('transaction_type', $transactionType)->where('branch_id', $branchId)->get();
+        return $query->where('transaction_type', $transactionType)
+            ->get();
     }
-
 
     /**
      * Update \App\Models\Transaction record.
@@ -199,7 +243,9 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator
     {
-        return Transaction::where('branch_id', $branchId)->paginate(pageSize($pageSize));
+        return $this->baseQuery()
+            ->where('branch_id', $branchId)
+            ->paginate($pageSize);
     }
 
     /**
@@ -210,7 +256,9 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getByBranchId(int $branchId): EloquentCollection
     {
-        return Transaction::where('branch_id', $branchId)->get();
+        return $this->baseQuery()
+            ->where('branch_id', $branchId)
+            ->get();
     }
 
     /**
@@ -221,14 +269,20 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function search(string $value): EloquentCollection
     {
-        return Transaction::search($value)->get();
+        return $this->baseQuery()
+            ->where(function($query) use ($value) {
+                $query->where('reference', 'like', "%$value%")
+                      ->orWhere('amount', 'like', "%$value%")
+                      ->orWhere('description', 'like', "%$value%");
+            })
+            ->get();
     }
 
-
-  /**
+    /**
      * Fetch \App\Models\Transaction record by transaction type.
      *
      * @param TransactionType $transactionType
+     * @param int $userId
      * @param int $pageSize
      * @return LengthAwarePaginator
      */
@@ -237,22 +291,24 @@ class TransactionRepository implements TransactionRepositoryInterface
         $startDate = request('startDate');
         $endDate = request('endDate');
         
-       
-        if ($transactionType->value == 'loan') {
-            return Transaction::whereBetween('created_at', [$startDate, $endDate])
-            ->whereIn('transaction_type', [
-                TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])
-                ->where('user_id',$userId)->paginate($pageSize);
+        $query = $this->baseQuery($transactionType)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('user_id', $userId);
 
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->paginate($pageSize);
         }
 
-        return Transaction::whereBetween('created_at', [$startDate, $endDate])
-        ->where('transaction_type', $transactionType)->where('user_id',$userId)->paginate($pageSize);
+        return $query->where('transaction_type', $transactionType)
+            ->paginate($pageSize);
     }
 
     /**
-     * Fetch \App\Models\Transaction record by transaction type and branch id.
+     * Fetch \App\Models\Transaction record by transaction type and user id.
      *
      * @param TransactionType $transactionType
      * @param int $userId
@@ -260,10 +316,42 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function getByTransactionTypeAndUserId(TransactionType $transactionType, int $userId): EloquentCollection
     {
-        if($transactionType->value == 'loan'){
-            return Transaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('user_id', $userId)->get();
+        $query = $this->baseQuery($transactionType)
+            ->where('user_id', $userId);
+
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->get();
         }
 
-        return Transaction::where('transaction_type', $transactionType)->where('user_id', $userId)->get();
+        return $query->where('transaction_type', $transactionType)
+            ->get();
+    }
+
+    /**
+     * Get only reversed transactions
+     *
+     * @return EloquentCollection
+     */
+    public function getReversedTransactions(): EloquentCollection
+    {
+        return Transaction::whereNotNull('reverses_id')
+            ->orWhereNotNull('reversed_by')
+            ->get();
+    }
+
+    /**
+     * Get transactions with their reversals
+     *
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getWithReversalsPaginated(int $pageSize): LengthAwarePaginator
+    {
+        return Transaction::with(['reversedTransaction', 'reversalTransaction'])
+            ->paginate($pageSize);
     }
 }

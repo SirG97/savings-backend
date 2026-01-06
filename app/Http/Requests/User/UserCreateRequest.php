@@ -36,6 +36,7 @@ class UserCreateRequest extends BaseFormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:50', 'unique:users'],
             'model' => 'required|in:'. implode(',', UserModelType::toArray()),
+            'loan_manager' => ['nullable', 'boolean'],
         ];
     }
 }

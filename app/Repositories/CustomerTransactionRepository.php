@@ -11,6 +11,21 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class CustomerTransactionRepository implements CustomerTransactionRepositoryInterface
 {
+    /**
+     * Base query that excludes reversed transactions unless we're specifically looking for reversals
+     */
+    protected function baseQuery(?TransactionType $transactionType = null)
+    {
+        $query = CustomerTransaction::query();
+        
+        // Only exclude reversed transactions if we're not specifically querying for reversals
+        if (!$transactionType || $transactionType->value !== TransactionType::REVERSAL->value) {
+            $query->whereNull('reverses_id')
+                  ->whereNull('reversed_by');
+        }
+        
+        return $query;
+    }
 
     /**
      * Fetch all \App\Models\CustomerTransaction records.
@@ -19,14 +34,15 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getAll(): EloquentCollection
     {
-        return CustomerTransaction::all();
+        return $this->baseQuery()->get();
     }
 
     /**
      * Fetch \App\Models\CustomerTransaction record by ID.
+     * Does NOT exclude reversed transactions since we want full details
      *
      * @param int $id
-     * @return \App\Models\CustomerTransaction|null
+     * @return CustomerTransaction|null
      */
     public function getById(int $id): null|CustomerTransaction
     {
@@ -34,10 +50,11 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
     }
 
     /**
-     * Fetch \App\Models\CustomerTransaction record by ID.
+     * Fetch \App\Models\CustomerTransaction record by reference.
+     * Does NOT exclude reversed transactions since references should be unique
      *
      * @param string $reference
-     * @return \App\Models\CustomerTransaction|null
+     * @return CustomerTransaction|null
      */
     public function getByReference(string $reference): null|CustomerTransaction
     {
@@ -59,7 +76,7 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      * Create \App\Models\CustomerTransaction record.
      *
      * @param array $arrayDetails
-     * @return \App\Models\CustomerTransaction
+     * @return CustomerTransaction
      */
     public function create(array $arrayDetails): CustomerTransaction
     {
@@ -71,7 +88,7 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      *
      * @param array $matchDetails
      * @param array $arrayDetails
-     * @return \App\Models\CustomerTransaction
+     * @return CustomerTransaction
      */
     public function firstOrCreate(array $matchDetails, array $arrayDetails): CustomerTransaction
     {
@@ -87,48 +104,70 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function update(int $id, array $arrayDetails): int
     {
-        return CustomerTransaction::where('id', $id)->update($arrayDetails);
+        return $this->baseQuery()
+            ->where('id', $id)
+            ->update($arrayDetails);
     }
 
     /**
-     * Update \App\Models\CustomerTransaction record.
+     * Get paginated \App\Models\CustomerTransaction records.
      *
      * @param int $pageSize
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function getPaginated(int $pageSize): LengthAwarePaginator
     {
-        return CustomerTransaction::paginate($pageSize);
-    }
-
-    public function getByTransactionTypePaginated(TransactionType $transactionType, int $pageSize): LengthAwarePaginator
-    {
-        if ($transactionType->value == 'loan') {
-            return CustomerTransaction::whereIn('transaction_type', [
-                TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])->paginate($pageSize);
-        }
-        return CustomerTransaction::where('transaction_type', $transactionType)->paginate($pageSize);
+        return $this->baseQuery()
+            ->paginate($pageSize);
     }
 
     /**
-     * Fetch \App\Models\CustomerTransaction record by transaction type.
+     * Get paginated transactions by type.
+     *
+     * @param TransactionType $transactionType
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getByTransactionTypePaginated(TransactionType $transactionType, int $pageSize): LengthAwarePaginator
+    {
+        $query = $this->baseQuery($transactionType);
+
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->paginate($pageSize);
+        }
+
+        return $query->where('transaction_type', $transactionType)
+            ->paginate($pageSize);
+    }
+
+    /**
+     * Get transactions by type.
      *
      * @param TransactionType $transactionType
      * @return EloquentCollection
      */
     public function getByTransactionType(TransactionType $transactionType): EloquentCollection
     {
+        $query = $this->baseQuery($transactionType);
+
         if ($transactionType->value == 'loan') {
-            return CustomerTransaction::whereIn('transaction_type', [
+            return $query->whereIn('transaction_type', [
                 TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])->get();
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->get();
         }
-        return CustomerTransaction::where('transaction_type', $transactionType)->get();
+
+        return $query->where('transaction_type', $transactionType)
+            ->get();
     }
 
     /**
-     * Fetch \App\Models\CustomerTransaction record by ID.
+     * Get transaction by type and ID.
      *
      * @param TransactionType $transactionType
      * @param int $id
@@ -136,17 +175,24 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getByTransactionTypeAndId(TransactionType $transactionType, int $id): null|CustomerTransaction
     {
+        $query = CustomerTransaction::query();
+
         if ($transactionType->value == 'loan') {
-            return CustomerTransaction::whereIn('transaction_type', [
+            return $query->whereIn('transaction_type', [
                 TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])->first();
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->where('id', $id)
+            ->first();
         }
-        return CustomerTransaction::where('transaction_type', $transactionType)->where('id',$id)->first();
+
+        return $query->where('transaction_type', $transactionType)
+            ->where('id', $id)
+            ->first();
     }
 
-
     /**
-     * Update \App\Models\CustomerTransaction record.
+     * Get paginated transactions by branch ID.
      *
      * @param int $branchId
      * @param int $pageSize
@@ -154,22 +200,26 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getByBranchIdPaginated(int $branchId, int $pageSize): LengthAwarePaginator
     {
-        return CustomerTransaction::where('branch_id', $branchId)->paginate(pageSize($pageSize));
+        return $this->baseQuery()
+            ->where('branch_id', $branchId)
+            ->paginate($pageSize);
     }
 
     /**
-     * Fetch all \App\Models\CustomerTransaction records.
+     * Get transactions by branch ID.
      *
      * @param int $branchId
      * @return EloquentCollection
      */
     public function getByBranchId(int $branchId): EloquentCollection
     {
-        return CustomerTransaction::where('branch_id', $branchId)->get();
+        return $this->baseQuery()
+            ->where('branch_id', $branchId)
+            ->get();
     }
 
     /**
-     * Fetch \App\Models\CustomerTransaction record by ID.
+     * Get transaction by branch ID and transaction ID.
      *
      * @param int $branchId
      * @param int $id
@@ -177,24 +227,33 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getByBranchIdAndId(int $branchId, int $id): null|CustomerTransaction
     {
-        return CustomerTransaction::where('branch_id', $branchId)->where('id', $id)->first();
+        return CustomerTransaction::where('branch_id', $branchId)
+            ->where('id', $id)
+            ->first();
     }
 
     /**
-     * Search all \App\Models\CustomerTransaction records.
+     * Search transactions.
      *
      * @param string $value
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return EloquentCollection
      */
     public function search(string $value): EloquentCollection
     {
-        return CustomerTransaction::search($value)->get();
+        return $this->baseQuery()
+            ->where(function($query) use ($value) {
+                $query->where('reference', 'like', "%$value%")
+                      ->orWhere('amount', 'like', "%$value%")
+                      ->orWhere('description', 'like', "%$value%");
+            })
+            ->get();
     }
 
     /**
-     * Fetch \App\Models\Transaction record by transaction type.
+     * Get paginated transactions by type and customer ID.
      *
      * @param TransactionType $transactionType
+     * @param int $customerId
      * @param int $pageSize
      * @return LengthAwarePaginator
      */
@@ -203,22 +262,24 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
         $startDate = Carbon::parse(request('startDate'));
         $endDate = Carbon::parse(request('endDate'));
         
-       
-        if ($transactionType->value == 'loan') {
-            return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
-            ->whereIn('transaction_type', [
-                TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])
-                ->where('customer_id',$customerId)->paginate($pageSize);
+        $query = $this->baseQuery($transactionType)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('customer_id', $customerId);
 
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->paginate($pageSize);
         }
 
-        return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
-        ->where('transaction_type', $transactionType)->where('customer_id',$customerId)->paginate($pageSize);
+        return $query->where('transaction_type', $transactionType)
+            ->paginate($pageSize);
     }
 
     /**
-     * Fetch \App\Models\Transaction record by transaction type and branch id.
+     * Get transactions by type and customer ID.
      *
      * @param TransactionType $transactionType
      * @param int $customerId
@@ -226,17 +287,26 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getByTransactionTypeAndCustomerId(TransactionType $transactionType, int $customerId): EloquentCollection
     {
-        if($transactionType->value == 'loan'){
-            return CustomerTransaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('customer_id', $customerId)->get();
+        $query = $this->baseQuery($transactionType)
+            ->where('customer_id', $customerId);
+
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->get();
         }
 
-        return CustomerTransaction::where('transaction_type', $transactionType)->where('customer_id', $customerId)->get();
+        return $query->where('transaction_type', $transactionType)
+            ->get();
     }
 
-        /**
-     * Fetch \App\Models\Transaction record by transaction type.
+    /**
+     * Get paginated transactions by type and user ID.
      *
      * @param TransactionType $transactionType
+     * @param int $userId
      * @param int $pageSize
      * @return LengthAwarePaginator
      */
@@ -245,22 +315,24 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
         $startDate = Carbon::parse(request('startDate'));
         $endDate = Carbon::parse(request('endDate'));
         
-       
-        if ($transactionType->value == 'loan') {
-            return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
-            ->whereIn('transaction_type', [
-                TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])
-                ->where('user_id',$userId)->paginate($pageSize);
+        $query = $this->baseQuery($transactionType)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('user_id', $userId);
 
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->paginate($pageSize);
         }
 
-        return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
-        ->where('transaction_type', $transactionType)->where('user_id',$userId)->paginate($pageSize);
+        return $query->where('transaction_type', $transactionType)
+            ->paginate($pageSize);
     }
 
-        /**
-     * Fetch \App\Models\Transaction record by transaction type and branch id.
+    /**
+     * Get transactions by type and user ID.
      *
      * @param TransactionType $transactionType
      * @param int $userId
@@ -268,47 +340,95 @@ class CustomerTransactionRepository implements CustomerTransactionRepositoryInte
      */
     public function getByTransactionTypeAndUserId(TransactionType $transactionType, int $userId): EloquentCollection
     {
-        if($transactionType->value == 'loan'){
-            return CustomerTransaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('user_id', $userId)->get();
+        $query = $this->baseQuery($transactionType)
+            ->where('user_id', $userId);
+
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->get();
         }
 
-        return CustomerTransaction::where('transaction_type', $transactionType)->where('user_id', $userId)->get();
+        return $query->where('transaction_type', $transactionType)
+            ->get();
     }
 
+    /**
+     * Get paginated transactions by type and branch ID.
+     *
+     * @param TransactionType $transactionType
+     * @param int $branchId
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
     public function getByTransactionTypeAndBranchIdPaginated(TransactionType $transactionType, int $branchId, int $pageSize): LengthAwarePaginator
     {
-    
         $startDate = Carbon::parse(request('startDate'));
         $endDate = Carbon::parse(request('endDate'));
         
-       
+        $query = $this->baseQuery($transactionType)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('branch_id', $branchId);
+
         if ($transactionType->value == 'loan') {
-            return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
-            ->whereIn('transaction_type', [
+            return $query->whereIn('transaction_type', [
                 TransactionType::LOAN_CREDIT->value, 
-                TransactionType::LOAN_DEBIT->value])
-                ->where('branch_id',$branchId)->paginate($pageSize);
-
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->paginate($pageSize);
         }
-        // var_dump($startDate, $endDate);
 
-        return CustomerTransaction::whereBetween('created_at', [$startDate, $endDate])
-        ->where('transaction_type', $transactionType)->where('branch_id', $branchId)->paginate($pageSize);
+        return $query->where('transaction_type', $transactionType)
+            ->paginate($pageSize);
     }
 
-        /**
-     * Fetch \App\Models\Transaction record by transaction type and branch id.
+    /**
+     * Get transactions by type and branch ID.
      *
      * @param TransactionType $transactionType
-     * @param int $userId
+     * @param int $branchId
      * @return EloquentCollection
      */
     public function getByTransactionTypeAndBranchId(TransactionType $transactionType, int $branchId): EloquentCollection
     {
-        if($transactionType->value == 'loan'){
-            return CustomerTransaction::whereIn('transaction_type', [TransactionType::LOAN_CREDIT->value, TransactionType::LOAN_DEBIT->value])->where('branch_id', $branchId)->get();
+        $query = $this->baseQuery($transactionType)
+            ->where('branch_id', $branchId);
+
+        if ($transactionType->value == 'loan') {
+            return $query->whereIn('transaction_type', [
+                TransactionType::LOAN_CREDIT->value, 
+                TransactionType::LOAN_DEBIT->value
+            ])
+            ->get();
         }
 
-        return CustomerTransaction::where('transaction_type', $transactionType->value)->where('branch_id', $branchId)->get();
+        return $query->where('transaction_type', $transactionType->value)
+            ->get();
+    }
+
+    /**
+     * Get only reversed transactions
+     *
+     * @return EloquentCollection
+     */
+    public function getReversedTransactions(): EloquentCollection
+    {
+        return CustomerTransaction::whereNotNull('reverses_id')
+            ->orWhereNotNull('reversed_by')
+            ->get();
+    }
+
+    /**
+     * Get transactions with their reversals
+     *
+     * @param int $pageSize
+     * @return LengthAwarePaginator
+     */
+    public function getWithReversalsPaginated(int $pageSize): LengthAwarePaginator
+    {
+        return CustomerTransaction::with(['reversedTransaction', 'reversalTransaction'])
+            ->paginate($pageSize);
     }
 }

@@ -45,7 +45,7 @@ class UserTest extends TestCase
 
         $response = $this->postJson(route('createUser'), $postData);
         $responseArray = $response->json();
-
+     
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
     }
@@ -288,7 +288,7 @@ class UserTest extends TestCase
 
         $response = $this->putJson(route('suspendUser'), $postData);
         $responseArray = $response->json();
-        $response->dump();
+      
         $this->assertTrue($responseArray['success']);
         $this->assertNull($responseArray['data']['suspended_at']);
     }
@@ -411,7 +411,7 @@ class UserTest extends TestCase
 
         $response = $this->getJson(route('readByBranchId', ['id' => 'all','branch_id' => $branch1->id]));
         $responseArray = $response->json();
-        $response->dump();
+      
         $response->assertOk();
         $this->assertTrue($responseArray['success']);
 

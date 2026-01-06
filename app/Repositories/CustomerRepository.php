@@ -38,10 +38,14 @@ class CustomerRepository implements CustomerRepositoryInterface
     
         // ✅ Calculate deposit and withdrawal totals separately
         $total_deposit = Transaction::where('customer_id', $id)
+            ->whereNull('reverses_id')
+            ->whereNull('reversed_by')
             ->where('transaction_type', TransactionType::DEPOSIT->value)
             ->sum('amount') ?? 0;
 
         $total_withdrawal = Transaction::where('customer_id', $id)
+            ->whereNull('reverses_id')
+            ->whereNull('reversed_by')
             ->where('transaction_type', TransactionType::WITHDRAWAL->value)
             ->sum('amount') ?? 0;
 

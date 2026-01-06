@@ -45,7 +45,7 @@ class RegistrationTest extends TestCase
 //
 //        $response = $this->post('/api/auth/register', $postData);
 //        $responseArray = $response->json();
-//        $response->dump();
+
 //        $this->assertEquals(200, $responseArray['status_code']);
 //        $this->assertEquals( 'success', $responseArray['status']);
 //    }
