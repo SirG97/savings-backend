@@ -51,8 +51,16 @@ class CustomerTransactionService extends BasicCrudService
         
         //Get outstanding loan
         if($loanApplication = $this->loanApplicationRepository->outstandingLoan($customer->id)){
-
-            return $this->paybackLoan($customer, $wallet,$loanApplication, $validated);
+            // Block withdrawals if there's an outstanding loan
+            if($validated['transaction_type'] === TransactionType::WITHDRAWAL->value){
+                return responseData(false, Response::HTTP_BAD_REQUEST,
+                    'Withdrawal is not allowed while there is an outstanding loan. Please pay back your loan first.');
+            }
+            
+            // Only process deposits as loan payback
+            if($validated['transaction_type'] === TransactionType::DEPOSIT->value){
+                return $this->paybackLoan($customer, $wallet,$loanApplication, $validated);
+            }
         }
         
         $ref = $this->generateReference();
